@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Falcor.Example1", "Falcor.Example1\Falcor.Example1.csproj", "{4FD6B89F-C0C3-4287-A22B-4645F788B31F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Falcor.Server", "Falcor.Server\Falcor.Server.csproj", "{8E88A35C-2CB9-4305-8BB9-B3C1E056C11C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Falcor.Server.Tests", "Falcor.Server.Tests\Falcor.Server.Tests.csproj", "{B697E769-4844-4E0D-9308-5914AC3990E4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4FD6B89F-C0C3-4287-A22B-4645F788B31F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4FD6B89F-C0C3-4287-A22B-4645F788B31F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4FD6B89F-C0C3-4287-A22B-4645F788B31F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4FD6B89F-C0C3-4287-A22B-4645F788B31F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8E88A35C-2CB9-4305-8BB9-B3C1E056C11C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E88A35C-2CB9-4305-8BB9-B3C1E056C11C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8E88A35C-2CB9-4305-8BB9-B3C1E056C11C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8E88A35C-2CB9-4305-8BB9-B3C1E056C11C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B697E769-4844-4E0D-9308-5914AC3990E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B697E769-4844-4E0D-9308-5914AC3990E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B697E769-4844-4E0D-9308-5914AC3990E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B697E769-4844-4E0D-9308-5914AC3990E4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
