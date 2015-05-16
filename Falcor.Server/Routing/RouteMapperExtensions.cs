@@ -16,26 +16,39 @@ namespace Falcor.Server.Routing
 
         public static PropertyRouteJourney<TProperty> Property<T, TProperty>(this PropertyRouteJourney<T> route, Expression<Func<T, TProperty>> func)
         {
-            if (typeof(IEnumerable).IsAssignableFrom(func.GetType().GetGenericArguments()[1]))
+            var propertyInfo = ExpressionHelper.GetProperty(func);
+            if (typeof(ICollection).IsAssignableFrom(propertyInfo.PropertyType))
             {
                 throw new ArgumentException("For properties implementing ICollection you have to use 'List' method");
             }
-            route.Route.Path.Add(new PathFragment { Key = ExpressionHelper.GetPropertyName(func)});
+            
+            route.Route.Path.Add(new PropertyPathFragment(propertyInfo.Name));
             return new PropertyRouteJourney<TProperty>(route.Route, route.Routes);
         }
 
-        public static RouteJourney Properties<T>(this PropertyRouteJourney<T> route, params Func<T, object>[] funcs)
+        public static RouteJourney Properties<T>(this PropertyRouteJourney<T> route, params Expression<Func<T, object>>[] funcs)
         {
-            if (funcs.Any(func => typeof(IEnumerable).IsAssignableFrom(func.GetType().GetGenericArguments()[1])))
+            var properties = funcs
+                .Select(ExpressionHelper.GetProperty)
+                .ToList();
+
+            if (properties.Any(i => typeof(ICollection).IsAssignableFrom(i.PropertyType)))
             {
                 throw new ArgumentException("For properties implementing ICollection you have to use 'List' method");
             }
+            route.Route.Path.Add(new PropertiesPathFragment{ Keys = properties.Select(i => i.Name).ToList() });
             return new RouteJourney(route.Route, route.Routes);
         }
 
         public static ListRouteJourney<TProperty> List<T, TProperty>(this PropertyRouteJourney<T> route, Expression<Func<T, IList<TProperty>>> func)
         {
-            route.Route.Path.Add(new ListPathFragment { Key = ExpressionHelper.GetPropertyName(func) });
+            var propertyInfo = ExpressionHelper.GetProperty(func);
+            if (!typeof(ICollection).IsAssignableFrom(propertyInfo.PropertyType))
+            {
+                throw new ArgumentException("For simple properties you have to use 'Property' method");
+            }
+            
+            route.Route.Path.Add(new ListPathFragment(propertyInfo.Name));
             return new ListRouteJourney<TProperty>(route.Route, route.Routes);
         }
 

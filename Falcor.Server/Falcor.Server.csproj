@@ -44,6 +44,8 @@
     <Compile Include="Routing\ListPathFragment.cs" />
     <Compile Include="Routing\ListRouteJourney.cs" />
     <Compile Include="Routing\PathFragment.cs" />
+    <Compile Include="Routing\PropertiesPathFragment.cs" />
+    <Compile Include="Routing\PropertyPathFragment.cs" />
     <Compile Include="Routing\Route.cs" />
     <Compile Include="Routing\PropertyRouteJourney.cs" />
     <Compile Include="Routing\RouteJourney.cs" />

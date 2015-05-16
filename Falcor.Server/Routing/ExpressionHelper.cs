@@ -1,11 +1,23 @@
+using System;
 using System.Linq.Expressions;
+using System.Reflection;
 
 namespace Falcor.Server.Routing
 {
     public static class ExpressionHelper
     {
-        public static string GetPropertyName(Expression expression)
+        public static PropertyInfo GetProperty(Expression expression)
         {
+            var lambdaExpression = (LambdaExpression) expression;
+            if (lambdaExpression != null)
+            {
+                var memberExpression = lambdaExpression.Body as MemberExpression;
+                if (memberExpression != null)
+                {
+                    return memberExpression.Member as PropertyInfo;
+                }
+            }
+
             return null;
         }    
     }
