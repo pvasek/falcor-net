@@ -13,7 +13,9 @@ namespace Falcor.Server.Tests.Routing
         public void Should_map_simple_property()
         {
             var routes = new List<Route>();
-            routes.MapRoute<Model>().Property(i => i.Name).To(() => null);
+            routes.MapRoute<Model>()
+                .Property(i => i.Name)
+                .To(() => null);
 
             AssertSingleRoutePath(routes, new PropertyPathFragment("Name"));
         }
@@ -23,16 +25,32 @@ namespace Falcor.Server.Tests.Routing
         public void Should_throw_error_if_property_is_used_instead_of_list()
         {
             var routes = new List<Route>();
-            routes.MapRoute<Model>().Property(i => i.Users).To(() => null);
+            routes.MapRoute<Model>()
+                .Property(i => i.Users)
+                .To(() => null);
         }
 
         [Test]
         public void Should_map_list()
         {
             var routes = new List<Route>();
-            routes.MapRoute<Model>().List(i => i.Users).To(() => null);
+            routes.MapRoute<Model>()
+                .List(i => i.Users)
+                .To(() => null);
 
             AssertSingleRoutePath(routes, new ListPathFragment("Users"));           
+        }
+
+        [Test]
+        public void Should_map_list_with_range()
+        {
+            var routes = new List<Route>();
+            routes.MapRoute<Model>()
+                .List(i => i.Users)
+                .AsRange(0, 10)
+                .To(() => null);
+
+            AssertSingleRoutePath(routes, new ListPathFragment("Users", 0, 10));
         }
 
         [Test]
@@ -94,6 +112,14 @@ namespace Falcor.Server.Tests.Routing
                 var expected = (PropertiesPathFragment) pathFragment.Expected;
                 var actual = (PropertiesPathFragment) pathFragment.Actual;
                 Assert.AreEqual(expected.Keys, actual.Keys);
+            }
+
+            foreach (var pathFragment in pathFragments.Where(i => i.Expected is ListPathFragment))
+            {
+                var expected = (ListPathFragment)pathFragment.Expected;
+                var actual = (ListPathFragment)pathFragment.Actual;
+                Assert.AreEqual(expected.From, actual.From);
+                Assert.AreEqual(expected.To, actual.To);
             }
         }
     }

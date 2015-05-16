@@ -52,8 +52,16 @@ namespace Falcor.Server.Routing
             return new ListRouteJourney<TProperty>(route.Route, route.Routes);
         }
 
-        public static PropertyRouteJourney<T> AsRange<T>(this ListRouteJourney<T> journey)
+        public static PropertyRouteJourney<T> AsRange<T>(this ListRouteJourney<T> journey, int from, int to)
         {
+            var listPathFragment = journey.Route.Path.LastOrDefault() as ListPathFragment;
+            if (listPathFragment == null)
+            {
+                throw new InvalidOperationException();
+            }
+
+            listPathFragment.From = from;
+            listPathFragment.To = to;
             return new PropertyRouteJourney<T>(journey.Route, journey.Routes);
         }
 
