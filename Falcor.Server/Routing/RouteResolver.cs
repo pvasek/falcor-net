@@ -5,7 +5,7 @@ namespace Falcor.Server.Routing
 {
     public class RouteResolver
     {
-        private List<Route> _routes;
+        private readonly List<Route> _routes;
 
         public RouteResolver(IEnumerable<Route> routes)
         {
@@ -14,28 +14,46 @@ namespace Falcor.Server.Routing
 
         public IEnumerable<Route> FindRoute(IList<IPathComponent> path)
         {
+            return _routes.Where(i => Match(i.Path, path));
+        }
 
-            return null;
+        public static bool Match(IList<IPathComponent> input, IList<IPathComponent> definition)
+        {
+            if (input.Count != definition.Count)
+            {
+                return false;
+            }
+
+            var result = input.Zip(definition, Match).All(i => i);
+            return result;
         }
 
         public static bool Match(IPathComponent input, IPathComponent definition)
         {
-            var propertyInput = input as PropertiesPathComponent;
-            var propertyDefinition = definition as PropertiesPathComponent;
+            var propertiesIntput = input as PropertiesPathComponent;
+            var propertiesDefinition = definition as PropertiesPathComponent;
 
-            if (propertyDefinition != null)
+            if (propertiesDefinition != null)
             {
-                //return propertyInput != null && propertyInput.Key == propertyDefinition.Key;
+                if (propertiesIntput == null)
+                {
+                    return false;
+                }
+
+                var result = propertiesIntput.Keys.Any(i => propertiesDefinition.Keys.Any(j => j == i));
+                return result;
             }
 
-            var listInput = input as RangePathComponent;
-            var listDefinition = definition as RangePathComponent;
-            if (listDefinition != null)
+            var rangeInput = input as RangePathComponent;
+            var rangeDefinition = definition as RangePathComponent;
+            if (rangeDefinition != null)
             {
-                //return listInput != null && listInput.Key == listDefinition.Key;
+                return rangeInput != null;
             }
 
-            return false;
+            var indexInput = input as IndexPathComponent;
+            var indexDefinition = definition as IndexPathComponent;
+            return indexInput != null && indexDefinition != null;
         }
     }
 }

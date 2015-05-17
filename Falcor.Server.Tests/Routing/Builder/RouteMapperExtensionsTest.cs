@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Falcor.Server.Routing;
 using Falcor.Server.Routing.Builder;
+using Falcor.Server.Tests.Model;
 using NUnit.Framework;
 
 namespace Falcor.Server.Tests.Routing.Builder
@@ -14,7 +15,7 @@ namespace Falcor.Server.Tests.Routing.Builder
         public void Should_map_simple_property()
         {
             var routes = new List<Route>();
-            routes.MapRoute<Model>()
+            routes.MapRoute<TestModel>()
                 .Property(i => i.Name)
                 .To(() => null);
 
@@ -26,7 +27,7 @@ namespace Falcor.Server.Tests.Routing.Builder
         public void Should_throw_error_if_property_is_used_instead_of_list()
         {
             var routes = new List<Route>();
-            routes.MapRoute<Model>()
+            routes.MapRoute<TestModel>()
                 .Property(i => i.Users)
                 .To(() => null);
         }
@@ -35,7 +36,7 @@ namespace Falcor.Server.Tests.Routing.Builder
         public void Should_map_list()
         {
             var routes = new List<Route>();
-            routes.MapRoute<Model>()
+            routes.MapRoute<TestModel>()
                 .List(i => i.Users)
                 .AsIndex()
                 .To(() => null);
@@ -49,7 +50,7 @@ namespace Falcor.Server.Tests.Routing.Builder
         public void Should_map_list_with_range()
         {
             var routes = new List<Route>();
-            routes.MapRoute<Model>()
+            routes.MapRoute<TestModel>()
                 .List(i => i.Users)
                 .AsRange(0, 10)
                 .To(() => null);
@@ -63,7 +64,7 @@ namespace Falcor.Server.Tests.Routing.Builder
         public void Should_map_simple_property_from_list()
         {
             var routes = new List<Route>();
-            routes.MapRoute<Model>()
+            routes.MapRoute<TestModel>()
                 .List(i => i.Users)
                 .AsIndex()
                 .Property(i => i.FirstName)
@@ -79,7 +80,7 @@ namespace Falcor.Server.Tests.Routing.Builder
         public void Should_map_list_of_properties_from_list()
         {
             var routes = new List<Route>();
-            routes.MapRoute<Model>()
+            routes.MapRoute<TestModel>()
                 .List(i => i.Users)
                 .AsIndex()
                 .Properties(i => i.FirstName, i => i.LastName)
@@ -125,17 +126,5 @@ namespace Falcor.Server.Tests.Routing.Builder
                 Assert.AreEqual(expected.To, actual.To);
             }
         }
-    }
-
-    public class Model
-    {
-        public string Name { get; set; }
-        public List<User> Users { get; set; }
-    }
-
-    public class User
-    {
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
     }
 }
