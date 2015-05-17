@@ -8,10 +8,10 @@ namespace Falcor.Server.Routing
     {
         public Route()
         {
-            Path = new List<PathFragment>();
+            Path = new List<IPathComponent>();
         }
 
-        public IList<PathFragment> Path { get; set; }
+        public IList<IPathComponent> Path { get; set; }
         public Func<Task> Handler { get; set; }
     }
 }

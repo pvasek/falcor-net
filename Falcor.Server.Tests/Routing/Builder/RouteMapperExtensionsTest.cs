@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using Falcor.Server.Routing;
+using Falcor.Server.Routing.Builder;
 using NUnit.Framework;
 
-namespace Falcor.Server.Tests.Routing
+namespace Falcor.Server.Tests.Routing.Builder
 {
     [TestFixture]
-    public class RouteBuilderTest
+    public class RouteMapperExtensionsTest
     {
         [Test]
         public void Should_map_simple_property()
@@ -17,7 +18,7 @@ namespace Falcor.Server.Tests.Routing
                 .Property(i => i.Name)
                 .To(() => null);
 
-            AssertSingleRoutePath(routes, new PropertyPathFragment("Name"));
+            AssertSingleRoutePath(routes, new PropertiesPathComponent("Name"));
         }
        
         [Test]
@@ -36,9 +37,12 @@ namespace Falcor.Server.Tests.Routing
             var routes = new List<Route>();
             routes.MapRoute<Model>()
                 .List(i => i.Users)
+                .AsIndex()
                 .To(() => null);
 
-            AssertSingleRoutePath(routes, new ListPathFragment("Users"));           
+            AssertSingleRoutePath(routes, 
+                new PropertiesPathComponent("Users"),
+                new IndexPathComponent()); 
         }
 
         [Test]
@@ -50,7 +54,9 @@ namespace Falcor.Server.Tests.Routing
                 .AsRange(0, 10)
                 .To(() => null);
 
-            AssertSingleRoutePath(routes, new ListPathFragment("Users", 0, 10));
+            AssertSingleRoutePath(routes, 
+                new PropertiesPathComponent("Users"), 
+                new RangePathComponent(0, 10));
         }
 
         [Test]
@@ -59,12 +65,14 @@ namespace Falcor.Server.Tests.Routing
             var routes = new List<Route>();
             routes.MapRoute<Model>()
                 .List(i => i.Users)
+                .AsIndex()
                 .Property(i => i.FirstName)
                 .To(() => null);
 
-            AssertSingleRoutePath(routes, 
-                new ListPathFragment("Users"), 
-                new PropertyPathFragment("FirstName"));
+            AssertSingleRoutePath(routes,
+                new PropertiesPathComponent("Users"), 
+                new IndexPathComponent(),
+                new PropertiesPathComponent("FirstName"));
         }
 
         [Test]
@@ -73,21 +81,23 @@ namespace Falcor.Server.Tests.Routing
             var routes = new List<Route>();
             routes.MapRoute<Model>()
                 .List(i => i.Users)
+                .AsIndex()
                 .Properties(i => i.FirstName, i => i.LastName)
                 .To(() => null);
 
             AssertSingleRoutePath(routes,
-                new ListPathFragment("Users"),
-                new PropertiesPathFragment("FirstName", "LastName"));
+                new PropertiesPathComponent("Users"),
+                new IndexPathComponent(),
+                new PropertiesPathComponent("FirstName", "LastName"));
         }
 
-        private void AssertSingleRoutePath(List<Route> routes, params PathFragment[] fragments)
+        private void AssertSingleRoutePath(List<Route> routes, params IPathComponent[] components)
         {
             Assert.AreEqual(1, routes.Count, "Expected only one route in routes collection");
             var route = routes.First();
 
-            Assert.AreEqual(fragments.Length, route.Path.Count);
-            var pathFragments = fragments
+            Assert.AreEqual(components.Length, route.Path.Count);
+            var pathFragments = components
                 .Zip(route.Path, (expected, actual) => new
                     {
                         Actual = actual,
@@ -100,24 +110,17 @@ namespace Falcor.Server.Tests.Routing
                 Assert.AreEqual(pathFragment.Expected.GetType(), pathFragment.Actual.GetType());                
             }
 
-            foreach (var pathFragment in pathFragments.Where(i => i.Expected is PropertyPathFragment))
+            foreach (var pathFragment in pathFragments.Where(i => i.Expected is PropertiesPathComponent))
             {
-                Assert.AreEqual(
-                    ((PropertyPathFragment)pathFragment.Expected).Key, 
-                    ((PropertyPathFragment)pathFragment.Actual).Key);
-            }
-
-            foreach (var pathFragment in pathFragments.Where(i => i.Expected is PropertiesPathFragment))
-            {
-                var expected = (PropertiesPathFragment) pathFragment.Expected;
-                var actual = (PropertiesPathFragment) pathFragment.Actual;
+                var expected = (PropertiesPathComponent) pathFragment.Expected;
+                var actual = (PropertiesPathComponent) pathFragment.Actual;
                 Assert.AreEqual(expected.Keys, actual.Keys);
             }
 
-            foreach (var pathFragment in pathFragments.Where(i => i.Expected is ListPathFragment))
+            foreach (var pathFragment in pathFragments.Where(i => i.Expected is RangePathComponent))
             {
-                var expected = (ListPathFragment)pathFragment.Expected;
-                var actual = (ListPathFragment)pathFragment.Actual;
+                var expected = (RangePathComponent)pathFragment.Expected;
+                var actual = (RangePathComponent)pathFragment.Actual;
                 Assert.AreEqual(expected.From, actual.From);
                 Assert.AreEqual(expected.To, actual.To);
             }

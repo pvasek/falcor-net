@@ -42,8 +42,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Routing\ExpressionHelperTest.cs" />
-    <Compile Include="Routing\RouteBuilderTest.cs" />
+    <Compile Include="Routing\Builder\ExpressionHelperTest.cs" />
+    <Compile Include="Routing\Builder\RouteMapperExtensionsTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

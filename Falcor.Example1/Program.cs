@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Falcor.Server.Routing;
+using Falcor.Server.Routing.Builder;
 
 namespace Falcor.Example1
 {    
@@ -20,8 +21,9 @@ namespace Falcor.Example1
             var routes = new List<Route>();
             routes.MapRoute<Model>()
                 .List(i => i.Events)
-                .AsRange()
+                .AsRange(0, 10)
                 .List(i => i.Competitions)
+                .AsIndex()
                 .Properties(i => i.Name, i => i.Competitors)
                 .To(() => Task.FromResult(0));
         }

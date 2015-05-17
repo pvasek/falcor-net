@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using Falcor.Server.Routing;
+using Falcor.Server.Routing.Builder;
 using NUnit.Framework;
 
-namespace Falcor.Server.Tests.Routing
+namespace Falcor.Server.Tests.Routing.Builder
 {
     [TestFixture]
     public class ExpressionHelperTest

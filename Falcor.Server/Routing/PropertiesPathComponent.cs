@@ -3,13 +3,13 @@ using System.Linq;
 
 namespace Falcor.Server.Routing
 {
-    public class PropertiesPathFragment : PathFragment
+    public class PropertiesPathComponent : IPathComponent
     {
-        public PropertiesPathFragment()
+        public PropertiesPathComponent()
         {            
         }
 
-        public PropertiesPathFragment(params string[] keys)
+        public PropertiesPathComponent(params string[] keys)
         {
             Keys = keys.ToList();
         }
