@@ -43,7 +43,7 @@ namespace Falcor.Server.Tests.Routing.Builder
 
             AssertSingleRoutePath(routes, 
                 new PropertiesPathComponent("Users"),
-                new IndexPathComponent()); 
+                new IndexesPathComponent()); 
         }
 
         [Test]
@@ -72,7 +72,7 @@ namespace Falcor.Server.Tests.Routing.Builder
 
             AssertSingleRoutePath(routes,
                 new PropertiesPathComponent("Users"), 
-                new IndexPathComponent(),
+                new IndexesPathComponent(),
                 new PropertiesPathComponent("FirstName"));
         }
 
@@ -88,7 +88,7 @@ namespace Falcor.Server.Tests.Routing.Builder
 
             AssertSingleRoutePath(routes,
                 new PropertiesPathComponent("Users"),
-                new IndexPathComponent(),
+                new IndexesPathComponent(),
                 new PropertiesPathComponent("FirstName", "LastName"));
         }
 

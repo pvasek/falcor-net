@@ -1,8 +1,8 @@
 namespace Falcor.Server.Routing
 {
-    public class IndexPathComponent : IPathComponent
+    public class IntegersPathComponent : IPathComponent
     {
-        public IndexPathComponent(int? index = null)
+        public IntegersPathComponent(int? index = null)
         {
             Index = index;
         }

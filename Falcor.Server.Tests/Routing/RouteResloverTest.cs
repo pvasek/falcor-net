@@ -13,13 +13,13 @@ namespace Falcor.Server.Tests.Routing
         {
             var route1 = new Route(new PropertiesPathComponent("events"));
             var route2 = new Route(new PropertiesPathComponent("users"), new RangePathComponent());
-            var route3 = new Route(new PropertiesPathComponent("users"), new IndexPathComponent());
+            var route3 = new Route(new PropertiesPathComponent("users"), new IndexesPathComponent());
 
             var target = new RouteResolver(new[] {route1, route2, route3});
             var result = target.FindRoute(new IPathComponent[]
                 {
                     new PropertiesPathComponent("users"),
-                    new IndexPathComponent(),
+                    new IndexesPathComponent(),
                 })
                 .ToList();
 
@@ -30,15 +30,15 @@ namespace Falcor.Server.Tests.Routing
         [Test]
         public void Should_match_single_property_with_list_of_properties()
         {
-            var route1 = new Route(new PropertiesPathComponent("events"), new IndexPathComponent(), new PropertiesPathComponent("name"));
-            var route2 = new Route(new PropertiesPathComponent("events"), new IndexPathComponent(), new PropertiesPathComponent("from", "to"));
-            var route3 = new Route(new PropertiesPathComponent("users"), new IndexPathComponent());
+            var route1 = new Route(new PropertiesPathComponent("events"), new IndexesPathComponent(), new PropertiesPathComponent("name"));
+            var route2 = new Route(new PropertiesPathComponent("events"), new IndexesPathComponent(), new PropertiesPathComponent("from", "to"));
+            var route3 = new Route(new PropertiesPathComponent("users"), new IndexesPathComponent());
 
             var target = new RouteResolver(new[] { route1, route2, route3 });
             var result = target.FindRoute(new IPathComponent[]
                 {
                     new PropertiesPathComponent("events"),
-                    new IndexPathComponent(),
+                    new IndexesPathComponent(),
                     new PropertiesPathComponent("from"), 
                 })
                 .ToList();
@@ -50,15 +50,15 @@ namespace Falcor.Server.Tests.Routing
         [Test]
         public void Should_match_list_of_properties_with_list_of_properties()
         {
-            var route1 = new Route(new PropertiesPathComponent("events"), new IndexPathComponent(), new PropertiesPathComponent("name"));
-            var route2 = new Route(new PropertiesPathComponent("events"), new IndexPathComponent(), new PropertiesPathComponent("from", "to"));
-            var route3 = new Route(new PropertiesPathComponent("users"), new IndexPathComponent());
+            var route1 = new Route(new PropertiesPathComponent("events"), new IndexesPathComponent(), new PropertiesPathComponent("name"));
+            var route2 = new Route(new PropertiesPathComponent("events"), new IndexesPathComponent(), new PropertiesPathComponent("from", "to"));
+            var route3 = new Route(new PropertiesPathComponent("users"), new IndexesPathComponent());
 
             var target = new RouteResolver(new[] { route1, route2, route3 });
             var result = target.FindRoute(new IPathComponent[]
                 {
                     new PropertiesPathComponent("events"),
-                    new IndexPathComponent(),
+                    new IndexesPathComponent(),
                     new PropertiesPathComponent("to", "from"), 
                 })
                 .ToList();
@@ -70,15 +70,15 @@ namespace Falcor.Server.Tests.Routing
         [Test]
         public void Should_match_list_of_properties_with_list_of_properties_and_simple_property()
         {
-            var route1 = new Route(new PropertiesPathComponent("events"), new IndexPathComponent(), new PropertiesPathComponent("name"));
-            var route2 = new Route(new PropertiesPathComponent("events"), new IndexPathComponent(), new PropertiesPathComponent("from", "to"));
-            var route3 = new Route(new PropertiesPathComponent("users"), new IndexPathComponent());
+            var route1 = new Route(new PropertiesPathComponent("events"), new IndexesPathComponent(), new PropertiesPathComponent("name"));
+            var route2 = new Route(new PropertiesPathComponent("events"), new IndexesPathComponent(), new PropertiesPathComponent("from", "to"));
+            var route3 = new Route(new PropertiesPathComponent("users"), new IndexesPathComponent());
 
             var target = new RouteResolver(new[] { route1, route2, route3 });
             var result = target.FindRoute(new IPathComponent[]
                 {
                     new PropertiesPathComponent("events"),
-                    new IndexPathComponent(),
+                    new IndexesPathComponent(),
                     new PropertiesPathComponent("to", "name"), 
                 })
                 .ToList();

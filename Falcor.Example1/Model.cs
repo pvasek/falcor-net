@@ -5,7 +5,9 @@ namespace Falcor.Example1
 {
     public class Model
     {
-        public IList<Event> Events { get; set; } 
+        public IList<Event> Events { get; set; }
+        public IDictionary<int, Participant> ParticipantsById { get; set; }
+        public IDictionary<int, Competitor> CompetitorsById { get; set; }
     }
 
     public class Participant
@@ -33,5 +35,6 @@ namespace Falcor.Example1
         public DateTime To { get; set; }
         public IList<Competition> Competitions { get; set; }
         public IList<Participant> Participants { get; set; }
+        public IList<string> Referees { get; set; } 
     }
 }

@@ -66,7 +66,7 @@ namespace Falcor.Server.Routing.Builder
         public static PropertyRouteJourney<T> AsIndex<T>(this ListRouteJourney<T> journey, int? index = null)
         {
             var routeJourney = (IRouteJourney)journey;
-            routeJourney.Route.Path.Add(new IndexPathComponent(index));
+            routeJourney.Route.Path.Add(new IndexesPathComponent(index));
             return new PropertyRouteJourney<T>(routeJourney.Route, routeJourney.Routes);
         }
 

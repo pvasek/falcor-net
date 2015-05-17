@@ -51,8 +51,8 @@ namespace Falcor.Server.Routing
                 return rangeInput != null;
             }
 
-            var indexInput = input as IndexPathComponent;
-            var indexDefinition = definition as IndexPathComponent;
+            var indexInput = input as IndexesPathComponent;
+            var indexDefinition = definition as IndexesPathComponent;
             return indexInput != null && indexDefinition != null;
         }
     }
