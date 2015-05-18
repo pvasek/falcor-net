@@ -40,7 +40,7 @@ namespace Falcor.Server.Routing
                     return false;
                 }
 
-                var result = propertiesIntput.Keys.Any(i => propertiesDefinition.Keys.Any(j => j == i));
+                var result = propertiesIntput.Properties.Any(i => propertiesDefinition.Properties.Any(j => j == i));
                 return result;
             }
 
@@ -51,8 +51,8 @@ namespace Falcor.Server.Routing
                 return rangeInput != null;
             }
 
-            var indexInput = input as IndexesPathComponent;
-            var indexDefinition = definition as IndexesPathComponent;
+            var indexInput = input as IntegersPathComponent;
+            var indexDefinition = definition as IntegersPathComponent;
             return indexInput != null && indexDefinition != null;
         }
     }

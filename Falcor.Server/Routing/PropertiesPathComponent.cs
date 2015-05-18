@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Falcor.Server.Routing
 {
@@ -9,11 +8,11 @@ namespace Falcor.Server.Routing
         {            
         }
 
-        public PropertiesPathComponent(params string[] keys)
+        public PropertiesPathComponent(params string[] properties)
         {
-            Keys = keys.ToList();
+            Properties = properties;
         }
 
-        public IList<string> Keys { get; set; }
+        public IList<string> Properties { get; private set; }
     }
 }

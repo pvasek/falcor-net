@@ -51,10 +51,10 @@ namespace Falcor.Example1
 
             routes.MapRoute<Model>().List(i => i.Events).AsIndex().To(() => 
                 Task.FromResult(Tuple.Create(new List<string> { "events", "0"}, new Ref("events", "0"))));  // path, value
-            
+
             routes.MapRoute<Model>()
                 .List(i => i.Events)
-                .AsIndex()
+                .AsIndex();
 
             // new IList<object>() { "events", new IList<int> { 0, 5, 9} }
         }

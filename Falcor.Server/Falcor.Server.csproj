@@ -43,7 +43,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Response.cs" />
     <Compile Include="Routing\Builder\ExpressionHelper.cs" />
-    <Compile Include="Routing\IndexPathComponent.cs" />
+    <Compile Include="Routing\IntegersPathComponent.cs" />
+    <Compile Include="Routing\KeysPathComponent.cs" />
     <Compile Include="Routing\RangePathComponent.cs" />
     <Compile Include="Routing\IPathComponent.cs" />
     <Compile Include="Routing\PropertiesPathComponent.cs" />

@@ -8,7 +8,7 @@ namespace Falcor.Server.Routing
             To = to;
         }
 
-        public int? From { get; set; }
-        public int? To { get; set; }
+        public int? From { get; private set; }
+        public int? To { get; private set; }
     }
 }

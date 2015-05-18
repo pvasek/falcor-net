@@ -43,7 +43,7 @@ namespace Falcor.Server.Tests.Routing.Builder
 
             AssertSingleRoutePath(routes, 
                 new PropertiesPathComponent("Users"),
-                new IndexesPathComponent()); 
+                new IntegersPathComponent()); 
         }
 
         [Test]
@@ -71,8 +71,8 @@ namespace Falcor.Server.Tests.Routing.Builder
                 .To(() => null);
 
             AssertSingleRoutePath(routes,
-                new PropertiesPathComponent("Users"), 
-                new IndexesPathComponent(),
+                new PropertiesPathComponent("Users"),
+                new IntegersPathComponent(),
                 new PropertiesPathComponent("FirstName"));
         }
 
@@ -88,7 +88,7 @@ namespace Falcor.Server.Tests.Routing.Builder
 
             AssertSingleRoutePath(routes,
                 new PropertiesPathComponent("Users"),
-                new IndexesPathComponent(),
+                new IntegersPathComponent(),
                 new PropertiesPathComponent("FirstName", "LastName"));
         }
 
@@ -115,7 +115,7 @@ namespace Falcor.Server.Tests.Routing.Builder
             {
                 var expected = (PropertiesPathComponent) pathFragment.Expected;
                 var actual = (PropertiesPathComponent) pathFragment.Actual;
-                Assert.AreEqual(expected.Keys, actual.Keys);
+                Assert.AreEqual(expected.Properties, actual.Properties);
             }
 
             foreach (var pathFragment in pathFragments.Where(i => i.Expected is RangePathComponent))

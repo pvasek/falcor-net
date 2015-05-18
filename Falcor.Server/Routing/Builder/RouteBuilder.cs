@@ -39,7 +39,7 @@ namespace Falcor.Server.Routing.Builder
             }
 
             var routeJourney = (IRouteJourney)journey;
-            routeJourney.Route.Path.Add(new PropertiesPathComponent { Keys = properties.Select(i => i.Name).ToList() });
+            routeJourney.Route.Path.Add(new PropertiesPathComponent(properties.Select(i => i.Name).ToArray()));
             return new FinalRouteJourney(routeJourney.Route, routeJourney.Routes);
         }
 
@@ -66,7 +66,8 @@ namespace Falcor.Server.Routing.Builder
         public static PropertyRouteJourney<T> AsIndex<T>(this ListRouteJourney<T> journey, int? index = null)
         {
             var routeJourney = (IRouteJourney)journey;
-            routeJourney.Route.Path.Add(new IndexesPathComponent(index));
+            var integers = index != null ? new[] { index.Value } : null;
+            routeJourney.Route.Path.Add(new IntegersPathComponent(integers));
             return new PropertyRouteJourney<T>(routeJourney.Route, routeJourney.Routes);
         }
 

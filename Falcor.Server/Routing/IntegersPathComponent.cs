@@ -1,12 +1,14 @@
+using System.Collections.Generic;
+
 namespace Falcor.Server.Routing
 {
     public class IntegersPathComponent : IPathComponent
     {
-        public IntegersPathComponent(int? index = null)
+        public IntegersPathComponent(params int[] integers)
         {
-            Index = index;
+            Integers = integers;
         }
 
-        public int? Index { get; set; }
+        public IList<int> Integers { get; private set; }
     }
 }
