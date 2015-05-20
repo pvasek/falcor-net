@@ -17,7 +17,7 @@ namespace Falcor.Server.Tests.Routing.Builder
             var routes = new List<Route>();
             routes.MapRoute<TestModel>()
                 .Property(i => i.Name)
-                .To(() => null);
+                .To(null);
 
             AssertSingleRoutePath(routes, new PropertiesPathComponent("Name"));
         }
@@ -29,7 +29,7 @@ namespace Falcor.Server.Tests.Routing.Builder
             var routes = new List<Route>();
             routes.MapRoute<TestModel>()
                 .Property(i => i.Users)
-                .To(() => null);
+                .To(null);
         }
 
         [Test]
@@ -39,7 +39,7 @@ namespace Falcor.Server.Tests.Routing.Builder
             routes.MapRoute<TestModel>()
                 .List(i => i.Users)
                 .AsIndex()
-                .To(() => null);
+                .To(null);
 
             AssertSingleRoutePath(routes, 
                 new PropertiesPathComponent("Users"),
@@ -53,7 +53,7 @@ namespace Falcor.Server.Tests.Routing.Builder
             routes.MapRoute<TestModel>()
                 .List(i => i.Users)
                 .AsRange(0, 10)
-                .To(() => null);
+                .To(null);
 
             AssertSingleRoutePath(routes, 
                 new PropertiesPathComponent("Users"), 
@@ -68,7 +68,7 @@ namespace Falcor.Server.Tests.Routing.Builder
                 .List(i => i.Users)
                 .AsIndex()
                 .Property(i => i.FirstName)
-                .To(() => null);
+                .To(null);
 
             AssertSingleRoutePath(routes,
                 new PropertiesPathComponent("Users"),
@@ -84,7 +84,7 @@ namespace Falcor.Server.Tests.Routing.Builder
                 .List(i => i.Users)
                 .AsIndex()
                 .Properties(i => i.FirstName, i => i.LastName)
-                .To(() => null);
+                .To(null);
 
             AssertSingleRoutePath(routes,
                 new PropertiesPathComponent("Users"),

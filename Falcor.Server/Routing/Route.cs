@@ -18,6 +18,6 @@ namespace Falcor.Server.Routing
         }
 
         public IList<IPathComponent> Path { get; set; }
-        public Func<Task> Handler { get; set; }
+        public Handler Handler { get; set; }
     }
 }

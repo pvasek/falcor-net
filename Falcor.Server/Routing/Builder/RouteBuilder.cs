@@ -56,6 +56,19 @@ namespace Falcor.Server.Routing.Builder
             return new ListRouteJourney<TProperty>(routeJourney.Route, routeJourney.Routes);
         }
 
+        public static DictionarRouteJourney<TProperty> Dictionary<T, TKey, TProperty>(this PropertyRouteJourney<T> journey, Expression<Func<T, IDictionary<TKey, TProperty>>> func)
+        {
+            var propertyInfo = ExpressionHelper.GetProperty(func);
+            if (!typeof(ICollection).IsAssignableFrom(propertyInfo.PropertyType))
+            {
+                throw new ArgumentException("For simple properties you have to use 'Property' method");
+            }
+
+            var routeJourney = (IRouteJourney)journey;
+            routeJourney.Route.Path.Add(new PropertiesPathComponent(propertyInfo.Name));
+            return new DictionarRouteJourney<TProperty>(routeJourney.Route, routeJourney.Routes);
+        }
+
         public static PropertyRouteJourney<T> AsRange<T>(this ListRouteJourney<T> journey, int? from, int? to)
         {
             var routeJourney = (IRouteJourney)journey;
@@ -71,7 +84,14 @@ namespace Falcor.Server.Routing.Builder
             return new PropertyRouteJourney<T>(routeJourney.Route, routeJourney.Routes);
         }
 
-        public static void To(this IFinalRouteJourney journey, Func<Task> handler)
+        public static PropertyRouteJourney<T> AsKey<T>(this DictionarRouteJourney<T> journey, params string[] keys)
+        {
+            var routeJourney = (IRouteJourney)journey;
+            routeJourney.Route.Path.Add(new KeysPathComponent(keys));
+            return new PropertyRouteJourney<T>(routeJourney.Route, routeJourney.Routes);
+        }
+
+        public static void To(this IFinalRouteJourney journey, Handler handler)
         {
             var routeJourney = (IRouteJourney)journey;
             routeJourney.Route.Handler = handler;
@@ -118,6 +138,14 @@ namespace Falcor.Server.Routing.Builder
         public class ListRouteJourney<T> : RouteJourney
         {
             public ListRouteJourney(Route route, IList<Route> routes)
+                : base(route, routes)
+            {
+            }
+        }
+    
+        public class DictionarRouteJourney<T> : RouteJourney
+        {
+            public DictionarRouteJourney(Route route, IList<Route> routes)
                 : base(route, routes)
             {
             }

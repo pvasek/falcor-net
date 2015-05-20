@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reactive;
+using System.Reactive.Linq;
 using System.Threading.Tasks;
+using Falcor.Server;
 using Falcor.Server.Routing;
 using Falcor.Server.Routing.Builder;
 
@@ -19,15 +23,7 @@ namespace Falcor.Example1
             // routes.MapRoute<Model>(m => m.Events[0-9]).To(handler)
             // routes.MapRoute<Model>(m => m.Events.AsRange().Name).To(handler)
             
-            var routes = new List<Route>();
-            
-            routes.MapRoute<Model>()
-                .List(i => i.Events)
-                .AsRange(0, 10)
-                .List(i => i.Competitions)
-                .AsIndex()
-                .Properties(i => i.Name, i => i.Competitors)
-                .To(() => Task.FromResult(0));
+            var routes = new List<Route>();           
 
             // participantById['99805'].name
             // participantById['99805'].number
@@ -46,26 +42,29 @@ namespace Falcor.Example1
 
             // IntegersPathComponent - multiple integers
             // handler return type should be observable of PathValue
-            // path value returned by handler can be input for another handlers (during resolving reference)
+            // path value returned by handler can be input for another handlers (during resolving references)
             // path optimization - trade off for retrieving data from db => collapsing
 
-            routes.MapRoute<Model>().List(i => i.Events).AsIndex().To(() => 
-                Task.FromResult(Tuple.Create(new List<string> { "events", "0"}, new Ref("events", "0"))));  // path, value
+            routes.MapRoute<Model>().List(i => i.Events).AsIndex().To(path => 
+                new [] {
+                    PathValue.Create(new Ref("eventsById", "99801"), "events", "0"),
+                    PathValue.Create(new Ref("eventsById", "99802"), "events", "1"),
+                }.ToObservable()
+            );
 
             routes.MapRoute<Model>()
-                .List(i => i.Events)
-                .AsIndex();
+                .Dictionary(i => i.CompetitorsById)
+                .AsKey()
+                .Properties(i => i.Result)
+                .To(path =>
+                {
+                    return ((KeysPathComponent) path[1])
+                        .Keys
+                        .Select((i, idx) => PathValue.Create(idx, "eventById", i))
+                        .ToObservable();
+                });
 
             // new IList<object>() { "events", new IList<int> { 0, 5, 9} }
         }
     }
-
-    public class Ref
-    {
-        public Ref(params string[] path)
-        {
-
-        }
-    }
-   
 }
