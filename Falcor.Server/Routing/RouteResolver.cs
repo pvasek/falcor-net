@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Falcor.Server.Routing
 {
-    public class RouteResolver
+    public class RouteResolver: IRouteResolver
     {
         private readonly List<Route> _routes;
 
@@ -12,9 +12,9 @@ namespace Falcor.Server.Routing
             _routes = routes.ToList();
         }
 
-        public IEnumerable<Route> FindRoute(IList<IPathComponent> path)
+        public IEnumerable<Route> FindRoutes(IPath path)
         {
-            return _routes.Where(i => Match(i.Path, path));
+            return _routes.Where(i => Match(i.Path, path.Components));
         }
 
         public static bool Match(IList<IPathComponent> input, IList<IPathComponent> definition)

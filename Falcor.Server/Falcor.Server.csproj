@@ -58,12 +58,17 @@
     <Compile Include="Response.cs" />
     <Compile Include="Routing\Builder\ExpressionHelper.cs" />
     <Compile Include="Routing\IntegersPathComponent.cs" />
+    <Compile Include="Routing\IPath.cs" />
+    <Compile Include="Routing\IRouteResolver.cs" />
+    <Compile Include="Routing\IUrlComponentParser.cs" />
     <Compile Include="Routing\KeysPathComponent.cs" />
+    <Compile Include="Routing\Path.cs" />
     <Compile Include="Routing\RangePathComponent.cs" />
     <Compile Include="Routing\IPathComponent.cs" />
     <Compile Include="Routing\PropertiesPathComponent.cs" />
     <Compile Include="Routing\Route.cs" />
     <Compile Include="Routing\Builder\RouteBuilder.cs" />
+    <Compile Include="Routing\Router.cs" />
     <Compile Include="Routing\RouteResolver.cs" />
   </ItemGroup>
   <ItemGroup>

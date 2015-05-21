@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using Falcor.Server.Routing;
 using NUnit.Framework;
 
@@ -16,11 +15,9 @@ namespace Falcor.Server.Tests.Routing
             var route3 = new Route(new PropertiesPathComponent("users"), new IntegersPathComponent());
 
             var target = new RouteResolver(new[] {route1, route2, route3});
-            var result = target.FindRoute(new IPathComponent[]
-                {
+            var result = target.FindRoutes(new Path(
                     new PropertiesPathComponent("users"),
-                    new IntegersPathComponent(),
-                })
+                    new IntegersPathComponent()))
                 .ToList();
 
             Assert.AreEqual(1, result.Count);
@@ -35,12 +32,10 @@ namespace Falcor.Server.Tests.Routing
             var route3 = new Route(new PropertiesPathComponent("users"), new IntegersPathComponent());
 
             var target = new RouteResolver(new[] { route1, route2, route3 });
-            var result = target.FindRoute(new IPathComponent[]
-                {
+            var result = target.FindRoutes(new Path(                
                     new PropertiesPathComponent("events"),
                     new IntegersPathComponent(),
-                    new PropertiesPathComponent("from"), 
-                })
+                    new PropertiesPathComponent("from")))
                 .ToList();
 
             Assert.AreEqual(1, result.Count);
@@ -55,12 +50,10 @@ namespace Falcor.Server.Tests.Routing
             var route3 = new Route(new PropertiesPathComponent("users"), new IntegersPathComponent());
 
             var target = new RouteResolver(new[] { route1, route2, route3 });
-            var result = target.FindRoute(new IPathComponent[]
-                {
+            var result = target.FindRoutes(new Path(
                     new PropertiesPathComponent("events"),
                     new IntegersPathComponent(),
-                    new PropertiesPathComponent("to", "from"), 
-                })
+                    new PropertiesPathComponent("to", "from")))
                 .ToList();
 
             Assert.AreEqual(1, result.Count);
@@ -75,12 +68,10 @@ namespace Falcor.Server.Tests.Routing
             var route3 = new Route(new PropertiesPathComponent("users"), new IntegersPathComponent());
 
             var target = new RouteResolver(new[] { route1, route2, route3 });
-            var result = target.FindRoute(new IPathComponent[]
-                {
+            var result = target.FindRoutes(new Path(
                     new PropertiesPathComponent("events"),
                     new IntegersPathComponent(),
-                    new PropertiesPathComponent("to", "name"), 
-                })
+                    new PropertiesPathComponent("to", "name")))
                 .ToList();
 
             Assert.AreEqual(2, result.Count);

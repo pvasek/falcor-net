@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using Falcor.Server.Routing;
 
 namespace Falcor.Server
 {
-    public delegate IObservable<PathValue> Handler(IList<IPathComponent> path);
+    public delegate IObservable<PathValue> Handler(IPath path);
 }

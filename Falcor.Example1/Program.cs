@@ -55,16 +55,26 @@ namespace Falcor.Example1
             routes.MapRoute<Model>()
                 .Dictionary(i => i.CompetitorsById)
                 .AsKey()
-                .Properties(i => i.Result)
+                .Properties(i => i.Result, i => i.Participant)
                 .To(path =>
                 {
-                    return ((KeysPathComponent) path[1])
-                        .Keys
-                        .Select((i, idx) => PathValue.Create(idx, "eventById", i))
-                        .ToObservable();
+                    var properties = ((PropertiesPathComponent)path.Components[0]).Properties;
+                    var keys = ((KeysPathComponent) path.Components[1]).Keys;
+                    var result = new List<PathValue>();
+                    var number = 1;
+                    foreach (var key in keys)
+                    {
+                        if (properties.Contains("Participant"))
+                        {
+                            result.Add(PathValue.Create(new Ref("participantById", "99805"), "eventById", key));
+                        }
+                        if (properties.Contains("Result"))
+                        {
+                            result.Add(PathValue.Create(number++, "eventById", key));
+                        }
+                    }
+                    return result.ToObservable();
                 });
-
-            // new IList<object>() { "events", new IList<int> { 0, 5, 9} }
         }
     }
 }
