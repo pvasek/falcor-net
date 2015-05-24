@@ -59,10 +59,12 @@
     <Compile Include="Routing\Builder\ExpressionHelper.cs" />
     <Compile Include="Routing\IntegersPathComponent.cs" />
     <Compile Include="Routing\IPath.cs" />
+    <Compile Include="Routing\IPathCollapser.cs" />
     <Compile Include="Routing\IRouteResolver.cs" />
     <Compile Include="Routing\IUrlComponentParser.cs" />
     <Compile Include="Routing\KeysPathComponent.cs" />
     <Compile Include="Routing\Path.cs" />
+    <Compile Include="Routing\PathCollapser.cs" />
     <Compile Include="Routing\RangePathComponent.cs" />
     <Compile Include="Routing\IPathComponent.cs" />
     <Compile Include="Routing\PropertiesPathComponent.cs" />

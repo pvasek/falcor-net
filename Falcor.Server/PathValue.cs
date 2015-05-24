@@ -1,20 +1,19 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using Falcor.Server.Routing;
 
 namespace Falcor.Server
 {
     public class PathValue
     {
-        public static PathValue Create(object value, params string[] path)
+        public static PathValue Create(object value, params IPathComponent[] path)
         {
             return new PathValue
             {
                 Value = value,
-                Path = path.ToList()
+                Path = new Path(path)
             };
         }
 
-        public IList<string> Path { get; set; }
+        public IPath Path { get; set; }
         public object Value { get; set; }
     }
 }

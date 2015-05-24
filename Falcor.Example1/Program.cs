@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Reactive;
 using System.Reactive.Linq;
-using System.Threading.Tasks;
 using Falcor.Server;
 using Falcor.Server.Routing;
 using Falcor.Server.Routing.Builder;
@@ -47,8 +44,8 @@ namespace Falcor.Example1
 
             routes.MapRoute<Model>().List(i => i.Events).AsIndex().To(path => 
                 new [] {
-                    PathValue.Create(new Ref("eventsById", "99801"), "events", "0"),
-                    PathValue.Create(new Ref("eventsById", "99802"), "events", "1"),
+                    PathValue.Create(Ref.Property("eventsById", "99801"), path.Components.First(), new IntegersPathComponent(0)),
+                    PathValue.Create(Ref.Property("eventsById", "99802"), path.Components.First(), new IntegersPathComponent(1)),
                 }.ToObservable()
             );
 
@@ -66,11 +63,15 @@ namespace Falcor.Example1
                     {
                         if (properties.Contains("Participant"))
                         {
-                            result.Add(PathValue.Create(new Ref("participantById", "99805"), "eventById", key));
+                            result.Add(PathValue.Create(Ref.Property("participantById", "99805"), 
+                                new PropertiesPathComponent("eventById"), 
+                                new KeysPathComponent(key)));
                         }
                         if (properties.Contains("Result"))
                         {
-                            result.Add(PathValue.Create(number++, "eventById", key));
+                            result.Add(PathValue.Create(number++, 
+                                new PropertiesPathComponent("eventById"), 
+                                new KeysPathComponent(key)));
                         }
                     }
                     return result.ToObservable();

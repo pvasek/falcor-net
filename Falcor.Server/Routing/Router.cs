@@ -8,23 +8,53 @@ namespace Falcor.Server.Routing
     public class Router
     {
         private readonly IRouteResolver _routeResolver;
-        
-        public Router(IRouteResolver routeResolver)
+        private readonly IPathCollapser _pathCollapser;
+
+        public Router(IRouteResolver routeResolver, IPathCollapser pathCollapser)
         {
             _routeResolver = routeResolver;
+            _pathCollapser = pathCollapser;
         }
 
-        public Response Execute(IList<IPath> paths)
+        public Response Execute(IEnumerable<IPath> paths)
         {
-            //TODO: compact paths first
-            var routeWithPaths = paths.SelectMany(path => 
+            var result = GetPathValues(paths);
+            var possibleReferences = result;
+            
+            while (true)
+            {
+                var references = possibleReferences
+                    .Where(i => i.Value is Ref)
+                    .Select(i => ((Ref)i.Value).Path)
+                    .ToList();
+
+                if (possibleReferences.Count == 0)
+                {
+                    break;
+                }
+
+                possibleReferences = GetPathValues(references);
+                result.AddRange(possibleReferences);
+            }
+
+            // TODO:
+            // 5 - put everything together and transform it to the response object
+
+            return new Response();
+        }
+
+        private List<PathValue> GetPathValues(IEnumerable<IPath> paths)
+        {
+            paths = _pathCollapser.Collapse(paths);
+
+            var routeWithPaths = paths.SelectMany(path =>
                 _routeResolver
                     .FindRoutes(path)
-                    .Select(route => new 
-                        {
-                            Route = route,
-                            Path = path
-                        }
+                    .Select(route => new
+                    {
+                        Route = route,
+                        Path = path
+                    }
                     ));
 
             // first try it synchronously, we can solve RX things later
@@ -33,15 +63,7 @@ namespace Falcor.Server.Routing
                 .Concat()
                 .ToEnumerable()
                 .ToList();
-
-            // TODO:
-            // 1 - create paths
-            // 2 - compact paths
-            // 3 - resolve references
-            // 4 - after refactoring 3/4 will be calling the same/similar method as we have above
-            // 5 - put everything together and transform it to the response object
-
-            return new Response();
+            return result;
         }
     }
 }
