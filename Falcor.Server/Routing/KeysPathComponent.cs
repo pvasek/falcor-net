@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Falcor.Server.Routing
 {
@@ -10,5 +11,11 @@ namespace Falcor.Server.Routing
         }
 
         public IList<string> Keys { get; private set; }
+
+        public override string ToString()
+        {
+            var property = Keys.FirstOrDefault();
+            return property ?? "(unknown)";
+        }
     }
 }

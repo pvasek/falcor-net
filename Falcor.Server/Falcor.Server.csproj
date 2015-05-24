@@ -30,6 +30,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Reactive.Core">
@@ -52,6 +56,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Handler.cs" />
+    <Compile Include="JsongItem.cs" />
+    <Compile Include="JsongItemType.cs" />
     <Compile Include="PathValue.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Ref.cs" />
@@ -60,6 +66,7 @@
     <Compile Include="Routing\IntegersPathComponent.cs" />
     <Compile Include="Routing\IPath.cs" />
     <Compile Include="Routing\IPathCollapser.cs" />
+    <Compile Include="Routing\IResponseBuilder.cs" />
     <Compile Include="Routing\IRouteResolver.cs" />
     <Compile Include="Routing\IUrlComponentParser.cs" />
     <Compile Include="Routing\KeysPathComponent.cs" />
@@ -68,6 +75,7 @@
     <Compile Include="Routing\RangePathComponent.cs" />
     <Compile Include="Routing\IPathComponent.cs" />
     <Compile Include="Routing\PropertiesPathComponent.cs" />
+    <Compile Include="Routing\ResponseBuilder.cs" />
     <Compile Include="Routing\Route.cs" />
     <Compile Include="Routing\Builder\RouteBuilder.cs" />
     <Compile Include="Routing\Router.cs" />

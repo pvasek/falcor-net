@@ -9,11 +9,13 @@ namespace Falcor.Server.Routing
     {
         private readonly IRouteResolver _routeResolver;
         private readonly IPathCollapser _pathCollapser;
+        private readonly IResponseBuilder _responseBuilder;
 
-        public Router(IRouteResolver routeResolver, IPathCollapser pathCollapser)
+        public Router(IRouteResolver routeResolver, IPathCollapser pathCollapser, IResponseBuilder responseBuilder)
         {
             _routeResolver = routeResolver;
             _pathCollapser = pathCollapser;
+            _responseBuilder = responseBuilder;
         }
 
         public Response Execute(IEnumerable<IPath> paths)
@@ -37,10 +39,7 @@ namespace Falcor.Server.Routing
                 result.AddRange(possibleReferences);
             }
 
-            // TODO:
-            // 5 - put everything together and transform it to the response object
-
-            return new Response();
+            return _responseBuilder.CreateResponse(result);
         }
 
         private List<PathValue> GetPathValues(IEnumerable<IPath> paths)
