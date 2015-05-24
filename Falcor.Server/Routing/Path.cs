@@ -6,7 +6,7 @@ namespace Falcor.Server.Routing
     {
         public Path(params IPathComponent[] components)
         {
-            Components = new List<IPathComponent>(Components);
+            Components = new List<IPathComponent>(components);
         }
 
         public IList<IPathComponent> Components { get; private set; }
