@@ -20,8 +20,7 @@ namespace Falcor.Server.Routing
                 .Select(i => (IList<object>)i
                     .Path
                     .Components
-                    .Select(j => j.ToString())
-                    .Cast<object>()
+                    .Select(j => j.Key)
                     .ToList())
                 .ToList();
 
@@ -30,7 +29,7 @@ namespace Falcor.Server.Routing
 
         private void AddPath(IDictionary<string,object> data, IList<IPathComponent> path, object value)
         {
-            var key = path.First().ToString();
+            var key = path.First().Key.ToString();
 
             if (path.Count() == 1)
             {
@@ -38,8 +37,16 @@ namespace Falcor.Server.Routing
             }
             else
             {
-                var nextData = new Dictionary<string, object>();
-                data.Add(key, nextData);
+                IDictionary<string, object> nextData;
+                if (!data.ContainsKey(key))
+                {
+                    nextData = new Dictionary<string, object>();
+                    data.Add(key, nextData);
+                }
+                else
+                {
+                    nextData = (IDictionary<string, object>) data[key];
+                }
                 AddPath(nextData, path.Skip(1).ToList(), value);
             }
         }

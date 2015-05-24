@@ -53,8 +53,7 @@ namespace Falcor.Server.Routing
                     {
                         Route = route,
                         Path = path
-                    }
-                    ));
+                    }));
 
             // first try it synchronously, we can solve RX things later
             var result = routeWithPaths
@@ -62,6 +61,7 @@ namespace Falcor.Server.Routing
                 .Concat()
                 .ToEnumerable()
                 .ToList();
+
             return result;
         }
     }

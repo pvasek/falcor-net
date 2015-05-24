@@ -1,3 +1,5 @@
+using System;
+
 namespace Falcor.Server.Routing
 {
     public class RangePathComponent: IPathComponent
@@ -10,5 +12,10 @@ namespace Falcor.Server.Routing
 
         public int? From { get; private set; }
         public int? To { get; private set; }
+
+        public object Key 
+        {
+            get { throw new NotImplementedException(); }
+        }
     }
 }

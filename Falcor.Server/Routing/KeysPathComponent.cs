@@ -12,10 +12,6 @@ namespace Falcor.Server.Routing
 
         public IList<string> Keys { get; private set; }
 
-        public override string ToString()
-        {
-            var property = Keys.FirstOrDefault();
-            return property ?? "(unknown)";
-        }
+        public object Key { get { return Keys.FirstOrDefault(); } }
     }
 }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Falcor.Server.Routing
 {
@@ -10,5 +11,7 @@ namespace Falcor.Server.Routing
         }
 
         public IList<int> Integers { get; private set; }
+
+        public object Key { get { return Integers.FirstOrDefault(); } }
     }
 }
