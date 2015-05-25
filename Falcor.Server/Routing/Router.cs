@@ -25,6 +25,7 @@ namespace Falcor.Server.Routing
             
             while (true)
             {
+                //TODO: the route can match only half of the path we need to evalutate the rest
                 var references = possibleReferences
                     .Where(i => i.Value is Ref)
                     .Select(i => ((Ref)i.Value).Path)
@@ -57,6 +58,7 @@ namespace Falcor.Server.Routing
 
             // first try it synchronously, we can solve RX things later
             var result = routeWithPaths
+                .Take(1) // for now we support just the first route
                 .Select(i => i.Route.Handler(i.Path))
                 .Concat()
                 .ToEnumerable()

@@ -26,7 +26,7 @@ namespace Falcor.Server.Tests.Routing
         }
 
         [Test]
-        public void Should_create_response_from_simple_property_from_list()
+        public void reShould_create_response_from_simple_property_from_list()
         {
             var target = new ResponseBuilder();
             var result = target.CreateResponse(new[]
