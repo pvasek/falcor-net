@@ -97,9 +97,9 @@ namespace Falcor.Server.Tests.Routing.Builder
             Assert.AreEqual(1, routes.Count, "Expected only one route in routes collection");
             var route = routes.First();
 
-            Assert.AreEqual(components.Length, route.Path.Count);
+            Assert.AreEqual(components.Length, route.Path.Components.Count);
             var pathFragments = components
-                .Zip(route.Path, (expected, actual) => new
+                .Zip(route.Path.Components, (expected, actual) => new
                     {
                         Actual = actual,
                         Expected = expected

@@ -14,21 +14,21 @@ namespace Falcor.Server.Routing
 
         public IEnumerable<Route> FindRoutes(IPath path)
         {
-            return _routes.Where(i => Match(i.Path, path.Components));
+            return _routes.Where(i => Match(path.Components, i.Path.Components));
         }
 
         public static bool Match(IList<IPathComponent> input, IList<IPathComponent> definition)
         {
-            if (input.Count != definition.Count)
+            if (input.Count < definition.Count)
             {
                 return false;
             }
 
-            var result = input.Zip(definition, Match).All(i => i);
+            var result = definition.Zip(input, MatchComponent).All(i => i);
             return result;
         }
 
-        public static bool Match(IPathComponent input, IPathComponent definition)
+        public static bool MatchComponent(IPathComponent definition, IPathComponent input)
         {
             var propertiesIntput = input as PropertiesPathComponent;
             var propertiesDefinition = definition as PropertiesPathComponent;
@@ -42,6 +42,18 @@ namespace Falcor.Server.Routing
 
                 var result = propertiesIntput.Properties.Any(i => propertiesDefinition.Properties.Any(j => j == i));
                 return result;
+            }
+
+            var keyInput = input as KeysPathComponent;
+            var keyDefinition = definition as KeysPathComponent;
+            if (keyDefinition != null)
+            {
+                if (keyInput == null)
+                {
+                    return false;
+                }
+
+                return keyDefinition.Keys.Count == 0 || keyDefinition.Keys.Any(i => keyInput.Keys.Any(j => j == i));
             }
 
             var rangeInput = input as RangePathComponent;

@@ -18,32 +18,46 @@ namespace Falcor.Server.Routing
             _responseBuilder = responseBuilder;
         }
 
+        public Response Execute(params IPath[] paths)
+        {
+            return Execute((IEnumerable<IPath>)paths);
+        }
+
         public Response Execute(IEnumerable<IPath> paths)
         {
             var result = GetPathValues(paths);
-            var possibleReferences = result;
+            var nextResults = result;
             
             while (true)
             {
                 //TODO: the route can match only half of the path we need to evalutate the rest
-                var references = possibleReferences
-                    .Where(i => i.Value is Ref)
-                    .Select(i => ((Ref)i.Value).Path)
+
+                // select all which evaluted just partially 
+                var nextPaths = nextResults
+                    .Where(i => i.ForPath.Components.Count > i.Result.Path.Components.Count)
+                    .Select(i => 
+                        new Path(((Ref)i.Result.Value).Path
+                            .Components
+                            .Concat(i.ForPath.Components.Skip(i.Result.Path.Components.Count))
+                            .ToArray()))
                     .ToList();
 
-                if (possibleReferences.Count == 0)
+                if (nextPaths.Count == 0)
                 {
                     break;
                 }
 
-                possibleReferences = GetPathValues(references);
-                result.AddRange(possibleReferences);
+                nextResults = GetPathValues(nextPaths);
+                result.AddRange(nextResults);
             }
 
-            return _responseBuilder.CreateResponse(result);
+            return _responseBuilder
+                .CreateResponse(result
+                    .Select(i => i.Result)
+                    .ToList());
         }
 
-        private List<PathValue> GetPathValues(IEnumerable<IPath> paths)
+        private List<PathEvaluationItem> GetPathValues(IEnumerable<IPath> paths)
         {
             paths = _pathCollapser.Collapse(paths);
 
@@ -58,13 +72,25 @@ namespace Falcor.Server.Routing
 
             // first try it synchronously, we can solve RX things later
             var result = routeWithPaths
-                .Take(1) // for now we support just the first route
-                .Select(i => i.Route.Handler(i.Path))
+                .Select(i => i.Route
+                    .Handler(i.Path)
+                    .Zip(Observable.Repeat(i.Path), 
+                        (value, path) => new PathEvaluationItem
+                        {
+                            Result = value,
+                            ForPath = path
+                        }))
                 .Concat()
                 .ToEnumerable()
                 .ToList();
 
             return result;
+        }
+
+        private class PathEvaluationItem
+        {
+            public PathValue Result { get; set; }
+            public IPath ForPath { get; set; }
         }
     }
 }

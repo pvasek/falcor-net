@@ -16,55 +16,62 @@ namespace Falcor.Server.Tests.Routing
             var routeResolver = new Mock<IRouteResolver>();
             var pathCollapser = new Mock<IPathCollapser>();
             var responseBuilder = new Mock<IResponseBuilder>();
-            var paths = new List<IPath>();
-            var collapsedPaths1 = new List<IPath>
-            {
-                new Path(new PropertiesPathComponent("settings"), new IntegersPathComponent(0)/* TODO: match against the full reminders-> new PropertiesPathComponent("Name")*/)                
-            };
+            pathCollapser.Setup(i => i.Collapse(It.IsAny<IEnumerable<IPath>>()))
+                .Returns((IEnumerable<IPath> paths) => paths);
+
+            var path1 = new Path(new PropertiesPathComponent("events"), new IntegersPathComponent(0), new PropertiesPathComponent("name"));
             
-            var route1a = new Route();
-            route1a.Handler = path => 
-                new[]
+            // the first route should match only the first part
+            var route1 = CreateRoute(
+                new Ref(new PropertiesPathComponent("eventById"), new KeysPathComponent("99801")),
+                new PropertiesPathComponent("events"), new IntegersPathComponent(0));
+            
+            // the second route should match the rest of the route and replace beginning with reference
+            var route2 = CreateRoute(
+                "name1",
+                new PropertiesPathComponent("eventById"), new KeysPathComponent("99801"), new PropertiesPathComponent("name"));
+
+            var findRouteCount = 0;
+            routeResolver
+                .Setup(i => i.FindRoutes(It.IsAny<IPath>()))
+                .Returns((IPath p) =>
                     {
-                        PathValue.Create(
-                            new Ref(new PropertiesPathComponent("settingById"), new KeysPathComponent("1")),
-                            new PropertiesPathComponent("settingById"), new KeysPathComponent("1"))
-                    }
-                 .ToObservable();
+                        if (p == path1)
+                        {
+                            Assert.AreEqual(0, findRouteCount);
+                            findRouteCount++;
+                            return new List<Route> {route1};
+                        }
+                        findRouteCount++;
+                        return new List<Route> {route2};
+                    });
+            
+            var response = new Response();
+            responseBuilder
+                .Setup(i => i.CreateResponse(It.IsAny<IList<PathValue>>()))
+                .Returns((IList<PathValue> input) =>
+                {
+                    return response;
+                });
 
-            var route1b = new Route();
-            route1b.Handler = path =>
-            {
-                Assert.Fail("This route should not be used");
-                return null;
-            };
-            var routes1 = new List<Route>{ route1a, route1b };
-
-            var collapsedPaths2 = new List<IPath>
-            {
-                new Path(new PropertiesPathComponent("settingById"), new KeysPathComponent("1")),
-            };
-            var route2a = new Route();
-            route2a.Handler = path =>
-            new[]
-                    {
-                        PathValue.Create(
-                            "test1", 
-                            new PropertiesPathComponent("Name"))
-                    }
-                 .ToObservable();
-
-            var routes2 = new List<Route>{ route2a };
-
-            pathCollapser.Setup(i => i.Collapse(It.IsAny<IEnumerable<IPath>>())).Returns(collapsedPaths1);
-            routeResolver.Setup(i => i.FindRoutes(collapsedPaths1[0])).Returns(routes1);
-            pathCollapser.Setup(i => i.Collapse(It.IsAny<IEnumerable<IPath>>())).Returns(collapsedPaths2);            
-            routeResolver.Setup(i => i.FindRoutes(collapsedPaths2[0])).Returns(routes2);
-
+            //["events", 0, "name"]
+            //["eventsById", "99801", "name"]
             var target = new Router(routeResolver.Object, pathCollapser.Object, responseBuilder.Object);
 
-            target.Execute(paths);
+            var result = target.Execute(path1);
 
+            Assert.AreEqual(response, result);
+            Assert.AreEqual(2, findRouteCount);
+        }
+
+        private Route CreateRoute(object value, params IPathComponent[] components)
+        {
+            var pathValue = new PathValue { Value = value, Path = new Path(components)};
+
+            return new Route
+            {
+                Handler = path => Observable.Return(pathValue)                
+            };
         }
     }
 }

@@ -26,7 +26,7 @@ namespace Falcor.Server.Tests.Routing
         }
 
         [Test]
-        public void reShould_create_response_from_simple_property_from_list()
+        public void Should_create_response_from_simple_property_from_list()
         {
             var target = new ResponseBuilder();
             var result = target.CreateResponse(new[]
@@ -52,23 +52,42 @@ namespace Falcor.Server.Tests.Routing
             var result = target.CreateResponse(new[]
             {
                 PathValue.Create("name1", 
-                    new PropertiesPathComponent("settings"), 
-                    new IntegersPathComponent(0),
+                    new PropertiesPathComponent("settingById"), 
+                    new KeysPathComponent("1"),
                     new PropertiesPathComponent("Name")),
                 PathValue.Create(10,
-                    new PropertiesPathComponent("settings"), 
-                    new IntegersPathComponent(0),
+                    new PropertiesPathComponent("settingById"), 
+                    new KeysPathComponent("1"),
                     new PropertiesPathComponent("Number"))
             });
 
-            var settings = VerifyObjectProperty(result.Data, "settings");
-            var firstSettings = VerifyObjectProperty(settings, "0");
+            var settings = VerifyObjectProperty(result.Data, "settingById");
+            var firstSettings = VerifyObjectProperty(settings, "1");
             Assert.AreEqual("name1", firstSettings["Name"]);
             Assert.AreEqual(10, firstSettings["Number"]);
 
             Assert.AreEqual(2, result.Paths.Count);
-            Assert.AreEqual(new object[] { "settings", 0, "Name" }, result.Paths[0]);
-            Assert.AreEqual(new object[] { "settings", 0, "Number" }, result.Paths[1]);
+            Assert.AreEqual(new object[] { "settingById", "1", "Name" }, result.Paths[0]);
+            Assert.AreEqual(new object[] { "settingById", "1", "Number" }, result.Paths[1]);
+        }
+
+        [Test]
+        public void Should_create_response_for_reference()
+        {
+            var target = new ResponseBuilder();
+            var result = target.CreateResponse(new[]
+            {
+                PathValue.Create(new Ref(new PropertiesPathComponent("settings"), new IntegersPathComponent(0)), 
+                    new PropertiesPathComponent("settings"), 
+                    new IntegersPathComponent(0))
+            });
+
+            var settings = VerifyObjectProperty(result.Data, "settings");
+            var firstSettings = settings["0"];
+            Assert.IsTrue(firstSettings is Ref);
+
+            Assert.AreEqual(1, result.Paths.Count);
+            Assert.AreEqual(new object[] { "settings", 0 }, result.Paths[0]);
         }
 
         private static IDictionary<string,object> VerifyObjectProperty(IDictionary<string,object> input, string key)

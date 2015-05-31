@@ -1,7 +1,5 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Falcor.Server.Routing
 {
@@ -9,15 +7,15 @@ namespace Falcor.Server.Routing
     {
         public Route()
         {
-            Path = new List<IPathComponent>();
+            Path = new Path();
         }
 
         public Route(params IPathComponent[] pathComponents)
         {
-            Path = pathComponents.ToList();
+            Path = new Path(pathComponents);
         }
 
-        public IList<IPathComponent> Path { get; set; }
+        public IPath Path { get; set; }
         public Handler Handler { get; set; }
     }
 }

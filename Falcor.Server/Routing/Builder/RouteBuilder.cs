@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Threading.Tasks;
 
 namespace Falcor.Server.Routing.Builder
 {
@@ -23,7 +22,7 @@ namespace Falcor.Server.Routing.Builder
             }
 
             var routeJourney = (IRouteJourney)journey;
-            routeJourney.Route.Path.Add(new PropertiesPathComponent(propertyInfo.Name));
+            routeJourney.Route.Path.Components.Add(new PropertiesPathComponent(propertyInfo.Name));
             return new PropertyRouteJourney<TProperty>(routeJourney.Route, routeJourney.Routes);
         }
 
@@ -39,40 +38,30 @@ namespace Falcor.Server.Routing.Builder
             }
 
             var routeJourney = (IRouteJourney)journey;
-            routeJourney.Route.Path.Add(new PropertiesPathComponent(properties.Select(i => i.Name).ToArray()));
+            routeJourney.Route.Path.Components.Add(new PropertiesPathComponent(properties.Select(i => i.Name).ToArray()));
             return new FinalRouteJourney(routeJourney.Route, routeJourney.Routes);
         }
 
         public static ListRouteJourney<TProperty> List<T, TProperty>(this PropertyRouteJourney<T> journey, Expression<Func<T, IList<TProperty>>> func)
         {            
             var propertyInfo = ExpressionHelper.GetProperty(func);
-            if (!typeof(ICollection).IsAssignableFrom(propertyInfo.PropertyType))
-            {
-                throw new ArgumentException("For simple properties you have to use 'Property' method");
-            }
-
             var routeJourney = (IRouteJourney)journey;
-            routeJourney.Route.Path.Add(new PropertiesPathComponent(propertyInfo.Name));
+            routeJourney.Route.Path.Components.Add(new PropertiesPathComponent(propertyInfo.Name));
             return new ListRouteJourney<TProperty>(routeJourney.Route, routeJourney.Routes);
         }
 
         public static DictionarRouteJourney<TProperty> Dictionary<T, TKey, TProperty>(this PropertyRouteJourney<T> journey, Expression<Func<T, IDictionary<TKey, TProperty>>> func)
         {
             var propertyInfo = ExpressionHelper.GetProperty(func);
-            if (!typeof(ICollection).IsAssignableFrom(propertyInfo.PropertyType))
-            {
-                throw new ArgumentException("For simple properties you have to use 'Property' method");
-            }
-
             var routeJourney = (IRouteJourney)journey;
-            routeJourney.Route.Path.Add(new PropertiesPathComponent(propertyInfo.Name));
+            routeJourney.Route.Path.Components.Add(new PropertiesPathComponent(propertyInfo.Name));
             return new DictionarRouteJourney<TProperty>(routeJourney.Route, routeJourney.Routes);
         }
 
         public static PropertyRouteJourney<T> AsRange<T>(this ListRouteJourney<T> journey, int? from, int? to)
         {
             var routeJourney = (IRouteJourney)journey;
-            routeJourney.Route.Path.Add(new RangePathComponent(from, to));
+            routeJourney.Route.Path.Components.Add(new RangePathComponent(from, to));
             return new PropertyRouteJourney<T>(routeJourney.Route, routeJourney.Routes);
         }
 
@@ -80,14 +69,14 @@ namespace Falcor.Server.Routing.Builder
         {
             var routeJourney = (IRouteJourney)journey;
             var integers = index != null ? new[] { index.Value } : null;
-            routeJourney.Route.Path.Add(new IntegersPathComponent(integers));
+            routeJourney.Route.Path.Components.Add(new IntegersPathComponent(integers));
             return new PropertyRouteJourney<T>(routeJourney.Route, routeJourney.Routes);
         }
 
         public static PropertyRouteJourney<T> AsKey<T>(this DictionarRouteJourney<T> journey, params string[] keys)
         {
             var routeJourney = (IRouteJourney)journey;
-            routeJourney.Route.Path.Add(new KeysPathComponent(keys));
+            routeJourney.Route.Path.Components.Add(new KeysPathComponent(keys));
             return new PropertyRouteJourney<T>(routeJourney.Route, routeJourney.Routes);
         }
 
