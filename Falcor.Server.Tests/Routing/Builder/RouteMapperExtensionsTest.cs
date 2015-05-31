@@ -20,17 +20,7 @@ namespace Falcor.Server.Tests.Routing.Builder
                 .To(null);
 
             AssertSingleRoutePath(routes, new PropertiesPathComponent("Name"));
-        }
-       
-        [Test]
-        [ExpectedException(typeof(ArgumentException))]
-        public void Should_throw_error_if_property_is_used_instead_of_list()
-        {
-            var routes = new List<Route>();
-            routes.MapRoute<TestModel>()
-                .Property(i => i.Users)
-                .To(null);
-        }
+        }      
 
         [Test]
         public void Should_map_list()

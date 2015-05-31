@@ -10,10 +10,5 @@ namespace Falcor.Server
         }
 
         public IPath Path { get; private set; }
-
-        public static Ref Property(string property, string id)
-        {
-            return new Ref(new PropertiesPathComponent(property), new KeysPathComponent(id));
-        }
     }
 }

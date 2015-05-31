@@ -16,11 +16,6 @@ namespace Falcor.Server.Routing.Builder
         public static PropertyRouteJourney<TProperty> Property<T, TProperty>(this PropertyRouteJourney<T> journey, Expression<Func<T, TProperty>> func)
         {
             var propertyInfo = ExpressionHelper.GetProperty(func);
-            if (typeof(ICollection).IsAssignableFrom(propertyInfo.PropertyType))
-            {
-                throw new ArgumentException("For properties implementing ICollection you have to use 'List' method");
-            }
-
             var routeJourney = (IRouteJourney)journey;
             routeJourney.Route.Path.Components.Add(new PropertiesPathComponent(propertyInfo.Name));
             return new PropertyRouteJourney<TProperty>(routeJourney.Route, routeJourney.Routes);
@@ -31,11 +26,6 @@ namespace Falcor.Server.Routing.Builder
             var properties = funcs
                 .Select(ExpressionHelper.GetProperty)
                 .ToList();
-
-            if (properties.Any(i => typeof(ICollection).IsAssignableFrom(i.PropertyType)))
-            {
-                throw new ArgumentException("For properties implementing ICollection you have to use 'List' method");
-            }
 
             var routeJourney = (IRouteJourney)journey;
             routeJourney.Route.Path.Components.Add(new PropertiesPathComponent(properties.Select(i => i.Name).ToArray()));

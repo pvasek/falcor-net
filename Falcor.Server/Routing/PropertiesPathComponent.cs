@@ -5,10 +5,6 @@ namespace Falcor.Server.Routing
 {
     public class PropertiesPathComponent : IPathComponent
     {
-        public PropertiesPathComponent()
-        {            
-        }
-
         public PropertiesPathComponent(params string[] properties)
         {
             Properties = properties;

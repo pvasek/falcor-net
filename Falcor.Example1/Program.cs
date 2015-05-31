@@ -44,8 +44,8 @@ namespace Falcor.Example1
 
             routes.MapRoute<Model>().List(i => i.Events).AsIndex().To(path => 
                 new [] {
-                    PathValue.Create(Ref.Property("eventsById", "99801"), path.Components.First(), new IntegersPathComponent(0)),
-                    PathValue.Create(Ref.Property("eventsById", "99802"), path.Components.First(), new IntegersPathComponent(1)),
+                    PathValue.Create(PropertyRef("eventsById", "99801"), path.Components.First(), new IntegersPathComponent(0)),
+                    PathValue.Create(PropertyRef("eventsById", "99802"), path.Components.First(), new IntegersPathComponent(1)),
                 }.ToObservable()
             );
 
@@ -63,7 +63,7 @@ namespace Falcor.Example1
                     {
                         if (properties.Contains("Participant"))
                         {
-                            result.Add(PathValue.Create(Ref.Property("participantById", "99805"), 
+                            result.Add(PathValue.Create(PropertyRef("participantById", "99805"), 
                                 new PropertiesPathComponent("eventById"), 
                                 new KeysPathComponent(key)));
                         }
@@ -76,6 +76,11 @@ namespace Falcor.Example1
                     }
                     return result.ToObservable();
                 });
+        }
+
+        public static Ref PropertyRef(string property, string id)
+        {
+            return new Ref(new PropertiesPathComponent(property), new KeysPathComponent(id));
         }
     }
 }
