@@ -11,6 +11,7 @@
     <AssemblyName>Falcor.Server</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -55,31 +56,79 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Handler.cs" />
-    <Compile Include="JsongItem.cs" />
-    <Compile Include="JsongItemType.cs" />
-    <Compile Include="PathValue.cs" />
+    <Compile Include="..\Falcor.Server.\Handler.cs">
+      <Link>Handler.cs</Link>
+    </Compile>
+    <Compile Include="..\Falcor.Server.\JsongItem.cs">
+      <Link>JsongItem.cs</Link>
+    </Compile>
+    <Compile Include="..\Falcor.Server.\JsongItemType.cs">
+      <Link>JsongItemType.cs</Link>
+    </Compile>
+    <Compile Include="..\Falcor.Server.\PathValue.cs">
+      <Link>PathValue.cs</Link>
+    </Compile>
+    <Compile Include="..\Falcor.Server.\Ref.cs">
+      <Link>Ref.cs</Link>
+    </Compile>
+    <Compile Include="..\Falcor.Server.\Response.cs">
+      <Link>Response.cs</Link>
+    </Compile>
+    <Compile Include="..\Falcor.Server.\Routing\Builder\ExpressionHelper.cs">
+      <Link>Routing\Builder\ExpressionHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\Falcor.Server.\Routing\Builder\RouteBuilder.cs">
+      <Link>Routing\Builder\RouteBuilder.cs</Link>
+    </Compile>
+    <Compile Include="..\Falcor.Server.\Routing\IntegersPathComponent.cs">
+      <Link>Routing\IntegersPathComponent.cs</Link>
+    </Compile>
+    <Compile Include="..\Falcor.Server.\Routing\IPath.cs">
+      <Link>Routing\IPath.cs</Link>
+    </Compile>
+    <Compile Include="..\Falcor.Server.\Routing\IPathCollapser.cs">
+      <Link>Routing\IPathCollapser.cs</Link>
+    </Compile>
+    <Compile Include="..\Falcor.Server.\Routing\IPathComponent.cs">
+      <Link>Routing\IPathComponent.cs</Link>
+    </Compile>
+    <Compile Include="..\Falcor.Server.\Routing\IResponseBuilder.cs">
+      <Link>Routing\IResponseBuilder.cs</Link>
+    </Compile>
+    <Compile Include="..\Falcor.Server.\Routing\IRouteResolver.cs">
+      <Link>Routing\IRouteResolver.cs</Link>
+    </Compile>
+    <Compile Include="..\Falcor.Server.\Routing\IUrlComponentParser.cs">
+      <Link>Routing\IUrlComponentParser.cs</Link>
+    </Compile>
+    <Compile Include="..\Falcor.Server.\Routing\KeysPathComponent.cs">
+      <Link>Routing\KeysPathComponent.cs</Link>
+    </Compile>
+    <Compile Include="..\Falcor.Server.\Routing\Path.cs">
+      <Link>Routing\Path.cs</Link>
+    </Compile>
+    <Compile Include="..\Falcor.Server.\Routing\PathCollapser.cs">
+      <Link>Routing\PathCollapser.cs</Link>
+    </Compile>
+    <Compile Include="..\Falcor.Server.\Routing\PropertiesPathComponent.cs">
+      <Link>Routing\PropertiesPathComponent.cs</Link>
+    </Compile>
+    <Compile Include="..\Falcor.Server.\Routing\RangePathComponent.cs">
+      <Link>Routing\RangePathComponent.cs</Link>
+    </Compile>
+    <Compile Include="..\Falcor.Server.\Routing\ResponseBuilder.cs">
+      <Link>Routing\ResponseBuilder.cs</Link>
+    </Compile>
+    <Compile Include="..\Falcor.Server.\Routing\Route.cs">
+      <Link>Routing\Route.cs</Link>
+    </Compile>
+    <Compile Include="..\Falcor.Server.\Routing\Router.cs">
+      <Link>Routing\Router.cs</Link>
+    </Compile>
+    <Compile Include="..\Falcor.Server.\Routing\RouteResolver.cs">
+      <Link>Routing\RouteResolver.cs</Link>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Ref.cs" />
-    <Compile Include="Response.cs" />
-    <Compile Include="Routing\Builder\ExpressionHelper.cs" />
-    <Compile Include="Routing\IntegersPathComponent.cs" />
-    <Compile Include="Routing\IPath.cs" />
-    <Compile Include="Routing\IPathCollapser.cs" />
-    <Compile Include="Routing\IResponseBuilder.cs" />
-    <Compile Include="Routing\IRouteResolver.cs" />
-    <Compile Include="Routing\IUrlComponentParser.cs" />
-    <Compile Include="Routing\KeysPathComponent.cs" />
-    <Compile Include="Routing\Path.cs" />
-    <Compile Include="Routing\PathCollapser.cs" />
-    <Compile Include="Routing\RangePathComponent.cs" />
-    <Compile Include="Routing\IPathComponent.cs" />
-    <Compile Include="Routing\PropertiesPathComponent.cs" />
-    <Compile Include="Routing\ResponseBuilder.cs" />
-    <Compile Include="Routing\Route.cs" />
-    <Compile Include="Routing\Builder\RouteBuilder.cs" />
-    <Compile Include="Routing\Router.cs" />
-    <Compile Include="Routing\RouteResolver.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

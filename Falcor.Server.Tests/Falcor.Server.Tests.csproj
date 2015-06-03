@@ -73,12 +73,11 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Falcor.Server\Falcor.Server.csproj">
-      <Project>{8E88A35C-2CB9-4305-8BB9-B3C1E056C11C}</Project>
-      <Name>Falcor.Server</Name>
+    <ProjectReference Include="..\Falcor.Server.Net\Falcor.Server.Net.csproj">
+      <Project>{8e88a35c-2cb9-4305-8bb9-b3c1e056c11c}</Project>
+      <Name>Falcor.Server.Net</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
