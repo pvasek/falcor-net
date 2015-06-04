@@ -17,7 +17,7 @@ namespace Falcor.Server.Routing
             return _routes.Where(i => Match(path.Components, i.Path.Components));
         }
 
-        private static bool Match(IList<IPathComponent> input, IList<IPathComponent> definition)
+        public static bool Match(IList<IPathComponent> input, IList<IPathComponent> definition)
         {
             if (input.Count < definition.Count)
             {
@@ -28,7 +28,7 @@ namespace Falcor.Server.Routing
             return result;
         }
 
-        private static bool MatchComponent(IPathComponent definition, IPathComponent input)
+        public static bool MatchComponent(IPathComponent definition, IPathComponent input)
         {
             var propertiesIntput = input as PropertiesPathComponent;
             var propertiesDefinition = definition as PropertiesPathComponent;
