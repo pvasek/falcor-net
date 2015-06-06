@@ -1,8 +1,7 @@
 ﻿using System.Linq;
-using Falcor.Server.Routing;
 using NUnit.Framework;
 
-namespace Falcor.Server.Tests.Routing
+namespace Falcor.Server.Tests
 {
     [TestFixture]
     public class RouteResloverTest

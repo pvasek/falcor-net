@@ -1,6 +1,6 @@
 using System;
 
-namespace Falcor.Server.Routing
+namespace Falcor.Server
 {
     public class RangePathComponent: IPathComponent
     {

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Falcor.Server.Routing
+namespace Falcor.Server
 {
     public class IntegersPathComponent : IPathComponent
     {
@@ -10,7 +10,7 @@ namespace Falcor.Server.Routing
             Integers = integers;
         }
 
-        public IList<int> Integers { get; private set; }
+        public IList<int> Integers { get; }
 
         public object Key { get { return Integers.FirstOrDefault(); } }
     }

@@ -1,6 +1,6 @@
 ﻿ using System.Collections.Generic;
 
-namespace Falcor.Server.Routing
+namespace Falcor.Server
 {
     public interface IUrlComponentParser
     {

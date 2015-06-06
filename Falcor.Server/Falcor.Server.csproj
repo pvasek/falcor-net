@@ -56,30 +56,34 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Handler.cs" />
+    <Compile Include="IResponseSerializer.cs" />
     <Compile Include="JsongItem.cs" />
     <Compile Include="JsongItemType.cs" />
     <Compile Include="PathValue.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Ref.cs" />
     <Compile Include="Response.cs" />
-    <Compile Include="Routing\Builder\ExpressionHelper.cs" />
-    <Compile Include="Routing\IntegersPathComponent.cs" />
-    <Compile Include="Routing\IPath.cs" />
-    <Compile Include="Routing\IPathCollapser.cs" />
-    <Compile Include="Routing\IResponseBuilder.cs" />
-    <Compile Include="Routing\IRouteResolver.cs" />
-    <Compile Include="Routing\IUrlComponentParser.cs" />
-    <Compile Include="Routing\KeysPathComponent.cs" />
-    <Compile Include="Routing\Path.cs" />
-    <Compile Include="Routing\PathCollapser.cs" />
-    <Compile Include="Routing\RangePathComponent.cs" />
-    <Compile Include="Routing\IPathComponent.cs" />
-    <Compile Include="Routing\PropertiesPathComponent.cs" />
-    <Compile Include="Routing\ResponseBuilder.cs" />
-    <Compile Include="Routing\Route.cs" />
-    <Compile Include="Routing\Builder\RouteBuilder.cs" />
-    <Compile Include="Routing\Router.cs" />
-    <Compile Include="Routing\RouteResolver.cs" />
+    <Compile Include="Builder\ExpressionHelper.cs" />
+    <Compile Include="IntegersPathComponent.cs" />
+    <Compile Include="IPath.cs" />
+    <Compile Include="IPathCollapser.cs" />
+    <Compile Include="IPathParser.cs" />
+    <Compile Include="IResponseBuilder.cs" />
+    <Compile Include="IRouteResolver.cs" />
+    <Compile Include="IUrlComponentParser.cs" />
+    <Compile Include="KeysPathComponent.cs" />
+    <Compile Include="Path.cs" />
+    <Compile Include="PathCollapser.cs" />
+    <Compile Include="PathParser.cs" />
+    <Compile Include="RangePathComponent.cs" />
+    <Compile Include="IPathComponent.cs" />
+    <Compile Include="PropertiesPathComponent.cs" />
+    <Compile Include="ResponseBuilder.cs" />
+    <Compile Include="ResponseSerializer.cs" />
+    <Compile Include="Route.cs" />
+    <Compile Include="Builder\RouteBuilder.cs" />
+    <Compile Include="Router.cs" />
+    <Compile Include="RouteResolver.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

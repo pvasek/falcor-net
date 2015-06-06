@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Reactive.Linq;
-using Falcor.Server.Routing;
 using Moq;
 using NUnit.Framework;
 
-namespace Falcor.Server.Tests.Routing
+namespace Falcor.Server.Tests
 {
     [TestFixture]
     public class RouterTest

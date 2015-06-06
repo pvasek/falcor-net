@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Falcor.Server.Routing
+namespace Falcor.Server
 {
     public class KeysPathComponent : IPathComponent
     {
@@ -10,7 +10,7 @@ namespace Falcor.Server.Routing
             Keys = keys;
         }
 
-        public IList<string> Keys { get; private set; }
+        public IList<string> Keys { get; }
 
         public object Key { get { return Keys.FirstOrDefault(); } }
     }

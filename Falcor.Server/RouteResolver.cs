@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace Falcor.Server.Routing
+namespace Falcor.Server
 {
     public class RouteResolver: IRouteResolver
     {
@@ -17,7 +17,7 @@ namespace Falcor.Server.Routing
             return _routes.Where(i => Match(path.Components, i.Path.Components));
         }
 
-        public static bool Match(IList<IPathComponent> input, IList<IPathComponent> definition)
+        private static bool Match(IList<IPathComponent> input, IList<IPathComponent> definition)
         {
             if (input.Count < definition.Count)
             {
@@ -28,7 +28,7 @@ namespace Falcor.Server.Routing
             return result;
         }
 
-        public static bool MatchComponent(IPathComponent definition, IPathComponent input)
+        private static bool MatchComponent(IPathComponent definition, IPathComponent input)
         {
             var propertiesIntput = input as PropertiesPathComponent;
             var propertiesDefinition = definition as PropertiesPathComponent;

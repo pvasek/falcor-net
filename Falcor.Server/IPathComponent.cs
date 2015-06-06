@@ -1,4 +1,4 @@
-namespace Falcor.Server.Routing
+namespace Falcor.Server
 {
     public interface IPathComponent
     {

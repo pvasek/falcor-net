@@ -12,7 +12,7 @@ namespace Falcor.Server
         }
             
         [JsonProperty("jsong")]
-        public IDictionary<string, object> Data { get; set; } 
+        public IDictionary<string, object> Data { get; private set; } 
 
         [JsonProperty("paths")]
         public IList<IList<object>> Paths { get; set; } 

@@ -1,18 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using Falcor.Server;
-using Falcor.Server.Routing;
-using Falcor.Server.Routing.Builder;
+using Falcor.Server.Builder;
 using Falcor.WebExample;
 using Microsoft.Owin;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Owin;
-using Path = Falcor.Server.Routing.Path;
+using Path = Falcor.Server.Path;
 
 [assembly: OwinStartup(typeof(Startup))]
 
@@ -80,27 +77,11 @@ namespace Falcor.WebExample
         private async Task FalcorHandler(IOwinContext ctx)
         {
             var path = ctx.Request.Query["path"];
-
-            var json = new JsonSerializer();
-            var pathObj = json.Deserialize(new JsonTextReader(new StringReader(path))) as JArray;
-            if (pathObj == null)
-            {
-                throw new ArgumentException("path is not an array");
-            }
-            var paths = new List<IPath>();
-            if (pathObj[0] is JArray)
-            {
-                paths.AddRange(pathObj.Select(i => ParsePath((JArray) i)));
-            }
-            else
-            {
-                paths.Add(ParsePath((pathObj)));
-            }
-            var result = _falcorRouter.Execute(paths);
-            var resultText = new StringWriter();
-            json.Serialize(resultText, result);
+            var pathParser = new PathParser();
+            var result = _falcorRouter.Execute(pathParser.ParsePaths(path));
+            var serializer = new ResponseSerializer();
             ctx.Response.Headers.Set("content-type", "application/json");
-            await ctx.Response.WriteAsync(resultText.ToString());
+            await ctx.Response.WriteAsync(serializer.Serialize(result));
         }
 
         private static IPath ParsePath(JArray array)

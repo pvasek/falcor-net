@@ -1,9 +1,7 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices.ComTypes;
 
-namespace Falcor.Server.Routing
+namespace Falcor.Server
 {
     public class ResponseBuilder : IResponseBuilder
     {

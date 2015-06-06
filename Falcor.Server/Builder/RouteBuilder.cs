@@ -1,10 +1,9 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace Falcor.Server.Routing.Builder
+namespace Falcor.Server.Builder
 {
     public static class RouteBuilder
     {
@@ -96,7 +95,7 @@ namespace Falcor.Server.Routing.Builder
 
         public class RouteJourney : IRouteJourney
         {
-            public RouteJourney(Route route, IList<Route> routes)
+            protected RouteJourney(Route route, IList<Route> routes)
             {
                 ((IRouteJourney)this).Route = route;
                 ((IRouteJourney)this).Routes = routes;

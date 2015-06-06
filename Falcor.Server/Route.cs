@@ -1,7 +1,4 @@
-using System.Collections.Generic;
-using System.Linq;
-
-namespace Falcor.Server.Routing
+namespace Falcor.Server
 {
     public class Route
     {
@@ -15,7 +12,7 @@ namespace Falcor.Server.Routing
             Path = new Path(pathComponents);
         }
 
-        public IPath Path { get; set; }
+        public IPath Path { get; private set; }
         public Handler Handler { get; set; }
     }
 }

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Falcor.Server.Routing
+namespace Falcor.Server
 {
     public class Path: IPath
     {
@@ -9,6 +9,6 @@ namespace Falcor.Server.Routing
             Components = new List<IPathComponent>(components);
         }
 
-        public IList<IPathComponent> Components { get; private set; }
+        public IList<IPathComponent> Components { get; }
     }
 }

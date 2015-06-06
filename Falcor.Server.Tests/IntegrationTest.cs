@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
-using Falcor.Server.Routing;
-using Falcor.Server.Routing.Builder;
+using Falcor.Server.Builder;
 using Falcor.Server.Tests.Model;
 using NUnit.Framework;
 
-namespace Falcor.Server.Tests.Routing
+namespace Falcor.Server.Tests
 {
     [TestFixture]
     public class IntegrationTest

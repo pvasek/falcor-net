@@ -2,8 +2,7 @@
 using System.Linq;
 using System.Reactive.Linq;
 using Falcor.Server;
-using Falcor.Server.Routing;
-using Falcor.Server.Routing.Builder;
+using Falcor.Server.Builder;
 
 namespace Falcor.Example1
 {    
