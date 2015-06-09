@@ -13,5 +13,6 @@ namespace Falcor.Server
         public IList<string> Properties { get; }
 
         public object Key { get { return Properties.FirstOrDefault(); } }
+        public IEnumerable<object> AllKeys { get { return Properties; } }
     }
 }

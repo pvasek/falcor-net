@@ -83,24 +83,6 @@ namespace Falcor.WebExample
             ctx.Response.Headers.Set("content-type", "application/json");
             await ctx.Response.WriteAsync(serializer.Serialize(result));
         }
-
-        private static IPath ParsePath(JArray array)
-        {
-            var components = new List<IPathComponent>();
-            foreach (var jToken in array)
-            {
-                var token = (JValue) jToken;
-                if (token.Type == JTokenType.String)
-                {
-                    components.Add(new PropertiesPathComponent(token.Value<string>()));
-                }
-                else if (token.Type == JTokenType.Integer)
-                {
-                    components.Add(new IntegersPathComponent(token.Value<int>()));
-                }
-            }
-            return new Path(components.ToArray());
-        }
     }
 
     public class Model

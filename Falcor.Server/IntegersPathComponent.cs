@@ -7,11 +7,12 @@ namespace Falcor.Server
     {
         public IntegersPathComponent(params int[] integers)
         {
-            Integers = integers;
+            Integers = integers ?? (IList<int>) new List<int>();
         }
 
         public IList<int> Integers { get; }
 
         public object Key { get { return Integers.FirstOrDefault(); } }
+        public IEnumerable<object> AllKeys { get { return Integers.Cast<object>(); } }
     }
 }

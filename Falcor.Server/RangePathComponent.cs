@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace Falcor.Server
 {
@@ -17,5 +18,7 @@ namespace Falcor.Server
         {
             get { throw new NotImplementedException(); }
         }
+
+        public IEnumerable<object> AllKeys { get { throw new NotImplementedException(); } }
     }
 }
