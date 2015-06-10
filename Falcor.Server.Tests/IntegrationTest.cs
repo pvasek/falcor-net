@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
+using System.Reactive.Subjects;
 using Falcor.Server.Builder;
 using Falcor.Server.Tests.Model;
 using NUnit.Framework;
@@ -11,7 +12,7 @@ namespace Falcor.Server.Tests
     public class IntegrationTest
     {
         [Test]
-        public void Integration_test()
+        public void Single_properties_per_route()
         {
             var routes = new List<Route>();
             routes.MapRoute<TestEventModel>()
@@ -107,6 +108,88 @@ response = {
     // ]   
        }*/
 
+        }
+
+
+        [Test]
+        public void Multiple_properties_per_route()
+        {
+            var routes = new List<Route>();
+            routes.MapRoute<TestEventModel>()
+                .List(i => i.Events)
+                .AsIndex()
+                .To(p =>
+                {
+                    var index = ((IntegersPathComponent)p.Components[1]).Integers.First() + 1;
+                    var reference = new Ref(
+                        new PropertiesPathComponent("EventById"),
+                        new KeysPathComponent("980" + index));
+
+                    return Observable.Return(PathValue.Create(reference, new PropertiesPathComponent("Events"), p.Components[1]));
+                });
+
+            routes.MapRoute<TestEventModel>()
+                .Dictionary(i => i.EventById)
+                .AsKey()
+                .Properties(i => i.Name, i => i.Number)
+                .To(p =>
+                {
+                    var pathValues = new List<PathValue>();
+                    var properties = ((PropertiesPathComponent) p.Components[2]).Properties;
+                    if (properties.Contains("Name"))
+                    {
+                        pathValues.Add(new PathValue
+                        {
+                            Value = "name1",
+                            Path = p
+                        });
+                    }
+                    if (properties.Contains("Number"))
+                    {
+                        pathValues.Add(new PathValue
+                        {
+                            Value = 1,
+                            Path = p
+                        });
+                    }
+                    
+                    return pathValues.ToObservable();
+                });
+
+            var routeResolver = new RouteResolver(routes);
+            var pathCollapser = new PathCollapser();
+            var responseBuilder = new ResponseBuilder();
+
+            var target = new Router(routeResolver, pathCollapser, responseBuilder);
+
+            var path1 = new Path(
+                new PropertiesPathComponent("Events"),
+                new IntegersPathComponent(0),
+                new PropertiesPathComponent("Name"));
+
+            var path2 = new Path(
+                new PropertiesPathComponent("Events"),
+                new IntegersPathComponent(0),
+                new PropertiesPathComponent("Number"));
+
+            var result = target.Execute(path1, path2);
+            Assert.IsNotNull(result);
+            Assert.IsNotNull(result.Data);
+
+            var events = result.Data["Events"] as IDictionary<string, object>;
+            Assert.IsNotNull(events);
+            var eventById = result.Data["EventById"] as IDictionary<string, object>;
+            Assert.IsNotNull(eventById);
+
+            var event0 = events["0"] as Ref;
+            Assert.IsNotNull(event0);
+            Assert.AreEqual("EventById", event0.Path.Components[0].Key);
+            Assert.AreEqual("9801", event0.Path.Components[1].Key);
+
+            var eventById1 = (IDictionary<string, object>)eventById["9801"];
+            Assert.IsNotNull(eventById1);
+            Assert.AreEqual("name1", eventById1["Name"]);
+            Assert.AreEqual(1, eventById1["Number"]);            
         }
     }
 }

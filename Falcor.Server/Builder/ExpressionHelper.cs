@@ -8,7 +8,16 @@ namespace Falcor.Server.Builder
         public static PropertyInfo GetProperty(Expression expression)
         {
             var lambdaExpression = (LambdaExpression) expression;
-            var memberExpression = lambdaExpression?.Body as MemberExpression;
+            MemberExpression memberExpression;
+            if (lambdaExpression?.Body.NodeType == ExpressionType.Convert)
+            {
+                memberExpression = ((UnaryExpression) lambdaExpression.Body).Operand as MemberExpression;
+            }
+            else
+            {
+                memberExpression = lambdaExpression?.Body as MemberExpression;
+            }            
+
             return memberExpression?.Member as PropertyInfo;
         }    
     }

@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Reactive.Linq;
+using System.Reactive.Subjects;
 using System.Threading.Tasks;
 using Falcor.Server;
 using Falcor.Server.Builder;
@@ -55,12 +56,40 @@ namespace Falcor.WebExample
             routes.MapRoute<Model>()
                 .Dictionary(i => i.EventById)
                 .AsKey()
-                .Property(i => i.Name)
+                .Properties(i => i.Name, i => i.Number)
+                .To(p =>
+                {
+                    var properties = (PropertiesPathComponent) p.Components[2];
+                    var result = new List<PathValue>();
+                    if (properties.Properties.Contains("Name"))
+                    {
+                        result.Add(new PathValue
+                        {
+                            Value = "name1",
+                            Path = p
+                        });
+                    }
+                    if (properties.Properties.Contains("Number"))
+                    {
+                        result.Add(new PathValue
+                        {
+                            Value = 1,
+                            Path = p
+                        });
+                    }                    
+
+                    return result.ToObservable();
+                });
+
+            routes.MapRoute<Model>()
+                .Dictionary(i => i.EventById)
+                .AsKey()
+                .Property(i => i.Number)
                 .To(p =>
                 {
                     var pathValue = new PathValue
                     {
-                        Value = "name1",
+                        Value = 1,
                         Path = p
                     };
 
