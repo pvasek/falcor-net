@@ -111,10 +111,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="css\default.css" />
-    <Content Include="index.html" />
+    <Content Include="docroot.html" />
     <Content Include="packages.config" />
     <None Include="Properties\PublishProfiles\falcor-net.pubxml" />
-    <Content Include="readme.md" />
+    <Content Include="readme.md">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

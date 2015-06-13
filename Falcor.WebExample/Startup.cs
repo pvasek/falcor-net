@@ -33,6 +33,7 @@ namespace Falcor.WebExample
             });
 
             app.UseStaticFiles();
+
             app.Run(async context =>
             {                
                 await context.Response.WriteAsync(ContentHelper.GetIndex());
