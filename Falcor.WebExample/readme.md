@@ -8,7 +8,7 @@ This is the OWIN example for Falcor.NET. This example is available online http:/
 
 **Simple property**
 
-Model path: `Events[0].Name` 
+Model path: `model.Events[0].Name` 
 
 Falcor path: `['Events',0,'Name']` 
 
@@ -16,7 +16,7 @@ Falcor path: `['Events',0,'Name']`
 
 **Multiple simple properties**
 
-Model path: `Events[0].Name, Events[0].Number` 
+Model path: `model.Events[0].Name, Events[0].Number` 
 
 Falcor path: `[['Events',0,'Name'],['Events',0,'Number']]` 
 
