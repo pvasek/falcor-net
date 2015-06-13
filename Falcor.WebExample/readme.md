@@ -1,6 +1,6 @@
 ﻿# Falcor.NET Example
 
-This is the OWIN example for Falcor.NET.
+This is the OWIN example for Falcor.NET. This example is available online http://falcor-net.azurewebsites.net/.
 
 [falcor url: model.json](model.json)
 
