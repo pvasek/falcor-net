@@ -5,10 +5,14 @@ using System.Linq;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Threading.Tasks;
+using System.Web.Hosting;
 using Falcor.Server;
 using Falcor.Server.Builder;
 using Falcor.WebExample;
+using Kiwi.Markdown;
+using Kiwi.Markdown.ContentProviders;
 using Microsoft.Owin;
+using Microsoft.Owin.StaticFiles;
 using Newtonsoft.Json.Linq;
 using Owin;
 using Path = Falcor.Server.Path;
@@ -28,10 +32,10 @@ namespace Falcor.WebExample
                 builder.Run(FalcorHandler);
             });
 
-            
+            app.UseStaticFiles();
             app.Run(async context =>
-            {
-                await context.Response.WriteAsync("Try /model.json");
+            {                
+                await context.Response.WriteAsync(ContentHelper.GetIndex());
             });
 
             FalcorInitialize();
@@ -150,35 +154,6 @@ namespace Falcor.WebExample
             var serializer = new ResponseSerializer();
             ctx.Response.Headers.Set("content-type", "application/json");
             await ctx.Response.WriteAsync(serializer.Serialize(result));
-        }
-    }
-
-    public class Model
-    {
-        public IList<Event> Events { get; set; }
-        public IList<Club> Clubs { get; set; }
-        public IDictionary<string, Event> EventById { get; set; }
-        public IDictionary<string, Club> ClubById { get; set; }
-        public IDictionary<string, Participant> ParticipantById { get; set; } 
-
-        public class Event
-        {
-            public string Name { get; set; }
-            public int Number { get; set; }
-            public Club Club { get; set; }
-            public IList<Participant> Participants { get; set; } 
-        }
-
-        public class Club
-        {
-            public string Name { get; set; }
-            public string Description { get; set; }
-        }
-
-        public class Participant
-        {
-            public string FirstName { get; set; }
-            public string LastName { get; set; }
         }
     }
 }
