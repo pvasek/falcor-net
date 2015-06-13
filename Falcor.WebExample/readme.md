@@ -16,7 +16,7 @@ Falcor path: `['Events',0,'Name']`
 
 **Multiple simple properties**
 
-Model path: `model.Events[0].Name, Events[0].Number` 
+Model path: `model.Events[0].Name, model.Events[0].Number` 
 
 Falcor path: `[['Events',0,'Name'],['Events',0,'Number']]` 
 
