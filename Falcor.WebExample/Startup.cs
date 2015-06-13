@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reactive.Linq;
@@ -27,6 +28,7 @@ namespace Falcor.WebExample
                 builder.Run(FalcorHandler);
             });
 
+            
             app.Run(async context =>
             {
                 await context.Response.WriteAsync("Try /model.json");
@@ -38,6 +40,7 @@ namespace Falcor.WebExample
         private void FalcorInitialize()
         {
             var routes = new List<Route>();
+
             routes.MapRoute<Model>()
                 .List(i => i.Events)
                 .AsIndex()
@@ -48,52 +51,88 @@ namespace Falcor.WebExample
                         new PropertiesPathComponent("EventById"),
                         new KeysPathComponent("980" + index));
 
-                    return
-                        Observable.Return(PathValue.Create(reference, new PropertiesPathComponent("Events"),
-                            p.Components[1]));
+                    return Observable.Return(PathValue.Create(reference, p.Components.Take(2)));
+                });
+
+            routes.MapRoute<Model>()
+                .List(i => i.Clubs)
+                .AsIndex()
+                .To(p =>
+                {
+                    var index = ((IntegersPathComponent)p.Components[1]).Integers.First() + 1;
+                    var reference = new Ref(
+                        new PropertiesPathComponent("ClubById"),
+                        new KeysPathComponent("600" + index));
+
+                    return Observable.Return(PathValue.Create(reference, p.Components.Take(2)));
                 });
 
             routes.MapRoute<Model>()
                 .Dictionary(i => i.EventById)
                 .AsKey()
-                .Properties(i => i.Name, i => i.Number)
+                .Properties(i => i.Name, i => i.Number, i => i.Club)
                 .To(p =>
                 {
+                    var key = (string) p.Components[1].Key;
                     var properties = (PropertiesPathComponent) p.Components[2];
                     var result = new List<PathValue>();
                     if (properties.Properties.Contains("Name"))
                     {
-                        result.Add(new PathValue
-                        {
-                            Value = "name1",
-                            Path = p
-                        });
+                        result.Add(PathValue.Create("name" + key, p));
                     }
                     if (properties.Properties.Contains("Number"))
                     {
-                        result.Add(new PathValue
-                        {
-                            Value = 1,
-                            Path = p
-                        });
-                    }                    
+                        result.Add(PathValue.Create(Int32.Parse(key), p));
+                    }
+                    if (properties.Properties.Contains("Club"))
+                    {
+                        var reference = new Ref(new PropertiesPathComponent("ClubById"), new KeysPathComponent(key));
+                        result.Add(PathValue.Create(reference, p.Components.Take(3)));
+                    }
 
                     return result.ToObservable();
                 });
 
             routes.MapRoute<Model>()
-                .Dictionary(i => i.EventById)
+                .Dictionary(i => i.ClubById)
                 .AsKey()
-                .Property(i => i.Number)
+                .Properties(i => i.Name, i => i.Description)
                 .To(p =>
                 {
-                    var pathValue = new PathValue
+                    var key = p.Components[1].Key;
+                    var properties = (PropertiesPathComponent)p.Components[2];
+                    var result = new List<PathValue>();
+                    if (properties.Properties.Contains("Name"))
                     {
-                        Value = 1,
-                        Path = p
-                    };
+                        result.Add(PathValue.Create("club" + key, p));
+                    }
+                    if (properties.Properties.Contains("Description"))
+                    {
+                        result.Add(PathValue.Create(String.Format("club{0} description", key), p));
+                    }
 
-                    return Observable.Return(pathValue);
+                    return result.ToObservable();
+                });
+
+            routes.MapRoute<Model>()
+                .Dictionary(i => i.ParticipantById)
+                .AsKey()
+                .Properties(i => i.FirstName, i => i.LastName)
+                .To(p =>
+                {
+                    var key = p.Components[1].Key;
+                    var properties = (PropertiesPathComponent)p.Components[2];
+                    var result = new List<PathValue>();
+                    if (properties.Properties.Contains("FirstName"))
+                    {
+                        result.Add(PathValue.Create("first" + key, p));
+                    }
+                    if (properties.Properties.Contains("LastName"))
+                    {
+                        result.Add(PathValue.Create("last" + key, p));
+                    }
+
+                    return result.ToObservable();
                 });
 
             var routeResolver = new RouteResolver(routes);
@@ -117,12 +156,29 @@ namespace Falcor.WebExample
     public class Model
     {
         public IList<Event> Events { get; set; }
+        public IList<Club> Clubs { get; set; }
         public IDictionary<string, Event> EventById { get; set; }
+        public IDictionary<string, Club> ClubById { get; set; }
+        public IDictionary<string, Participant> ParticipantById { get; set; } 
 
         public class Event
         {
             public string Name { get; set; }
             public int Number { get; set; }
+            public Club Club { get; set; }
+            public IList<Participant> Participants { get; set; } 
+        }
+
+        public class Club
+        {
+            public string Name { get; set; }
+            public string Description { get; set; }
+        }
+
+        public class Participant
+        {
+            public string FirstName { get; set; }
+            public string LastName { get; set; }
         }
     }
 }
