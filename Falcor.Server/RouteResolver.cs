@@ -30,31 +30,19 @@ namespace Falcor.Server
 
         private static bool MatchComponent(IPathComponent definition, IPathComponent input)
         {
-            var propertiesIntput = input as PropertiesPathComponent;
-            var propertiesDefinition = definition as PropertiesPathComponent;
+            var keysInput = input as KeysPathComponent;
+            var keysDefinition = definition as KeysPathComponent;
 
-            if (propertiesDefinition != null)
+            if (keysDefinition != null)
             {
-                if (propertiesIntput == null)
+                if (keysInput == null)
                 {
                     return false;
                 }
 
-                var result = propertiesIntput.Properties.Any(i => propertiesDefinition.Properties.Any(j => j == i));
-                return result;
-            }
-
-            var keyInput = input as KeysPathComponent;
-            var keyDefinition = definition as KeysPathComponent;
-            if (keyDefinition != null)
-            {
-                if (keyInput == null)
-                {
-                    return false;
-                }
-
-                return keyDefinition.Keys.Count == 0 || keyDefinition.Keys.Any(i => keyInput.Keys.Any(j => j == i));
-            }
+                return keysDefinition.Keys.Count == 0 
+                    || keysDefinition.Keys.Any(i => keysInput.Keys.Any(j => j == i));
+            }            
 
             var rangeInput = input as RangePathComponent;
             var rangeDefinition = definition as RangePathComponent;

@@ -3,9 +3,9 @@ using System.Linq;
 
 namespace Falcor.Server
 {
-    public class PropertiesPathComponent : IPathComponent
+    public class PropertiesPathComponent2 : IPathComponent
     {
-        public PropertiesPathComponent(params string[] properties)
+        public PropertiesPathComponent2(params string[] properties)
         {
             Properties = properties;
         }

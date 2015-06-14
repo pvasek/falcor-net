@@ -54,7 +54,7 @@ namespace Falcor.Example1
                 .Properties(i => i.Result, i => i.Participant)
                 .To(path =>
                 {
-                    var properties = ((PropertiesPathComponent)path.Components[0]).Properties;
+                    var properties = ((KeysPathComponent)path.Components[0]).Keys;
                     var keys = ((KeysPathComponent) path.Components[1]).Keys;
                     var result = new List<PathValue>();
                     var number = 1;
@@ -63,13 +63,13 @@ namespace Falcor.Example1
                         if (properties.Contains("Participant"))
                         {
                             result.Add(PathValue.Create(PropertyRef("participantById", "99805"), 
-                                new PropertiesPathComponent("eventById"), 
+                                new KeysPathComponent("eventById"), 
                                 new KeysPathComponent(key)));
                         }
                         if (properties.Contains("Result"))
                         {
                             result.Add(PathValue.Create(number++, 
-                                new PropertiesPathComponent("eventById"), 
+                                new KeysPathComponent("eventById"), 
                                 new KeysPathComponent(key)));
                         }
                     }
@@ -79,7 +79,7 @@ namespace Falcor.Example1
 
         public static Ref PropertyRef(string property, string id)
         {
-            return new Ref(new PropertiesPathComponent(property), new KeysPathComponent(id));
+            return new Ref(new KeysPathComponent(property), new KeysPathComponent(id));
         }
     }
 }

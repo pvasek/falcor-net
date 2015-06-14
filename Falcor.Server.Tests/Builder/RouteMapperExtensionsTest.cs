@@ -16,7 +16,7 @@ namespace Falcor.Server.Tests.Builder
                 .Property(i => i.Name)
                 .To(null);
 
-            RouteAssertions.AssertSingleRoutePath(routes, new PropertiesPathComponent("Name"));
+            RouteAssertions.AssertSingleRoutePath(routes, new KeysPathComponent("Name"));
         }
 
         [Test]
@@ -29,7 +29,7 @@ namespace Falcor.Server.Tests.Builder
                 .To(null);
 
             RouteAssertions.AssertSingleRoutePath(routes,
-                new PropertiesPathComponent("Users"),
+                new KeysPathComponent("Users"),
                 new IntegersPathComponent());
         }
 
@@ -43,7 +43,7 @@ namespace Falcor.Server.Tests.Builder
                 .To(null);
 
             RouteAssertions.AssertSingleRoutePath(routes,
-                new PropertiesPathComponent("Users"),
+                new KeysPathComponent("Users"),
                 new RangePathComponent(0, 10));
         }
 
@@ -58,9 +58,9 @@ namespace Falcor.Server.Tests.Builder
                 .To(null);
 
             RouteAssertions.AssertSingleRoutePath(routes,
-                new PropertiesPathComponent("Users"),
+                new KeysPathComponent("Users"),
                 new IntegersPathComponent(),
-                new PropertiesPathComponent("FirstName"));
+                new KeysPathComponent("FirstName"));
         }
 
         [Test]
@@ -74,9 +74,9 @@ namespace Falcor.Server.Tests.Builder
                 .To(null);
 
             RouteAssertions.AssertSingleRoutePath(routes,
-                new PropertiesPathComponent("Users"),
+                new KeysPathComponent("Users"),
                 new IntegersPathComponent(),
-                new PropertiesPathComponent("FirstName", "LastName"));
+                new KeysPathComponent("FirstName", "LastName"));
         }
     }
 }

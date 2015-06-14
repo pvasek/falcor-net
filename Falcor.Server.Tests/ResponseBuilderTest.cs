@@ -13,8 +13,8 @@ namespace Falcor.Server.Tests
             var result = target.CreateResponse(new[]
             {
                 PathValue.Create("name1", 
-                    new PropertiesPathComponent("settings"), 
-                    new PropertiesPathComponent("Name"))
+                    new KeysPathComponent("settings"), 
+                    new KeysPathComponent("Name"))
             });
 
             var settings = VerifyObjectProperty(result.Data, "settings");
@@ -31,9 +31,9 @@ namespace Falcor.Server.Tests
             var result = target.CreateResponse(new[]
             {
                 PathValue.Create("name1", 
-                    new PropertiesPathComponent("settings"), 
+                    new KeysPathComponent("settings"), 
                     new IntegersPathComponent(0),
-                    new PropertiesPathComponent("Name"))
+                    new KeysPathComponent("Name"))
             });
 
             var settings = VerifyObjectProperty(result.Data, "settings");
@@ -51,13 +51,13 @@ namespace Falcor.Server.Tests
             var result = target.CreateResponse(new[]
             {
                 PathValue.Create("name1", 
-                    new PropertiesPathComponent("settingById"), 
+                    new KeysPathComponent("settingById"), 
                     new KeysPathComponent("1"),
-                    new PropertiesPathComponent("Name")),
+                    new KeysPathComponent("Name")),
                 PathValue.Create(10,
-                    new PropertiesPathComponent("settingById"), 
+                    new KeysPathComponent("settingById"), 
                     new KeysPathComponent("1"),
-                    new PropertiesPathComponent("Number"))
+                    new KeysPathComponent("Number"))
             });
 
             var settings = VerifyObjectProperty(result.Data, "settingById");
@@ -76,8 +76,8 @@ namespace Falcor.Server.Tests
             var target = new ResponseBuilder();
             var result = target.CreateResponse(new[]
             {
-                PathValue.Create(new Ref(new PropertiesPathComponent("settings"), new IntegersPathComponent(0)), 
-                    new PropertiesPathComponent("settings"), 
+                PathValue.Create(new Ref(new KeysPathComponent("settings"), new IntegersPathComponent(0)), 
+                    new KeysPathComponent("settings"), 
                     new IntegersPathComponent(0))
             });
 

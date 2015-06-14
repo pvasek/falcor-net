@@ -16,7 +16,7 @@ namespace Falcor.Server.Builder
         {
             var propertyInfo = ExpressionHelper.GetProperty(func);
             var routeJourney = (IRouteJourney)journey;
-            routeJourney.Route.Path.Components.Add(new PropertiesPathComponent(propertyInfo.Name));
+            routeJourney.Route.Path.Components.Add(new KeysPathComponent(propertyInfo.Name));
             return new PropertyRouteJourney<TProperty>(routeJourney.Route, routeJourney.Routes);
         }
 
@@ -27,7 +27,7 @@ namespace Falcor.Server.Builder
                 .ToList();
 
             var routeJourney = (IRouteJourney)journey;
-            routeJourney.Route.Path.Components.Add(new PropertiesPathComponent(properties.Select(i => i.Name).ToArray()));
+            routeJourney.Route.Path.Components.Add(new KeysPathComponent(properties.Select(i => i.Name).ToArray()));
             return new FinalRouteJourney(routeJourney.Route, routeJourney.Routes);
         }
 
@@ -35,7 +35,7 @@ namespace Falcor.Server.Builder
         {            
             var propertyInfo = ExpressionHelper.GetProperty(func);
             var routeJourney = (IRouteJourney)journey;
-            routeJourney.Route.Path.Components.Add(new PropertiesPathComponent(propertyInfo.Name));
+            routeJourney.Route.Path.Components.Add(new KeysPathComponent(propertyInfo.Name));
             return new ListRouteJourney<TProperty>(routeJourney.Route, routeJourney.Routes);
         }
 
@@ -43,7 +43,7 @@ namespace Falcor.Server.Builder
         {
             var propertyInfo = ExpressionHelper.GetProperty(func);
             var routeJourney = (IRouteJourney)journey;
-            routeJourney.Route.Path.Components.Add(new PropertiesPathComponent(propertyInfo.Name));
+            routeJourney.Route.Path.Components.Add(new KeysPathComponent(propertyInfo.Name));
             return new DictionarRouteJourney<TProperty>(routeJourney.Route, routeJourney.Routes);
         }
 

@@ -22,10 +22,10 @@ namespace Falcor.Server.Tests
                 {
                     var index = ((IntegersPathComponent) p.Components[1]).Integers.First() + 1;
                     var reference = new Ref(
-                        new PropertiesPathComponent("EventById"), 
+                        new KeysPathComponent("EventById"), 
                         new KeysPathComponent("980" + index));
 
-                    return Observable.Return(PathValue.Create(reference, new PropertiesPathComponent("Events"), p.Components[1]));
+                    return Observable.Return(PathValue.Create(reference, new KeysPathComponent("Events"), p.Components[1]));
                 });   
 
             routes.MapRoute<TestEventModel>()
@@ -50,14 +50,14 @@ namespace Falcor.Server.Tests
             var target = new Router(routeResolver, pathCollapser, responseBuilder);
 
             var path1 = new Path(
-                new PropertiesPathComponent("Events"),
+                new KeysPathComponent("Events"),
                 new IntegersPathComponent(0),
-                new PropertiesPathComponent("Name"));
+                new KeysPathComponent("Name"));
 
             var path2 = new Path(
-                new PropertiesPathComponent("Events"),
+                new KeysPathComponent("Events"),
                 new IntegersPathComponent(1),
-                new PropertiesPathComponent("Name"));
+                new KeysPathComponent("Name"));
 
             var result = target.Execute(path1, path2);
             Assert.IsNotNull(result);
@@ -122,10 +122,10 @@ response = {
                 {
                     var index = ((IntegersPathComponent)p.Components[1]).Integers.First() + 1;
                     var reference = new Ref(
-                        new PropertiesPathComponent("EventById"),
+                        new KeysPathComponent("EventById"),
                         new KeysPathComponent("980" + index));
 
-                    return Observable.Return(PathValue.Create(reference, new PropertiesPathComponent("Events"), p.Components[1]));
+                    return Observable.Return(PathValue.Create(reference, new KeysPathComponent("Events"), p.Components[1]));
                 });
 
             routes.MapRoute<TestEventModel>()
@@ -135,7 +135,7 @@ response = {
                 .To(p =>
                 {
                     var pathValues = new List<PathValue>();
-                    var properties = ((PropertiesPathComponent) p.Components[2]).Properties;
+                    var properties = ((KeysPathComponent) p.Components[2]).Keys;
                     if (properties.Contains("Name"))
                     {
                         pathValues.Add(new PathValue
@@ -163,14 +163,14 @@ response = {
             var target = new Router(routeResolver, pathCollapser, responseBuilder);
 
             var path1 = new Path(
-                new PropertiesPathComponent("Events"),
+                new KeysPathComponent("Events"),
                 new IntegersPathComponent(0),
-                new PropertiesPathComponent("Name"));
+                new KeysPathComponent("Name"));
 
             var path2 = new Path(
-                new PropertiesPathComponent("Events"),
+                new KeysPathComponent("Events"),
                 new IntegersPathComponent(0),
-                new PropertiesPathComponent("Number"));
+                new KeysPathComponent("Number"));
 
             var result = target.Execute(path1, path2);
             Assert.IsNotNull(result);

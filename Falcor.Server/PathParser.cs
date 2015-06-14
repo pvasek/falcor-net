@@ -44,7 +44,7 @@ namespace Falcor.Server
                 var token = (JValue)jToken;
                 if (token.Type == JTokenType.String)
                 {
-                    components.Add(new PropertiesPathComponent(token.Value<string>()));
+                    components.Add(new KeysPathComponent(token.Value<string>()));
                 }
                 else if (token.Type == JTokenType.Integer)
                 {

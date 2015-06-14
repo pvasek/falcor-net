@@ -34,11 +34,11 @@ namespace Falcor.Server.Tests.Builder
                 Assert.AreEqual(pathFragment.Expected.GetType(), pathFragment.Actual.GetType());                
             }
 
-            foreach (var pathFragment in pathFragments.Where(i => i.Expected is PropertiesPathComponent))
+            foreach (var pathFragment in pathFragments.Where(i => i.Expected is KeysPathComponent))
             {
-                var expectedFragments = (PropertiesPathComponent) pathFragment.Expected;
-                var actualFragments = (PropertiesPathComponent) pathFragment.Actual;
-                Assert.AreEqual(expectedFragments.Properties, actualFragments.Properties);
+                var expectedFragments = (KeysPathComponent) pathFragment.Expected;
+                var actualFragments = (KeysPathComponent) pathFragment.Actual;
+                Assert.AreEqual(expectedFragments.Keys, actualFragments.Keys);
             }
 
             foreach (var pathFragment in pathFragments.Where(i => i.Expected is RangePathComponent))

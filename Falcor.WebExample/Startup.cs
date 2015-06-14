@@ -53,7 +53,7 @@ namespace Falcor.WebExample
                 {
                     var index = ((IntegersPathComponent) p.Components[1]).Integers.First() + 1;
                     var reference = new Ref(
-                        new PropertiesPathComponent("EventById"),
+                        new KeysPathComponent("EventById"),
                         new KeysPathComponent("980" + index));
 
                     return Observable.Return(PathValue.Create(reference, p.Components.Take(2)));
@@ -66,7 +66,7 @@ namespace Falcor.WebExample
                 {
                     var index = ((IntegersPathComponent)p.Components[1]).Integers.First() + 1;
                     var reference = new Ref(
-                        new PropertiesPathComponent("ClubById"),
+                        new KeysPathComponent("ClubById"),
                         new KeysPathComponent("600" + index));
 
                     return Observable.Return(PathValue.Create(reference, p.Components.Take(2)));
@@ -79,19 +79,19 @@ namespace Falcor.WebExample
                 .To(p =>
                 {
                     var key = (string) p.Components[1].Key;
-                    var properties = (PropertiesPathComponent) p.Components[2];
+                    var properties = (KeysPathComponent) p.Components[2];
                     var result = new List<PathValue>();
-                    if (properties.Properties.Contains("Name"))
+                    if (properties.Keys.Contains("Name"))
                     {
                         result.Add(PathValue.Create("name" + key, p));
                     }
-                    if (properties.Properties.Contains("Number"))
+                    if (properties.Keys.Contains("Number"))
                     {
                         result.Add(PathValue.Create(Int32.Parse(key), p));
                     }
-                    if (properties.Properties.Contains("Club"))
+                    if (properties.Keys.Contains("Club"))
                     {
-                        var reference = new Ref(new PropertiesPathComponent("ClubById"), new KeysPathComponent(key));
+                        var reference = new Ref(new KeysPathComponent("ClubById"), new KeysPathComponent(key));
                         result.Add(PathValue.Create(reference, p.Components.Take(3)));
                     }
 
@@ -105,13 +105,13 @@ namespace Falcor.WebExample
                 .To(p =>
                 {
                     var key = p.Components[1].Key;
-                    var properties = (PropertiesPathComponent)p.Components[2];
+                    var properties = (KeysPathComponent)p.Components[2];
                     var result = new List<PathValue>();
-                    if (properties.Properties.Contains("Name"))
+                    if (properties.Keys.Contains("Name"))
                     {
                         result.Add(PathValue.Create("club" + key, p));
                     }
-                    if (properties.Properties.Contains("Description"))
+                    if (properties.Keys.Contains("Description"))
                     {
                         result.Add(PathValue.Create(String.Format("club{0} description", key), p));
                     }
@@ -126,13 +126,13 @@ namespace Falcor.WebExample
                 .To(p =>
                 {
                     var key = p.Components[1].Key;
-                    var properties = (PropertiesPathComponent)p.Components[2];
+                    var properties = (KeysPathComponent)p.Components[2];
                     var result = new List<PathValue>();
-                    if (properties.Properties.Contains("FirstName"))
+                    if (properties.Keys.Contains("FirstName"))
                     {
                         result.Add(PathValue.Create("first" + key, p));
                     }
-                    if (properties.Properties.Contains("LastName"))
+                    if (properties.Keys.Contains("LastName"))
                     {
                         result.Add(PathValue.Create("last" + key, p));
                     }

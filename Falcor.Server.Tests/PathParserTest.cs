@@ -14,9 +14,9 @@ namespace Falcor.Server.Tests
 
             Assert.AreEqual(1, result.Count);
             RouteAssertions.AssertPath(result[0], 
-                new PropertiesPathComponent("events"),
+                new KeysPathComponent("events"),
                 new IntegersPathComponent(0),
-                new PropertiesPathComponent("name"));
+                new KeysPathComponent("name"));
         }
 
         [Test]
@@ -28,14 +28,14 @@ namespace Falcor.Server.Tests
             Assert.AreEqual(2, result.Count);
 
             RouteAssertions.AssertPath(result[0],
-                new PropertiesPathComponent("events"),
+                new KeysPathComponent("events"),
                 new IntegersPathComponent(0),
-                new PropertiesPathComponent("name"));
+                new KeysPathComponent("name"));
 
             RouteAssertions.AssertPath(result[1],
-                new PropertiesPathComponent("users"),
+                new KeysPathComponent("users"),
                 new IntegersPathComponent(1),
-                new PropertiesPathComponent("userName"));
+                new KeysPathComponent("userName"));
         }
     }
 }
