@@ -56,11 +56,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Handler.cs" />
+    <Compile Include="Parser\InputBuffer.cs" />
     <Compile Include="IResponseSerializer.cs" />
     <Compile Include="JsongItem.cs" />
     <Compile Include="JsongItemType.cs" />
+    <Compile Include="Parser\InputParser.cs" />
+    <Compile Include="Parser\ParsingException.cs" />
     <Compile Include="PathValue.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Range.cs" />
     <Compile Include="Ref.cs" />
     <Compile Include="Response.cs" />
     <Compile Include="Builder\ExpressionHelper.cs" />
