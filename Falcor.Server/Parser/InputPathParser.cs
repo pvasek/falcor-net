@@ -4,9 +4,9 @@ using System.Linq;
 
 namespace Falcor.Server.Parser
 {
-    public class InputParser
+    public class InputPathParser
     {
-        public List<object> ParseInput(string text)
+        public static IList<object> ParseInput(string text)
         {
             var result = new List<object>();
             var input = new InputBuffer(text);
@@ -124,6 +124,8 @@ namespace Falcor.Server.Parser
 
             if (input.Current != Symbols.ClosingBracket)
                 throw new ArgumentException("The closing bracket ']' is expected");
+
+            input.Next();
         }        
 
         private static class Symbols

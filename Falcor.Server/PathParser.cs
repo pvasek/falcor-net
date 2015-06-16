@@ -1,57 +1,61 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using Falcor.Server.Parser;
 
 namespace Falcor.Server
 {
     public class PathParser : IPathParser
-    {
-        private readonly JsonSerializer _jsonSerializer;
-
-        public PathParser()
-        {
-            _jsonSerializer = new JsonSerializer();
-        }
-
+    {        
         public IList<IPath> ParsePaths(string pathString)
         {
-            
-            var pathObj = _jsonSerializer.Deserialize(new JsonTextReader(new StringReader(pathString))) as JArray;
-            if (pathObj == null)
-            {
-                throw new ArgumentException("path is not an array");
-            }
-            var paths = new List<IPath>();
-            if (pathObj[0] is JArray)
-            {
-                paths.AddRange(pathObj.Select(i => ParsePath((JArray)i)));
-            }
-            else
-            {
-                paths.Add(ParsePath((pathObj)));
-            }
-            return paths;
+            var input = InputPathParser.ParseInput(pathString);
+            var includeMultiplePaths = input.All(i => i is IList<object>);
+            var paths = includeMultiplePaths ? 
+                (IEnumerable<IList<object>>)input.Cast<IList<object>>() 
+                : new List<IList<object>>{input};
+        
+            return paths
+                .Select(i => (IPath)new Path(i.Select(InputToPathComponent)))
+                .ToList();
         }
 
-        private static IPath ParsePath(JArray array)
+        private IPathComponent InputToPathComponent(object input)
         {
-            var components = new List<IPathComponent>();
-            foreach (var jToken in array)
+            var stringInput = input as string;
+            if (stringInput != null)
             {
-                var token = (JValue)jToken;
-                if (token.Type == JTokenType.String)
-                {
-                    components.Add(new KeysPathComponent(token.Value<string>()));
-                }
-                else if (token.Type == JTokenType.Integer)
-                {
-                    components.Add(new IntegersPathComponent(token.Value<int>()));
-                }
+                return new KeysPathComponent(stringInput);
             }
-            return new Path(components.ToArray());
+
+            if (input is int)
+            {
+                return new IntegersPathComponent((int)input);
+            }
+
+            var rangeInput = input as Range;
+            if (rangeInput != null)
+            {
+                return new RangePathComponent(rangeInput.From, rangeInput.To);
+            }
+
+            var list = input as IList<object>;
+            if (list == null)
+            {
+                throw new ArgumentException($"Unknown path component for type {input.GetType()}");
+            }
+
+            if (list.All(i => i is string))
+            {
+                return new KeysPathComponent(list.Cast<string>());
+            }
+
+            if (list.All(i => i is int))
+            {
+                return new IntegersPathComponent(list.Cast<int>());
+            }
+
+            throw new ArgumentException($"Unknown path component for list type {input.GetType()}");
         }
     }
 }

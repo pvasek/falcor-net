@@ -5,6 +5,11 @@ namespace Falcor.Server
 {
     public class IntegersPathComponent : IPathComponent
     {
+        public IntegersPathComponent(IEnumerable<int> integers)
+        {
+            Integers = integers.ToList();
+        }
+
         public IntegersPathComponent(params int[] integers)
         {
             Integers = integers ?? (IList<int>) new List<int>();

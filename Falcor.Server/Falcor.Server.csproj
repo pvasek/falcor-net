@@ -60,7 +60,7 @@
     <Compile Include="IResponseSerializer.cs" />
     <Compile Include="JsongItem.cs" />
     <Compile Include="JsongItemType.cs" />
-    <Compile Include="Parser\InputParser.cs" />
+    <Compile Include="Parser\InputPathParser.cs" />
     <Compile Include="Parser\ParsingException.cs" />
     <Compile Include="PathValue.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

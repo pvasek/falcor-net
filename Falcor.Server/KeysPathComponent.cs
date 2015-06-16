@@ -5,6 +5,11 @@ namespace Falcor.Server
 {
     public class KeysPathComponent : IPathComponent
     {
+        public KeysPathComponent(IEnumerable<string> keys)
+        {
+            Keys = keys.ToList();
+        }
+
         public KeysPathComponent(params string[] keys)
         {
             Keys = keys;
