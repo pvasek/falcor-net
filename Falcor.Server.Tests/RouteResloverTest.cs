@@ -112,5 +112,20 @@ namespace Falcor.Server.Tests
             Assert.AreEqual(1, result.Count);
             Assert.AreEqual(route2, result[0]);
         }
+
+        [Test]
+        public void Should_match_index_with_indexes()
+        {
+            var route1 = new Route(new KeysPathComponent("events"), new IntegersPathComponent(0, 1, 2, 3, 4, 5));
+
+            var target = new RouteResolver(new[] { route1 });
+            var result = target.FindRoutes(new Path(
+                    new KeysPathComponent("events"),
+                    new IntegersPathComponent()))
+                .ToList();
+
+            Assert.AreEqual(1, result.Count);
+            Assert.AreEqual(route1, result[0]);
+        }
     }
 }

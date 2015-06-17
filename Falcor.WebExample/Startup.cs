@@ -51,12 +51,17 @@ namespace Falcor.WebExample
                 .AsIndex()
                 .To(p =>
                 {
-                    var index = ((IntegersPathComponent) p.Components[1]).Integers.First() + 1;
-                    var reference = new Ref(
-                        new KeysPathComponent("EventById"),
-                        new KeysPathComponent("980" + index));
+                    var result = ((IntegersPathComponent) p.Components[1])
+                        .Integers
+                        .Select(i => new {
+                            reference = new Ref(
+                                new KeysPathComponent("EventById"),
+                                new KeysPathComponent("980" + i)),
+                            index = i
+                        })
+                        .Select(i => PathValue.Create(i.reference, p.Components[0], new IntegersPathComponent(i.index)));
 
-                    return Observable.Return(PathValue.Create(reference, p.Components.Take(2)));
+                    return result.ToObservable();
                 });
 
             routes.MapRoute<Model>()

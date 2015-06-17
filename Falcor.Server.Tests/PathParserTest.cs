@@ -37,5 +37,19 @@ namespace Falcor.Server.Tests
                 new IntegersPathComponent(1),
                 new KeysPathComponent("userName"));
         }
+
+        [Test]
+        public void Should_parse_ranges_as_integers()
+        {
+            var target = new PathParser();
+            var result = target.ParsePaths("['events',0..5,'name']");
+
+            Assert.AreEqual(1, result.Count);
+
+            RouteAssertions.AssertPath(result[0],
+                new KeysPathComponent("events"),
+                new IntegersPathComponent(0, 1, 2, 3, 4, 5),
+                new KeysPathComponent("name"));
+        }
     }
 }

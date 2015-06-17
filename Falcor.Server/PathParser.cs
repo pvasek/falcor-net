@@ -36,7 +36,9 @@ namespace Falcor.Server
             var rangeInput = input as Range;
             if (rangeInput != null)
             {
-                return new RangePathComponent(rangeInput.From, rangeInput.To);
+                var from = rangeInput.From ?? 0;
+                var count = (rangeInput.To ?? 0) - from + 1;
+                return new IntegersPathComponent(Enumerable.Range(from, count));
             }
 
             var list = input as IList<object>;
