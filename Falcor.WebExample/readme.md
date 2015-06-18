@@ -10,17 +10,17 @@ This is the OWIN example for Falcor.NET. This example is available online http:/
 
 Model path: `model.Events[0].Name` 
 
-Falcor path: `['Events',0,'Name']` 
+Falcor path: `["Events",0,"Name"]` 
 
-[Try it](http://falcor-net.azurewebsites.net/model.json?path=['Events',0,'Name'])
+[Try it](http://falcor-net.azurewebsites.net/model.json?path=["Events",0,"Name"])
 
 **Multiple simple properties**
 
 Model path: `model.Events[0].Name, model.Events[0].Number` 
 
-Falcor path: `[['Events',0,'Name'],['Events',0,'Number']]` 
+Falcor path: `[["Events",0,"Name"],["Events",0,"Number"]]` 
 
-[Try it](http://falcor-net.azurewebsites.net/model.json?path=[['Events',0,'Name'],['Events',0,'Number']])
+[Try it](http://falcor-net.azurewebsites.net/model.json?path=[["Events",0,"Name"],["Events",0,"Number"]])
 
 # Model definition
 ```CSharp

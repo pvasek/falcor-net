@@ -88,16 +88,16 @@ namespace Falcor.WebExample
                     var result = new List<PathValue>();
                     if (properties.Keys.Contains("Name"))
                     {
-                        result.Add(PathValue.Create("name" + key, p));
+                        result.Add(PathValue.Create("name" + key, p.Components[0], p.Components[1], new KeysPathComponent("Name")));
                     }
                     if (properties.Keys.Contains("Number"))
                     {
-                        result.Add(PathValue.Create(Int32.Parse(key), p));
+                        result.Add(PathValue.Create(Int32.Parse(key), p.Components[0], p.Components[1], new KeysPathComponent("Number")));
                     }
                     if (properties.Keys.Contains("Club"))
                     {
                         var reference = new Ref(new KeysPathComponent("ClubById"), new KeysPathComponent(key));
-                        result.Add(PathValue.Create(reference, p.Components.Take(3)));
+                        result.Add(PathValue.Create(reference, p.Components[0], p.Components[1], new KeysPathComponent("Club")));
                     }
 
                     return result.ToObservable();
@@ -114,11 +114,11 @@ namespace Falcor.WebExample
                     var result = new List<PathValue>();
                     if (properties.Keys.Contains("Name"))
                     {
-                        result.Add(PathValue.Create("club" + key, p));
+                        result.Add(PathValue.Create("club" + key, p.Components[0], p.Components[1], new KeysPathComponent("Name")));
                     }
                     if (properties.Keys.Contains("Description"))
                     {
-                        result.Add(PathValue.Create(String.Format("club{0} description", key), p));
+                        result.Add(PathValue.Create(String.Format("club{0} description", key), p.Components[0], p.Components[1], new KeysPathComponent("Description")));
                     }
 
                     return result.ToObservable();
@@ -130,16 +130,22 @@ namespace Falcor.WebExample
                 .Properties(i => i.FirstName, i => i.LastName)
                 .To(p =>
                 {
+                    /*
+                    context.Keys: IList<string>
+                    context.Properties: IList<string>
+                    context.HasProperty(i => i.FirstName)
+                    result.AddProperty(i => i.FirstName, "first" + key): PathValue
+                    */
                     var key = p.Components[1].Key;
                     var properties = (KeysPathComponent)p.Components[2];
                     var result = new List<PathValue>();
                     if (properties.Keys.Contains("FirstName"))
                     {
-                        result.Add(PathValue.Create("first" + key, p));
+                        result.Add(PathValue.Create("first" + key, p.Components[0], p.Components[1], new KeysPathComponent("FirstName")));
                     }
                     if (properties.Keys.Contains("LastName"))
                     {
-                        result.Add(PathValue.Create("last" + key, p));
+                        result.Add(PathValue.Create("last" + key, p.Components[0], p.Components[1], new KeysPathComponent("LastName")));
                     }
 
                     return result.ToObservable();
