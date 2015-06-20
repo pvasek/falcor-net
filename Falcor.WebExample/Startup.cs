@@ -1,21 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Reactive.Linq;
-using System.Reactive.Subjects;
 using System.Threading.Tasks;
-using System.Web.Hosting;
 using Falcor.Server;
 using Falcor.Server.Builder;
+using Falcor.Server.Owin;
 using Falcor.WebExample;
-using Kiwi.Markdown;
-using Kiwi.Markdown.ContentProviders;
 using Microsoft.Owin;
-using Microsoft.Owin.StaticFiles;
-using Newtonsoft.Json.Linq;
 using Owin;
-using Path = Falcor.Server.Path;
 
 [assembly: OwinStartup(typeof(Startup))]
 
@@ -23,26 +16,20 @@ namespace Falcor.WebExample
 {
     public partial class Startup
     {
-        private Router _falcorRouter;
-
         public void Configuration(IAppBuilder app)
         {
-            app.Map("/model.json", builder =>
-            {
-                builder.Run(FalcorHandler);
-            });
-
             app.UseStaticFiles();
+            app.UseFalcor(GetFalcorRoutes());
 
             app.Run(async context =>
             {                
                 await context.Response.WriteAsync(ContentHelper.GetIndex());
             });
 
-            FalcorInitialize();
+            GetFalcorRoutes();
         }
 
-        private void FalcorInitialize()
+        private List<Route> GetFalcorRoutes()
         {
             var routes = new List<Route>();
 
@@ -51,6 +38,10 @@ namespace Falcor.WebExample
                 .AsIndex()
                 .To(p =>
                 {
+                    /*
+                    context.Integers
+                    result.AddRef(index, m => m.EventById, "980" + index);
+                    */
                     var result = ((IntegersPathComponent) p.Components[1])
                         .Integers
                         .Select(i => new {
@@ -150,22 +141,7 @@ namespace Falcor.WebExample
 
                     return result.ToObservable();
                 });
-
-            var routeResolver = new RouteResolver(routes);
-            var pathCollapser = new PathCollapser();
-            var responseBuilder = new ResponseBuilder();
-
-            _falcorRouter = new Router(routeResolver, pathCollapser, responseBuilder);
-        }
-
-        private async Task FalcorHandler(IOwinContext ctx)
-        {
-            var path = ctx.Request.Query["path"];
-            var pathParser = new PathParser();
-            var result = _falcorRouter.Execute(pathParser.ParsePaths(path));
-            var serializer = new ResponseSerializer();
-            ctx.Response.Headers.Set("content-type", "application/json");
-            await ctx.Response.WriteAsync(serializer.Serialize(result));
-        }
+            return routes;
+        }      
     }
 }
