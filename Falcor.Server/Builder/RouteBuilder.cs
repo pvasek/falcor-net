@@ -39,12 +39,12 @@ namespace Falcor.Server.Builder
             return new ListRouteJourney<TModel, TProperty>(routeJourney.Route, routeJourney.Routes);
         }
 
-        public static DictionarRouteJourney<TProperty> Dictionary<TModel, T, TKey, TProperty>(this PropertyRouteJourney<TModel, T> journey, Expression<Func<T, IDictionary<TKey, TProperty>>> func)
+        public static DictionarRouteJourney<TModel, TProperty> Dictionary<TModel, T, TKey, TProperty>(this PropertyRouteJourney<TModel, T> journey, Expression<Func<T, IDictionary<TKey, TProperty>>> func)
         {
             var propertyInfo = ExpressionHelper.GetProperty(func);
             var routeJourney = (IRouteJourney)journey;
             routeJourney.Route.Path.Components.Add(new KeysPathComponent(propertyInfo.Name));
-            return new DictionarRouteJourney<TProperty>(routeJourney.Route, routeJourney.Routes);
+            return new DictionarRouteJourney<TModel, TProperty>(routeJourney.Route, routeJourney.Routes);
         }
 
         public static PropertyRouteJourney<TModel, T> AsRange<TModel, T>(this ListRouteJourney<TModel, T> journey, int? from, int? to)
@@ -62,7 +62,7 @@ namespace Falcor.Server.Builder
             return new IndexRouteJourney<TModel, T>(routeJourney.Route, routeJourney.Routes);
         }
 
-        public static PropertyRouteJourney<TModel, T> AsKey<TModel, T>(this DictionarRouteJourney<T> journey, params string[] keys)
+        public static PropertyRouteJourney<TModel, T> AsKey<TModel, T>(this DictionarRouteJourney<TModel, T> journey, params string[] keys)
         {
             var routeJourney = (IRouteJourney)journey;
             routeJourney.Route.Path.Components.Add(new KeysPathComponent(keys));
@@ -136,7 +136,7 @@ namespace Falcor.Server.Builder
             }
         }
     
-        public class DictionarRouteJourney<T> : RouteJourney
+        public class DictionarRouteJourney<TModel, T> : RouteJourney
         {
             public DictionarRouteJourney(Route route, IList<Route> routes)
                 : base(route, routes)
