@@ -7,20 +7,20 @@ namespace Falcor.Server.Builder
 {
     public static class RouteBuilder
     {
-        public static PropertyRouteJourney<T> MapRoute<T>(this IList<Route> routes)
+        public static PropertyRouteJourney<TModel, TModel> MapRoute<TModel>(this IList<Route> routes)
         {
-            return new PropertyRouteJourney<T>(new Route(), routes);
+            return new PropertyRouteJourney<TModel, TModel>(new Route(), routes);
         }
 
-        public static PropertyRouteJourney<TProperty> Property<T, TProperty>(this PropertyRouteJourney<T> journey, Expression<Func<T, TProperty>> func)
+        public static PropertyRouteJourney<TModel, TProperty> Property<TModel, T, TProperty>(this PropertyRouteJourney<TModel, T> journey, Expression<Func<T, TProperty>> func)
         {
             var propertyInfo = ExpressionHelper.GetProperty(func);
             var routeJourney = (IRouteJourney)journey;
             routeJourney.Route.Path.Components.Add(new KeysPathComponent(propertyInfo.Name));
-            return new PropertyRouteJourney<TProperty>(routeJourney.Route, routeJourney.Routes);
+            return new PropertyRouteJourney<TModel, TProperty>(routeJourney.Route, routeJourney.Routes);
         }
 
-        public static IFinalRouteJourney Properties<T>(this PropertyRouteJourney<T> journey, params Expression<Func<T, object>>[] funcs)
+        public static IFinalRouteJourney Properties<TModel ,T>(this PropertyRouteJourney<TModel, T> journey, params Expression<Func<T, object>>[] funcs)
         {
             var properties = funcs
                 .Select(ExpressionHelper.GetProperty)
@@ -31,48 +31,73 @@ namespace Falcor.Server.Builder
             return new FinalRouteJourney(routeJourney.Route, routeJourney.Routes);
         }
 
-        public static ListRouteJourney<TProperty> List<T, TProperty>(this PropertyRouteJourney<T> journey, Expression<Func<T, IList<TProperty>>> func)
+        public static KeyPropertyRouteJourney<TModel,T> Properties<TModel, T>(this KeyRouteJourney<TModel, T> journey, params Expression<Func<T, object>>[] funcs)
+        {
+            var properties = funcs
+                .Select(ExpressionHelper.GetProperty)
+                .ToList();
+
+            var routeJourney = (IRouteJourney)journey;
+            routeJourney.Route.Path.Components.Add(new KeysPathComponent(properties.Select(i => i.Name).ToArray()));
+            return new KeyPropertyRouteJourney<TModel, T>(routeJourney.Route, routeJourney.Routes);
+        }
+
+        public static ListRouteJourney<TModel, TProperty> List<TModel, T, TProperty>(this PropertyRouteJourney<TModel, T> journey, Expression<Func<T, IList<TProperty>>> func)
         {            
             var propertyInfo = ExpressionHelper.GetProperty(func);
             var routeJourney = (IRouteJourney)journey;
             routeJourney.Route.Path.Components.Add(new KeysPathComponent(propertyInfo.Name));
-            return new ListRouteJourney<TProperty>(routeJourney.Route, routeJourney.Routes);
+            return new ListRouteJourney<TModel, TProperty>(routeJourney.Route, routeJourney.Routes);
         }
 
-        public static DictionarRouteJourney<TProperty> Dictionary<T, TKey, TProperty>(this PropertyRouteJourney<T> journey, Expression<Func<T, IDictionary<TKey, TProperty>>> func)
+        public static DictionarRouteJourney<TModel, TProperty> Dictionary<TModel, T, TKey, TProperty>(this PropertyRouteJourney<TModel, T> journey, Expression<Func<T, IDictionary<TKey, TProperty>>> func)
         {
             var propertyInfo = ExpressionHelper.GetProperty(func);
             var routeJourney = (IRouteJourney)journey;
             routeJourney.Route.Path.Components.Add(new KeysPathComponent(propertyInfo.Name));
-            return new DictionarRouteJourney<TProperty>(routeJourney.Route, routeJourney.Routes);
+            return new DictionarRouteJourney<TModel, TProperty>(routeJourney.Route, routeJourney.Routes);
         }
 
-        public static PropertyRouteJourney<T> AsRange<T>(this ListRouteJourney<T> journey, int? from, int? to)
+        public static PropertyRouteJourney<TModel, T> AsRange<TModel, T>(this ListRouteJourney<TModel, T> journey, int? from, int? to)
         {
             var routeJourney = (IRouteJourney)journey;
             routeJourney.Route.Path.Components.Add(new RangePathComponent(from, to));
-            return new PropertyRouteJourney<T>(routeJourney.Route, routeJourney.Routes);
+            return new PropertyRouteJourney<TModel, T>(routeJourney.Route, routeJourney.Routes);
         }
 
-        public static PropertyRouteJourney<T> AsIndex<T>(this ListRouteJourney<T> journey, int? index = null)
+        public static IndexRouteJourney<TModel, T> AsIndex<TModel, T>(this ListRouteJourney<TModel, T> journey, int? index = null)
         {
             var routeJourney = (IRouteJourney)journey;
             var integers = index != null ? new[] { index.Value } : null;
             routeJourney.Route.Path.Components.Add(new IntegersPathComponent(integers));
-            return new PropertyRouteJourney<T>(routeJourney.Route, routeJourney.Routes);
+            return new IndexRouteJourney<TModel, T>(routeJourney.Route, routeJourney.Routes);
         }
 
-        public static PropertyRouteJourney<T> AsKey<T>(this DictionarRouteJourney<T> journey, params string[] keys)
+        public static KeyRouteJourney<TModel, T> AsKey<TModel, T>(this DictionarRouteJourney<TModel, T> journey, params string[] keys)
         {
             var routeJourney = (IRouteJourney)journey;
             routeJourney.Route.Path.Components.Add(new KeysPathComponent(keys));
-            return new PropertyRouteJourney<T>(routeJourney.Route, routeJourney.Routes);
+            return new KeyRouteJourney<TModel, T>(routeJourney.Route, routeJourney.Routes);
         }
 
         public static void To(this IFinalRouteJourney journey, Handler handler)
         {
             var routeJourney = (IRouteJourney)journey;
             routeJourney.Route.Handler = handler;
+            routeJourney.Routes.Add(routeJourney.Route);
+        }
+
+        public static void ToRoute<TModel, T>(this IndexRouteJourney<TModel, T> journey, Func<IndexFalcorRequest<TModel>, IObservable<PathValue>> handler)
+        {
+            var routeJourney = (IRouteJourney)journey;
+            routeJourney.Route.Handler = (path) => handler(new IndexFalcorRequest<TModel>(path, routeJourney.Route.Path));
+            routeJourney.Routes.Add(routeJourney.Route);
+        }
+
+        public static void ToRoute<TModel, T>(this KeyPropertyRouteJourney<TModel, T> journey, Func<KeyPropertyFalcorRequest<TModel, T>, IObservable<PathValue>> handler)
+        {
+            var routeJourney = (IRouteJourney)journey;
+            routeJourney.Route.Handler = (path) => handler(new KeyPropertyFalcorRequest<TModel, T>(path, routeJourney.Route.Path));
             routeJourney.Routes.Add(routeJourney.Route);
         }
 
@@ -105,7 +130,7 @@ namespace Falcor.Server.Builder
             IList<Route> IRouteJourney.Routes { get; set; }
         }
 
-        public class PropertyRouteJourney<T> : RouteJourney, IFinalRouteJourney
+        public class PropertyRouteJourney<TModel ,T> : RouteJourney, IFinalRouteJourney
         {
             public PropertyRouteJourney(Route route, IList<Route> routes)
                 : base(route, routes)
@@ -113,7 +138,31 @@ namespace Falcor.Server.Builder
             }
         }
 
-        public class ListRouteJourney<T> : RouteJourney
+        public class IndexRouteJourney<TModel, T> : PropertyRouteJourney<TModel, T>
+        {
+            public IndexRouteJourney(Route route, IList<Route> routes)
+                : base(route, routes)
+            {
+            }
+        }
+
+        public class KeyRouteJourney<TModel, T> : PropertyRouteJourney<TModel, T>
+        {
+            public KeyRouteJourney(Route route, IList<Route> routes)
+                : base(route, routes)
+            {
+            }
+        }
+
+        public class KeyPropertyRouteJourney<TModel, T> : KeyRouteJourney<TModel, T>
+        {
+            public KeyPropertyRouteJourney(Route route, IList<Route> routes)
+                : base(route, routes)
+            {
+            }
+        }
+
+        public class ListRouteJourney<TModel, T> : RouteJourney
         {
             public ListRouteJourney(Route route, IList<Route> routes)
                 : base(route, routes)
@@ -121,7 +170,7 @@ namespace Falcor.Server.Builder
             }
         }
     
-        public class DictionarRouteJourney<T> : RouteJourney
+        public class DictionarRouteJourney<TModel, T> : RouteJourney
         {
             public DictionarRouteJourney(Route route, IList<Route> routes)
                 : base(route, routes)

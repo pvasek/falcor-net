@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Falcor.Server</id>
+    <version>1.0.0</version>
+    <authors>pvasek</authors>
+    <owners>pvasek</owners>
+    <licenseUrl>https://github.com/pvasek/falcor-net/license.txt</licenseUrl>
+    <projectUrl>https://github.com/pvasek/falcor-net</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Falcor server implementation for .NET framework</description>
+    <releaseNotes>Inlcudes basic set of classes for handling Falcor request/responses.</releaseNotes>
+    <copyright>Copyright 2015</copyright>
+    <tags></tags>
+    <dependencies>
+      <dependency id="Newtonsoft.Json" version="6.0.8" />
+      <dependency id="Rx-Core" version="2.2.5" />
+      <dependency id="Rx-Interfaces" version="2.2.5" />
+      <dependency id="Rx-Linq" version="2.2.5" />
+      <dependency id="Rx-Main" version="2.2.5" />
+      <dependency id="Rx-PlatformServices" version="2.2.5" />
+    </dependencies>
+  </metadata>
+</package>

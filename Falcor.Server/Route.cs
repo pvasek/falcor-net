@@ -1,3 +1,5 @@
+using System;
+
 namespace Falcor.Server
 {
     public class Route
@@ -14,5 +16,10 @@ namespace Falcor.Server
 
         public IPath Path { get; private set; }
         public Handler Handler { get; set; }
+
+        public IObservable<PathValue> Execute(IPath path)
+        {
+            return Handler(path);
+        }
     }
 }

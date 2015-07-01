@@ -25,8 +25,6 @@ namespace Falcor.WebExample
             {                
                 await context.Response.WriteAsync(ContentHelper.GetIndex());
             });
-
-            GetFalcorRoutes();
         }
 
         private List<Route> GetFalcorRoutes()
@@ -36,21 +34,12 @@ namespace Falcor.WebExample
             routes.MapRoute<Model>()
                 .List(i => i.Events)
                 .AsIndex()
-                .To(p =>
+                .ToRoute(req =>
                 {
-                    /*
-                    context.Integers
-                    result.AddRef(index, m => m.EventById, "980" + index);
-                    */
-                    var result = ((IntegersPathComponent) p.Components[1])
-                        .Integers
-                        .Select(i => new {
-                            reference = new Ref(
-                                new KeysPathComponent("EventById"),
-                                new KeysPathComponent("980" + i)),
-                            index = i
-                        })
-                        .Select(i => PathValue.Create(i.reference, p.Components[0], new IntegersPathComponent(i.index)));
+                    var result = req
+                        .Indexes
+                        .Select(i => req.CreateResult(i,
+                            req.CreateRef(m => m.EventById, "980" + i)));
 
                     return result.ToObservable();
                 });
@@ -58,14 +47,13 @@ namespace Falcor.WebExample
             routes.MapRoute<Model>()
                 .List(i => i.Clubs)
                 .AsIndex()
-                .To(p =>
+                .ToRoute(req =>
                 {
-                    var index = ((IntegersPathComponent)p.Components[1]).Integers.First() + 1;
-                    var reference = new Ref(
-                        new KeysPathComponent("ClubById"),
-                        new KeysPathComponent("600" + index));
-
-                    return Observable.Return(PathValue.Create(reference, p.Components.Take(2)));
+                    return req
+                        .Indexes
+                        .Select(i => req.CreateResult(i,
+                            req.CreateRef(m => m.ClubById, "600" + i)))
+                        .ToObservable();
                 });
 
             routes.MapRoute<Model>()
@@ -100,19 +88,29 @@ namespace Falcor.WebExample
                 .Properties(i => i.Name, i => i.Description)
                 .To(p =>
                 {
-                    var key = p.Components[1].Key;
-                    var properties = (KeysPathComponent)p.Components[2];
-                    var result = new List<PathValue>();
-                    if (properties.Keys.Contains("Name"))
-                    {
-                        result.Add(PathValue.Create("club" + key, p.Components[0], p.Components[1], new KeysPathComponent("Name")));
-                    }
-                    if (properties.Keys.Contains("Description"))
-                    {
-                        result.Add(PathValue.Create(String.Format("club{0} description", key), p.Components[0], p.Components[1], new KeysPathComponent("Description")));
-                    }
+                    var list = p.Components[1]
+                        .AllKeys
+                        .Select(key =>
+                        {
+                            var properties = (KeysPathComponent) p.Components[2];
+                            var result = new List<PathValue>();
+                            if (properties.Keys.Contains("Name"))
+                            {
+                                result.Add(PathValue.Create("club" + key, p.Components[0], 
+                                    new KeysPathComponent((string)key),
+                                    new KeysPathComponent("Name")));
+                            }
+                            if (properties.Keys.Contains("Description"))
+                            {
+                                result.Add(PathValue.Create(String.Format("club{0} description", key), p.Components[0],
+                                    new KeysPathComponent((string)key),
+                                    new KeysPathComponent("Description")));
+                            }
+                            return result;
+                        })
+                        .SelectMany(i => i);
 
-                    return result.ToObservable();
+                    return list.ToObservable();
                 });
 
             routes.MapRoute<Model>()
@@ -126,6 +124,7 @@ namespace Falcor.WebExample
                     context.Properties: IList<string>
                     context.HasProperty(i => i.FirstName)
                     result.AddProperty(i => i.FirstName, "first" + key): PathValue
+                    result.Done()
                     */
                     var key = p.Components[1].Key;
                     var properties = (KeysPathComponent)p.Components[2];

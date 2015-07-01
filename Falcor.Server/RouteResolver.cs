@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 
 namespace Falcor.Server
@@ -41,7 +42,7 @@ namespace Falcor.Server
                 }
 
                 return keysDefinition.Keys.Count == 0 
-                    || keysDefinition.Keys.Any(i => keysInput.Keys.Any(j => j == i));
+                    || keysDefinition.Keys.Any(i => keysInput.Keys.Any(j => string.Compare(j, i, true, CultureInfo.InvariantCulture) == 0));
             }            
 
             var rangeInput = input as RangePathComponent;

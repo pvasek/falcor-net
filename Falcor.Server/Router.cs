@@ -72,7 +72,7 @@ namespace Falcor.Server
             // first try it synchronously, we can solve RX things later
             var result = routeWithPaths
                 .Select(i => i.Route
-                    .Handler(i.Path)
+                    .Execute(i.Path)
                     .Zip(Observable.Repeat(i.Path), 
                         (value, path) => new PathEvaluationItem
                         {
