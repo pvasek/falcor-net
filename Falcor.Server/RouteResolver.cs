@@ -42,7 +42,7 @@ namespace Falcor.Server
                 }
 
                 return keysDefinition.Keys.Count == 0 
-                    || keysDefinition.Keys.Any(i => keysInput.Keys.Any(j => string.Compare(j, i, false, CultureInfo.InvariantCulture) == 0));
+                    || keysDefinition.Keys.Any(i => keysInput.Keys.Any(j => string.Compare(j, i, true, CultureInfo.InvariantCulture) == 0));
             }            
 
             var rangeInput = input as RangePathComponent;

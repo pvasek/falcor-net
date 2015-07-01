@@ -19,12 +19,12 @@ namespace Falcor.MovieExample
     {
         public void Configuration(IAppBuilder app)
         {
-            app.UseStaticFiles();
+            app.UseStaticFiles("/app");
             app.UseFalcor(GetFalcorRoutes());
 
             app.Run(async context =>
             {                
-                await context.Response.WriteAsync("TODO");
+                await context.Response.WriteAsync("go to /app/index.html");
             });
         }
 
@@ -49,27 +49,19 @@ namespace Falcor.MovieExample
             routes.MapRoute<Model>()
                 .Dictionary(i => i.MovieById)
                 .AsKey()
-                .Properties(i => i.Details, i => i.Title, i => i.Boxart)
-                .To(p =>
+                .Properties()
+                .ToRoute(req =>
                 {
-                    var key = Int32.Parse((string)p.Components[1].Key);
-                    var properties = (KeysPathComponent) p.Components[2];
-                    var movie = movies[key];
                     var result = new List<PathValue>();
-                    if (properties.Keys.Contains("Details"))
-                    {
-                        result.Add(PathValue.Create(movie.Details, p.Components[0], p.Components[1], new KeysPathComponent("Details")));
-                    }
-                    if (properties.Keys.Contains("Boxart"))
-                    {
-                        result.Add(PathValue.Create(movie.Boxart, p.Components[0], p.Components[1], new KeysPathComponent("Boxart")));
-                    }
-                    if (properties.Keys.Contains("Title"))
-                    {
-                        result.Add(PathValue.Create(movie.Title, p.Components[0], p.Components[1], new KeysPathComponent("Title")));
-                    }
 
-                    return result.ToObservable();
+                    foreach (var key in req.Keys)
+                    {
+                        var movie = movies[Int32.Parse(key)];
+                        result.Add(req.CreateResult(i => i.Title, movie.Title, key));
+                        result.Add(req.CreateResult(i => i.Details, movie.Details, key));
+                        result.Add(req.CreateResult(i => i.Boxart, movie.Boxart, key));
+                    }
+                    return result.Where(i => i != null).ToObservable();
                 });
 
            

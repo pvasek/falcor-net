@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Falcor.Server.Tests;
 using Newtonsoft.Json;
 
 namespace Falcor.MovieExample
@@ -12,13 +13,13 @@ namespace Falcor.MovieExample
 
         public class Movie
         {
-            [JsonProperty("details")]
+            [FalcorKey("details")]
             public string Details { get; set; }
 
-            [JsonProperty("details")]
+            [FalcorKey("title")]
             public string Title { get; set; }
 
-            [JsonProperty("summary")]
+            [FalcorKey("boxart")]
             public string Boxart { get; set; }
         }
     }

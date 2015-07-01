@@ -57,7 +57,9 @@
   <ItemGroup>
     <Compile Include="Builder\FalcorRequest.cs" />
     <Compile Include="Builder\IndexRouteContext.cs" />
+    <Compile Include="Builder\KeyPropertyFalcorRequest.cs" />
     <Compile Include="Builder\RequestExtensions.cs" />
+    <Compile Include="FalcorKeyAttribute.cs" />
     <Compile Include="Handler.cs" />
     <Compile Include="Parser\InputBuffer.cs" />
     <Compile Include="IResponseSerializer.cs" />
