@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Falcor.WebExample", "Falcor
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Falcor.Server.Owin", "Falcor.Server.Owin\Falcor.Server.Owin.csproj", "{5F6A2CDC-7BA6-43DE-A2CD-F2AB984F6707}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Falcor.MovieExample", "Falcor.MovieExample\Falcor.MovieExample.csproj", "{3071ECF3-DC38-42A7-AF21-A421F9449AA6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{5F6A2CDC-7BA6-43DE-A2CD-F2AB984F6707}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5F6A2CDC-7BA6-43DE-A2CD-F2AB984F6707}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5F6A2CDC-7BA6-43DE-A2CD-F2AB984F6707}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3071ECF3-DC38-42A7-AF21-A421F9449AA6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3071ECF3-DC38-42A7-AF21-A421F9449AA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3071ECF3-DC38-42A7-AF21-A421F9449AA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3071ECF3-DC38-42A7-AF21-A421F9449AA6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,115 @@
+{        
+    "movies": [
+        {
+            "details": {                
+                "synopsis": "Warehouse workers Vince and Zack compete in a full-on war to be named Employee of the Month and win a date with their dream girl."                    
+            },
+            "outline": {
+                "title": "Employee of the Month"
+            },
+            "summary": {
+                "boxart": "http://cdn0.nflximg.net/images/2028/21372028.jpg"
+            }
+        },
+        {
+            "details": {
+                "synopsis": "A group of randy college kids partying in a woodland cabin gets a nasty surprise when a horde of ferocious zombie beavers attacks."
+            },
+            "outline": {
+                "title": "Zombeavers"
+            },
+            "summary": {
+                "boxart": "http://cdn1.nflximg.net/images/6125/20986125.jpg"
+            }
+        },
+        {
+            "details": {
+                "synopsis": "When a cruel exterminator tries to destroy the band of impish creatures that adopted young orphan Eggs, he and a bold rich girl come to the rescue."
+            },
+            "outline": {
+                "title": "The Boxtrolls"
+            },
+            "summary": {
+                "boxart": "http://cdn0.nflximg.net/images/2816/21042816.jpg"
+            }
+        },
+        {
+            "details": {
+                "synopsis": "Four adopted brothers return to their Detroit hometown when their mother is murdered and vow to exact revenge on the killers."
+            },
+            "outline": {
+                "title": "Four Brothers"
+            },
+            "summary": {
+                "boxart": "http://cdn1.nflximg.net/images/5895/2835895.jpg"
+            }
+        },
+        {
+            "details": {
+                "synopsis": "After a run-in with Richard Grieco, dimwits Doug and Steve gain entry to a swanky nightclub in this comedy based on a \"Saturday Night Live\" sketch."
+            },
+            "outline": {
+                "title": "A Night at the Roxbury"
+            },
+            "summary": {
+                "boxart": "http://cdn1.nflximg.net/images/6247/2926247.jpg"
+            }
+        },
+        {
+            "details": {
+                "synopsis": "A top London cop is assigned to investigate a seemingly sleepy town, which suddenly starts to stir with a series of grisly \"accidents.\""
+            },
+            "outline": {
+                "title": "Hot Fuzz"
+            },
+            "summary": {
+                "boxart": "http://cdn0.nflximg.net/images/0126/13030126.jpg"
+            }
+        },
+        {
+            "details": {
+                "synopsis": "Will Smith and Tommy Lee Jones reprise their roles as two highly secretive and unofficial government agents dealing with all things evil and alien."
+            },
+            "outline": {
+                "title": "Men in Black II"
+            },
+            "summary": {
+                "boxart": "http://cdn0.nflximg.net/images/0850/8320850.jpg"
+            }
+        },
+        {
+            "details": {
+                "synopsis": "Carmen gets caught in a virtual reality game designed by the kids' new nemesis, the Toymaker, and it's up to Juni to save her by beating the game."
+            },
+            "outline": {
+                "title": "Spy Kids 3: Game Over"
+            },
+            "summary": {
+                "boxart": "http://cdn0.nflximg.net/images/4898/2894898.jpg"
+            }
+        },
+        {
+            "details": {
+                "synopsis": "When his baby brother Dil is born, Tommy Pickles and his pals decide that he's too much responsibility and try to return him to the hospital."
+            },
+            "outline": {
+                "title": "The Rugrats Movie"
+            },
+            "summary": {
+                "boxart": "http://cdn1.nflximg.net/images/3089/11593089.jpg"
+            }
+        },
+        {
+            "details": {
+                "synopsis": "A retired thief and his longtime foe -- a police detective -- reluctantly join forces when they realize an ongoing conspiracy threatens them both."
+            },
+            "outline": {
+                "title": "Welcome to the Punch"
+            },
+            "summary": {
+                "boxart": "http://cdn1.nflximg.net/images/3447/21313447.jpg"
+            }
+        }
+    ]
+}
+  

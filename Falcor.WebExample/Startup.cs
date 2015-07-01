@@ -88,19 +88,29 @@ namespace Falcor.WebExample
                 .Properties(i => i.Name, i => i.Description)
                 .To(p =>
                 {
-                    var key = p.Components[1].Key;
-                    var properties = (KeysPathComponent)p.Components[2];
-                    var result = new List<PathValue>();
-                    if (properties.Keys.Contains("Name"))
-                    {
-                        result.Add(PathValue.Create("club" + key, p.Components[0], p.Components[1], new KeysPathComponent("Name")));
-                    }
-                    if (properties.Keys.Contains("Description"))
-                    {
-                        result.Add(PathValue.Create(String.Format("club{0} description", key), p.Components[0], p.Components[1], new KeysPathComponent("Description")));
-                    }
+                    var list = p.Components[1]
+                        .AllKeys
+                        .Select(key =>
+                        {
+                            var properties = (KeysPathComponent) p.Components[2];
+                            var result = new List<PathValue>();
+                            if (properties.Keys.Contains("Name"))
+                            {
+                                result.Add(PathValue.Create("club" + key, p.Components[0], 
+                                    new KeysPathComponent((string)key),
+                                    new KeysPathComponent("Name")));
+                            }
+                            if (properties.Keys.Contains("Description"))
+                            {
+                                result.Add(PathValue.Create(String.Format("club{0} description", key), p.Components[0],
+                                    new KeysPathComponent((string)key),
+                                    new KeysPathComponent("Description")));
+                            }
+                            return result;
+                        })
+                        .SelectMany(i => i);
 
-                    return result.ToObservable();
+                    return list.ToObservable();
                 });
 
             routes.MapRoute<Model>()
