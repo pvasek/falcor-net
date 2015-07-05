@@ -32,13 +32,22 @@ namespace Falcor.Server
         private static bool MatchComponent(IPathComponent definition, IPathComponent input)
         {
             var keysInput = input as KeysPathComponent;
+            var indexInput = input as IntegersPathComponent;
+
             var keysDefinition = definition as KeysPathComponent;
 
             if (keysDefinition != null)
             {
                 if (keysInput == null)
                 {
-                    return false;
+                    if (indexInput != null && indexInput.Integers.Count == 1)
+                    {
+                        keysInput = new KeysPathComponent(indexInput.Integers[0].ToString());
+                    }
+                    else
+                    {
+                        return false;
+                    }
                 }
 
                 return keysDefinition.Keys.Count == 0 
@@ -52,7 +61,6 @@ namespace Falcor.Server
                 return rangeInput != null;
             }
 
-            var indexInput = input as IntegersPathComponent;
             var indexDefinition = definition as IntegersPathComponent;
             return indexInput != null && indexDefinition != null;
         }

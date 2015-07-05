@@ -528,8 +528,11 @@ var XMLHttpSource = _require3.XMLHttpSource;
 
 var rootModel = new Model({
     root: { unsafeMode: true },
-    source: new XMLHttpSource('../model.json')
+    //source: new XMLHttpSource('../model.json')
+    source: new XMLHttpSource('/model.json')
 });
+
+window.rootModel = rootModel;
 
 // Note we are using a special FalcorRoot, needed to find the root falcor Model
 var FalcorMovieApp = FalcorRoot(MovieApp, {
@@ -747,11 +750,7 @@ var style = { width: 1280, height: 300 };
 var MovieList = React.createClass({
     displayName: 'MovieList',
 
-    propTypes: {
-        listInfo: React.PropTypes.shape({
-            length: React.PropTypes.number
-        })
-    },
+    propTypes: {},
 
     getDefaultProps: function getDefaultProps() {
         return {
@@ -793,12 +792,12 @@ var FalcorMovieList = Falcor(MovieList, {
         * or in a more composable way by importing FalcorMovieItem and calling a static
         * getPaths function we placed on it
         */
-        return [['listInfo']];
+        return [];
     },
 
     // This means our model bound path would be ['movies']
     getBoundPath: function getBoundPath() {
-        return 'movies';
+        return ['movies'];
     }
 });
 

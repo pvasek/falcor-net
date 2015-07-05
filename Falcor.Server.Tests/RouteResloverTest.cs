@@ -132,6 +132,24 @@ namespace Falcor.Server.Tests
         }
 
         [Test]
+        public void Should_match_dictionary_key_with_simple_property_where_key_can_be_integer()
+        {
+            var route1 = new Route(new KeysPathComponent("events"), new IntegersPathComponent(), new KeysPathComponent("name"));
+            var route2 = new Route(new KeysPathComponent("eventById"), new KeysPathComponent(), new KeysPathComponent("from", "to"));
+            var route3 = new Route(new KeysPathComponent("users"), new IntegersPathComponent());
+
+            var target = new RouteResolver(new[] { route1, route2, route3 });
+            var result = target.FindRoutes(new Path(
+                    new KeysPathComponent("eventById"),
+                    new IntegersPathComponent(1),
+                    new KeysPathComponent("to", "name")))
+                .ToList();
+
+            Assert.AreEqual(1, result.Count);
+            Assert.AreEqual(route2, result[0]);
+        }
+
+        [Test]
         public void Should_match_index_with_indexes()
         {
             var route1 = new Route(new KeysPathComponent("events"), new IntegersPathComponent(0, 1, 2, 3, 4, 5));

@@ -13,7 +13,7 @@ namespace Falcor.Server.Owin
                 Path = path
             };
 
-            appBuilder.Map(path, app => app.Use<FalcorOwinMiddleware>(options));
+            appBuilder.UseFalcor(options);
         }
 
         public static void UseFalcor(this IAppBuilder appBuilder, FalcorOwinMiddlewareOptions options)

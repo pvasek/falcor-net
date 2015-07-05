@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reactive.Linq;
+using System.Threading.Tasks;
 using Falcor.MovieExample;
 using Falcor.Server;
 using Falcor.Server.Builder;
@@ -20,12 +21,23 @@ namespace Falcor.MovieExample
         public void Configuration(IAppBuilder app)
         {
             app.UseStaticFiles("/app");
+            //app.Use(EnableCors);
             app.UseFalcor(GetFalcorRoutes());
 
             app.Run(async context =>
             {                
                 await context.Response.WriteAsync("go to /app/index.html");
             });
+        }
+
+        private static Task EnableCors(IOwinContext context, Func<Task> next)
+        {
+            if (context.Request.Method == "OPTIONS")
+            {
+                context.Response.Headers.SetValues("Access-Control-Allow-Origin", "*");
+                context.Response.Headers.SetValues("Access-Control-Allow-Methods", "GET");
+            }
+            return next();
         }
 
         private List<Route> GetFalcorRoutes()

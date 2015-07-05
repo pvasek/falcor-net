@@ -14,7 +14,7 @@ namespace Falcor.Server.Builder
         {
             var keysIndex = originalPath.Components.Count - 2;
             var propertiesIndex = originalPath.Components.Count - 1;
-            Keys = ((KeysPathComponent) Path.Components[keysIndex]).Keys;
+            Keys = Path.Components[keysIndex].AllKeys.Select(i => i.ToString()).ToList();
             Properties = ((KeysPathComponent)Path.Components[propertiesIndex]).Keys;
         }
 

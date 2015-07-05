@@ -86,7 +86,6 @@
     <Compile Include="PathParser.cs" />
     <Compile Include="RangePathComponent.cs" />
     <Compile Include="IPathComponent.cs" />
-    <Compile Include="PropertiesPathComponent.cs" />
     <Compile Include="ResponseBuilder.cs" />
     <Compile Include="ResponseSerializer.cs" />
     <Compile Include="Route.cs" />

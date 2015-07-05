@@ -101,6 +101,7 @@
     <Content Include="app\index.html" />
     <Content Include="app\js\master-details.js" />
     <Content Include="packages.config" />
+    <None Include="Properties\PublishProfiles\falcor-net-movies.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
