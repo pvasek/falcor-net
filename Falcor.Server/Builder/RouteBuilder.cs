@@ -42,6 +42,13 @@ namespace Falcor.Server.Builder
             return new KeyPropertyRouteJourney<TModel, T>(routeJourney.Route, routeJourney.Routes);
         }
 
+        public static KeyPropertyRouteJourney<TModel, T> Properties<TModel, T>(this ListRouteJourney<TModel, T> journey, params string[] properties)
+        {
+            var routeJourney = (IRouteJourney)journey;
+            routeJourney.Route.Path.Components.Add(new KeysPathComponent(properties));
+            return new KeyPropertyRouteJourney<TModel, T>(routeJourney.Route, routeJourney.Routes);
+        }
+
         public static ListRouteJourney<TModel, TProperty> List<TModel, T, TProperty>(this PropertyRouteJourney<TModel, T> journey, Expression<Func<T, IList<TProperty>>> func)
         {            
             var propertyInfo = ExpressionHelper.GetProperty(func);

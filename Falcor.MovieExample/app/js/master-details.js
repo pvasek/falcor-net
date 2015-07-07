@@ -754,19 +754,19 @@ var MovieList = React.createClass({
 
     getDefaultProps: function getDefaultProps() {
         return {
-            listInfo: {
-                length: 10
-            }
+            Length: 10
         };
     },
 
     render: function render() {
-        var onMovieSelected = this.props.onMovieSelected;
+        var _props = this.props;
+        var onMovieSelected = _props.onMovieSelected;
+        var Length = _props.Length;
 
         return React.createElement(
             'div',
             { style: style },
-            range(0, 10, function (i) {
+            range(0, Length - 1, function (i) {
                 return React.createElement(MovieItem, { index: i, onMovieSelected: onMovieSelected });
             })
         );
@@ -792,7 +792,7 @@ var FalcorMovieList = Falcor(MovieList, {
         * or in a more composable way by importing FalcorMovieItem and calling a static
         * getPaths function we placed on it
         */
-        return [];
+        return ['Length'];
     },
 
     // This means our model bound path would be ['movies']

@@ -59,6 +59,18 @@ namespace Falcor.MovieExample
                 });
 
             routes.MapRoute<Model>()
+                .List(i => i.Movies)
+                .Properties("Length")
+                .ToRoute(req =>
+                {
+                    return req
+                        .Keys
+                        .Select(key => req.CreateResult("Length", movies.Count, key))
+                        .Where(i => i != null)
+                        .ToObservable();
+                });
+
+            routes.MapRoute<Model>()
                 .Dictionary(i => i.MovieById)
                 .AsKey()
                 .Properties()

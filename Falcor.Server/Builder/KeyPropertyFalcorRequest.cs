@@ -52,6 +52,23 @@ namespace Falcor.Server.Builder
             return PathValue.Create(value, pathComponents);
         }
 
+        public PathValue CreateResult<TProperty>(string propertyName, TProperty value, string key)
+        {
+            if (!HasProperty(propertyName))
+            {
+                return null;
+            }
+
+            var pathComponents = Path.Components
+                .Take(Path.Components.Count - 2)
+                .ToList();
+
+            pathComponents.Add(new KeysPathComponent(key));
+            pathComponents.Add(new KeysPathComponent(propertyName));
+
+            return PathValue.Create(value, pathComponents);
+        }
+
         private string GetPropertyKey(PropertyInfo property)
         {
             return property
