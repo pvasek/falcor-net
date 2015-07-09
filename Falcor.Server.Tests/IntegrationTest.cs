@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
+using System.Threading.Tasks;
 using Falcor.Server.Builder;
 using Falcor.Server.Tests.Model;
 using NUnit.Framework;
@@ -12,7 +13,7 @@ namespace Falcor.Server.Tests
     public class IntegrationTest
     {
         [Test]
-        public void Single_properties_per_route()
+        public async Task Single_properties_per_route()
         {
             var routes = new List<Route>();
             routes.MapRoute<TestEventModel>()
@@ -25,7 +26,9 @@ namespace Falcor.Server.Tests
                         new KeysPathComponent("EventById"), 
                         new KeysPathComponent("980" + index));
 
-                    return Observable.Return(PathValue.Create(reference, new KeysPathComponent("Events"), p.Components[1]));
+                    return Task.FromResult(PathValue
+                                .Create(reference, new KeysPathComponent("Events"), p.Components[1])
+                                .AsEnumerable());
                 });   
 
             routes.MapRoute<TestEventModel>()
@@ -40,7 +43,7 @@ namespace Falcor.Server.Tests
                             Path = p
                         };
 
-                    return Observable.Return(pathValue);
+                    return Task.FromResult(pathValue.AsEnumerable());
                 });
 
             var routeResolver = new RouteResolver(routes);
@@ -59,7 +62,7 @@ namespace Falcor.Server.Tests
                 new IntegersPathComponent(1),
                 new KeysPathComponent("Name"));
 
-            var result = target.Execute(path1, path2);
+            var result = await target.Execute(path1, path2);
             Assert.IsNotNull(result);
             Assert.IsNotNull(result.Data);
 
@@ -112,7 +115,7 @@ response = {
 
 
         [Test]
-        public void Multiple_properties_per_route()
+        public async Task Multiple_properties_per_route()
         {
             var routes = new List<Route>();
             routes.MapRoute<TestEventModel>()
@@ -125,7 +128,7 @@ response = {
                         new KeysPathComponent("EventById"),
                         new KeysPathComponent("980" + index));
 
-                    return Observable.Return(PathValue.Create(reference, new KeysPathComponent("Events"), p.Components[1]));
+                    return Task.FromResult(PathValue.Create(reference, new KeysPathComponent("Events"), p.Components[1]).AsEnumerable());
                 });
 
             routes.MapRoute<TestEventModel>()
@@ -153,7 +156,7 @@ response = {
                         });
                     }
                     
-                    return pathValues.ToObservable();
+                    return Task.FromResult(pathValues.AsEnumerable());
                 });
 
             var routeResolver = new RouteResolver(routes);
@@ -172,7 +175,7 @@ response = {
                 new IntegersPathComponent(0),
                 new KeysPathComponent("Number"));
 
-            var result = target.Execute(path1, path2);
+            var result = await target.Execute(path1, path2);
             Assert.IsNotNull(result);
             Assert.IsNotNull(result.Data);
 

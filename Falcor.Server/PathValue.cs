@@ -27,4 +27,12 @@ namespace Falcor.Server
         public IPath Path { get; set; }
         public object Value { get; set; }
     }
+
+    public static class PathValueExtensions
+    {
+        public static IEnumerable<PathValue> AsEnumerable(this PathValue value)
+        {
+            yield return value;
+        }
+    }
 }

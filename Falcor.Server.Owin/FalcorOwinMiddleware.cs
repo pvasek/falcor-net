@@ -23,7 +23,7 @@ namespace Falcor.Server.Owin
         public async override Task Invoke(IOwinContext ctx)
         {
             var path = ctx.Request.Query["path"] ?? ctx.Request.Query["paths"]; // not sure which is correct
-            var result = _falcorRouter.Execute(_pathParser.ParsePaths(path));
+            var result = await _falcorRouter.Execute(_pathParser.ParsePaths(path));
             var serializer = _responseSerializer;
             ctx.Response.Headers.Set("content-type", "application/json");
 

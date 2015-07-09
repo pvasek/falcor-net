@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Reactive.Linq;
+using System.Threading.Tasks;
 
 namespace Falcor.Server
 {
@@ -17,14 +17,14 @@ namespace Falcor.Server
             _responseBuilder = responseBuilder;
         }
 
-        public Response Execute(params IPath[] paths)
+        public Task<Response> Execute(params IPath[] paths)
         {
             return Execute((IEnumerable<IPath>)paths);
         }
 
-        public Response Execute(IEnumerable<IPath> paths)
+        public async Task<Response> Execute(IEnumerable<IPath> paths)
         {
-            var result = GetPathValues(paths);
+            var result = await GetPathValues(paths);
             var nextResults = result;
             
             while (true)
@@ -46,7 +46,7 @@ namespace Falcor.Server
                     break;
                 }
 
-                nextResults = GetPathValues(nextPaths);
+                nextResults = await GetPathValues(nextPaths);
                 result.AddRange(nextResults);
             }
 
@@ -56,31 +56,32 @@ namespace Falcor.Server
                     .ToList());
         }
 
-        private List<PathEvaluationItem> GetPathValues(IEnumerable<IPath> paths)
+        private async Task<List<PathEvaluationItem>> GetPathValues(IEnumerable<IPath> paths)
         {
             paths = _pathCollapser.Collapse(paths);
 
-            var routeWithPaths = paths.SelectMany(path =>
-                _routeResolver
-                    .FindRoutes(path)
-                    .Select(route => new
-                    {
-                        Route = route,
-                        Path = path
-                    }));
+            var routeResultsWithPaths = paths
+                .SelectMany(path =>
+                    _routeResolver
+                        .FindRoutes(path)
+                        .Select(route => new
+                        {
+                            ExecutionTask = route.Execute(path),
+                            Path = path
+                        }))
+                .ToList();
 
-            // first try it synchronously, we can solve RX things later
-            var result = routeWithPaths
-                .Select(i => i.Route
-                    .Execute(i.Path)
-                    .Zip(Observable.Repeat(i.Path), 
-                        (value, path) => new PathEvaluationItem
+            await Task.WhenAll(routeResultsWithPaths.Select(i => i.ExecutionTask));
+
+            var result = routeResultsWithPaths
+                .Select(i => i.ExecutionTask
+                    .Result
+                    .Select(value => new PathEvaluationItem
                         {
                             Result = value,
-                            ForPath = path
+                            ForPath = i.Path
                         }))
-                .Concat()
-                .ToEnumerable()
+                .SelectMany(i => i.ToList())
                 .ToList();
 
             return result;

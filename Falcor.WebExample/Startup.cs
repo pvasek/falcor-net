@@ -41,7 +41,7 @@ namespace Falcor.WebExample
                         .Select(i => req.CreateResult(i,
                             req.CreateRef(m => m.EventById, "980" + i)));
 
-                    return result.ToObservable();
+                    return Task.FromResult(result);
                 });
 
             routes.MapRoute<Model>()
@@ -49,11 +49,10 @@ namespace Falcor.WebExample
                 .AsIndex()
                 .ToRoute(req =>
                 {
-                    return req
+                    return Task.FromResult(req
                         .Indexes
                         .Select(i => req.CreateResult(i,
-                            req.CreateRef(m => m.ClubById, "600" + i)))
-                        .ToObservable();
+                            req.CreateRef(m => m.ClubById, "600" + i))));
                 });
 
             routes.MapRoute<Model>()
@@ -79,7 +78,7 @@ namespace Falcor.WebExample
                         result.Add(PathValue.Create(reference, p.Components[0], p.Components[1], new KeysPathComponent("Club")));
                     }
 
-                    return result.ToObservable();
+                    return Task.FromResult(result.AsEnumerable());
                 });
 
             routes.MapRoute<Model>()
@@ -110,7 +109,7 @@ namespace Falcor.WebExample
                         })
                         .SelectMany(i => i);
 
-                    return list.ToObservable();
+                    return Task.FromResult(list);
                 });
 
             routes.MapRoute<Model>()
@@ -138,7 +137,7 @@ namespace Falcor.WebExample
                         result.Add(PathValue.Create("last" + key, p.Components[0], p.Components[1], new KeysPathComponent("LastName")));
                     }
 
-                    return result.ToObservable();
+                    return Task.FromResult(result.AsEnumerable());
                 });
             return routes;
         }      

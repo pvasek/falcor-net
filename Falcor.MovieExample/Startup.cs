@@ -55,7 +55,7 @@ namespace Falcor.MovieExample
                         .Select(i => req.CreateResult(i,
                             req.CreateRef(m => m.MovieById, i.ToString())));
 
-                    return result.ToObservable();
+                    return Task.FromResult(result);
                 });
 
             routes.MapRoute<Model>()
@@ -63,11 +63,10 @@ namespace Falcor.MovieExample
                 .Properties("Length")
                 .ToRoute(req =>
                 {
-                    return req
+                    return Task.FromResult(req
                         .Keys
                         .Select(key => req.CreateResult("Length", movies.Count, key))
-                        .Where(i => i != null)
-                        .ToObservable();
+                        .Where(i => i != null));
                 });
 
             routes.MapRoute<Model>()
@@ -85,7 +84,7 @@ namespace Falcor.MovieExample
                         result.Add(req.CreateResult(i => i.Details, movie.Details, key));
                         result.Add(req.CreateResult(i => i.Boxart, movie.Boxart, key));
                     }
-                    return result.Where(i => i != null).ToObservable();
+                    return Task.FromResult(result.Where(i => i != null));
                 });
 
            
@@ -159,13 +158,13 @@ namespace Falcor.MovieExample
                     Title = "The Rugrats Movie",
                     Boxart = "http://cdn1.nflximg.net/images/3089/11593089.jpg"
                 },
-                new Model.Movie
-                {
-                    Details =
-                        "A retired thief and his longtime foe -- a police detective -- reluctantly join forces when they realize an ongoing conspiracy threatens them both.",
-                    Title = "Welcome to the Punch",
-                    Boxart = "http://cdn1.nflximg.net/images/3447/21313447.jpg"
-                }
+//                new Model.Movie
+//                {
+//                    Details =
+//                        "A retired thief and his longtime foe -- a police detective -- reluctantly join forces when they realize an ongoing conspiracy threatens them both.",
+//                    Title = "Welcome to the Punch",
+//                    Boxart = "http://cdn1.nflximg.net/images/3447/21313447.jpg"
+//                }
             };
         }
     }

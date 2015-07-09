@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Reactive.Linq;
+using System.Threading.Tasks;
 using Moq;
 using NUnit.Framework;
 
@@ -9,7 +11,7 @@ namespace Falcor.Server.Tests
     public class RouterTest
     {
         [Test]
-        public void Should_route_simple_route()
+        public async Task Should_route_simple_route()
         {
             // TODO: fix this test
             var routeResolver = new Mock<IRouteResolver>();
@@ -57,7 +59,7 @@ namespace Falcor.Server.Tests
             //["eventsById", "99801", "name"]
             var target = new Router(routeResolver.Object, pathCollapser.Object, responseBuilder.Object);
 
-            var result = target.Execute(path1);
+            var result = await target.Execute(path1);
 
             Assert.AreEqual(response, result);
             Assert.AreEqual(2, findRouteCount);
@@ -69,7 +71,7 @@ namespace Falcor.Server.Tests
 
             return new Route
             {
-                Handler = path => Observable.Return(pathValue)                
+                Handler = path => Task.FromResult(pathValue.AsEnumerable())                
             };
         }
     }

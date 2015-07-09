@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace Falcor.Server.Builder
 {
@@ -94,14 +95,14 @@ namespace Falcor.Server.Builder
             routeJourney.Routes.Add(routeJourney.Route);
         }
 
-        public static void ToRoute<TModel, T>(this IndexRouteJourney<TModel, T> journey, Func<IndexFalcorRequest<TModel>, IObservable<PathValue>> handler)
+        public static void ToRoute<TModel, T>(this IndexRouteJourney<TModel, T> journey, Func<IndexFalcorRequest<TModel>, Task<IEnumerable<PathValue>>> handler)
         {
             var routeJourney = (IRouteJourney)journey;
             routeJourney.Route.Handler = (path) => handler(new IndexFalcorRequest<TModel>(path, routeJourney.Route.Path));
             routeJourney.Routes.Add(routeJourney.Route);
         }
 
-        public static void ToRoute<TModel, T>(this KeyPropertyRouteJourney<TModel, T> journey, Func<KeyPropertyFalcorRequest<TModel, T>, IObservable<PathValue>> handler)
+        public static void ToRoute<TModel, T>(this KeyPropertyRouteJourney<TModel, T> journey, Func<KeyPropertyFalcorRequest<TModel, T>, Task<IEnumerable<PathValue>>> handler)
         {
             var routeJourney = (IRouteJourney)journey;
             routeJourney.Route.Handler = (path) => handler(new KeyPropertyFalcorRequest<TModel, T>(path, routeJourney.Route.Path));

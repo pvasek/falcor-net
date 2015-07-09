@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Falcor.Server
 {
@@ -17,7 +19,7 @@ namespace Falcor.Server
         public IPath Path { get; private set; }
         public Handler Handler { get; set; }
 
-        public IObservable<PathValue> Execute(IPath path)
+        public Task<IEnumerable<PathValue>> Execute(IPath path)
         {
             return Handler(path);
         }
