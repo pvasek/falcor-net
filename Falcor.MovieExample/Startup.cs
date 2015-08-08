@@ -11,6 +11,7 @@ using Falcor.Server.Owin;
 using Microsoft.Owin;
 using Newtonsoft.Json;
 using Owin;
+using Path = Falcor.Server.Path;
 
 [assembly: OwinStartup(typeof(Startup))]
 
@@ -43,8 +44,8 @@ namespace Falcor.MovieExample
         private List<Route> GetFalcorRoutes()
         {
             var routes = new List<Route>();
-            var movies = LoadModel();
-            
+            var movies = LoadModel();            
+
             routes.MapRoute<Model>()
                 .List(i => i.Movies)
                 .AsIndex()
@@ -67,7 +68,7 @@ namespace Falcor.MovieExample
                         .Keys
                         .Select(key => req.CreateResult("Length", movies.Count, key))
                         .Where(i => i != null));
-                });
+                });           
 
             routes.MapRoute<Model>()
                 .Dictionary(i => i.MovieById)

@@ -27,9 +27,46 @@ namespace Falcor.WebExample
             });
         }
 
+
         private List<Route> GetFalcorRoutes()
         {
+            var model = ModelGenerator.Generate();
             var routes = new List<Route>();
+
+            var route = new Route();
+            route.Path.Components.Add(new KeysPathComponent("EventsQuery"));
+            route.Path.Components.Add(new KeysPathComponent());
+            route.Path.Components.Add(new KeysPathComponent());
+            route.Path.Components.Add(new IntegersPathComponent());
+            route.Handler = path =>
+            {
+                var orderComponent = (KeysPathComponent) path.Components[1];
+                var filterComponent = (KeysPathComponent)path.Components[2];
+                var intPathComponent = (IntegersPathComponent)path.Components[3];
+
+                var events = model.Events.AsEnumerable();
+                if (orderComponent.Key.Equals("Name"))
+                {
+                    events = events.OrderBy(i => i.Name);
+                } else if (orderComponent.Key.Equals("Number"))
+                {
+                    events = events.OrderBy(i => i.Number);
+                }
+                var eventsList = events.ToList();
+
+                return Task.FromResult(intPathComponent.Integers
+                    .Select(i => PathValue.Create(
+                        new Ref(
+                            new KeysPathComponent("EventById"),
+                            new KeysPathComponent(eventsList[i].Id)),
+                        path.Components[0],
+                        path.Components[1],
+                        path.Components[2],
+                        new IntegersPathComponent(i)
+                    )));
+            };
+
+            routes.Add(route);
 
             routes.MapRoute<Model>()
                 .List(i => i.Events)
@@ -38,51 +75,53 @@ namespace Falcor.WebExample
                 {
                     var result = req
                         .Indexes
+                        .Where(i => i < model.Events.Count)
                         .Select(i => req.CreateResult(i,
-                            req.CreateRef(m => m.EventById, "980" + i)));
+                            req.CreateRef(m => m.EventById, model.Events[i].Id)));
 
                     return Task.FromResult(result);
                 });
 
             routes.MapRoute<Model>()
-                .List(i => i.Clubs)
+                .List(i => i.Countries)
                 .AsIndex()
                 .ToRoute(req =>
                 {
                     return Task.FromResult(req
                         .Indexes
                         .Select(i => req.CreateResult(i,
-                            req.CreateRef(m => m.ClubById, "600" + i))));
+                            req.CreateRef(m => m.CountryById, model.Countries[i].Id))));
                 });
 
             routes.MapRoute<Model>()
                 .Dictionary(i => i.EventById)
                 .AsKey()
-                .Properties(i => i.Name, i => i.Number, i => i.Club)
+                .Properties(i => i.Name, i => i.Number, i => i.Country)
                 .To(p =>
                 {
                     var key = (string) p.Components[1].Key;
                     var properties = (KeysPathComponent) p.Components[2];
                     var result = new List<PathValue>();
+                    var item = model.Events.First(i => i.Id.Equals(key));
                     if (properties.Keys.Contains("Name"))
                     {
-                        result.Add(PathValue.Create("name" + key, p.Components[0], p.Components[1], new KeysPathComponent("Name")));
+                        result.Add(PathValue.Create(item.Name, p.Components[0], p.Components[1], new KeysPathComponent("Name")));
                     }
                     if (properties.Keys.Contains("Number"))
                     {
-                        result.Add(PathValue.Create(Int32.Parse(key), p.Components[0], p.Components[1], new KeysPathComponent("Number")));
+                        result.Add(PathValue.Create(item.Number, p.Components[0], p.Components[1], new KeysPathComponent("Number")));
                     }
-                    if (properties.Keys.Contains("Club"))
+                    if (properties.Keys.Contains("Country"))
                     {
-                        var reference = new Ref(new KeysPathComponent("ClubById"), new KeysPathComponent(key));
-                        result.Add(PathValue.Create(reference, p.Components[0], p.Components[1], new KeysPathComponent("Club")));
+                        var reference = new Ref(new KeysPathComponent("CountryById"), new KeysPathComponent(item.Country.Id));
+                        result.Add(PathValue.Create(reference, p.Components[0], p.Components[1], new KeysPathComponent("Country")));
                     }
 
                     return Task.FromResult(result.AsEnumerable());
                 });
 
             routes.MapRoute<Model>()
-                .Dictionary(i => i.ClubById)
+                .Dictionary(i => i.CountryById)
                 .AsKey()
                 .Properties(i => i.Name, i => i.Description)
                 .To(p =>
