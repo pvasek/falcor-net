@@ -13,8 +13,8 @@ namespace Falcor.Server.Tests
             var result = target.CreateResponse(new[]
             {
                 PathValue.Create("name1", 
-                    new KeysPathComponent("settings"), 
-                    new KeysPathComponent("Name"))
+                    new Keys("settings"), 
+                    new Keys("Name"))
             });
 
             var settings = VerifyObjectProperty(result.Data, "settings");
@@ -31,9 +31,9 @@ namespace Falcor.Server.Tests
             var result = target.CreateResponse(new[]
             {
                 PathValue.Create("name1", 
-                    new KeysPathComponent("settings"), 
-                    new IntegersPathComponent(0),
-                    new KeysPathComponent("Name"))
+                    new Keys("settings"), 
+                    new Integers(0),
+                    new Keys("Name"))
             });
 
             var settings = VerifyObjectProperty(result.Data, "settings");
@@ -51,13 +51,13 @@ namespace Falcor.Server.Tests
             var result = target.CreateResponse(new[]
             {
                 PathValue.Create("name1", 
-                    new KeysPathComponent("settingById"), 
-                    new KeysPathComponent("1"),
-                    new KeysPathComponent("Name")),
+                    new Keys("settingById"), 
+                    new Keys("1"),
+                    new Keys("Name")),
                 PathValue.Create(10,
-                    new KeysPathComponent("settingById"), 
-                    new KeysPathComponent("1"),
-                    new KeysPathComponent("Number"))
+                    new Keys("settingById"), 
+                    new Keys("1"),
+                    new Keys("Number"))
             });
 
             var settings = VerifyObjectProperty(result.Data, "settingById");
@@ -76,9 +76,9 @@ namespace Falcor.Server.Tests
             var target = new ResponseBuilder();
             var result = target.CreateResponse(new[]
             {
-                PathValue.Create(new Ref(new KeysPathComponent("settings"), new IntegersPathComponent(0)), 
-                    new KeysPathComponent("settings"), 
-                    new IntegersPathComponent(0))
+                PathValue.Create(new Ref(new Keys("settings"), new Integers(0)), 
+                    new Keys("settings"), 
+                    new Integers(0))
             });
 
             var settings = VerifyObjectProperty(result.Data, "settings");

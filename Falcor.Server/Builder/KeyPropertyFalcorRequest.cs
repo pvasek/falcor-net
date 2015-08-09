@@ -15,7 +15,7 @@ namespace Falcor.Server.Builder
             var keysIndex = originalPath.Components.Count - 2;
             var propertiesIndex = originalPath.Components.Count - 1;
             Keys = Path.Components[keysIndex].AllKeys.Select(i => i.ToString()).ToList();
-            Properties = ((KeysPathComponent)Path.Components[propertiesIndex]).Keys;
+            Properties = ((Keys)Path.Components[propertiesIndex]).Values;
         }
 
         public IList<string> Keys { get; private set; }
@@ -46,8 +46,8 @@ namespace Falcor.Server.Builder
                 .Take(Path.Components.Count - 2)
                 .ToList();
 
-            pathComponents.Add(new KeysPathComponent(key));
-            pathComponents.Add(new KeysPathComponent(propertyKey ?? propertyName));
+            pathComponents.Add(new Keys(key));
+            pathComponents.Add(new Keys(propertyKey ?? propertyName));
 
             return PathValue.Create(value, pathComponents);
         }
@@ -63,8 +63,8 @@ namespace Falcor.Server.Builder
                 .Take(Path.Components.Count - 2)
                 .ToList();
 
-            pathComponents.Add(new KeysPathComponent(key));
-            pathComponents.Add(new KeysPathComponent(propertyName));
+            pathComponents.Add(new Keys(key));
+            pathComponents.Add(new Keys(propertyName));
 
             return PathValue.Create(value, pathComponents);
         }

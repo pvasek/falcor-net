@@ -25,20 +25,20 @@ namespace Falcor.Server
             var stringInput = input as string;
             if (stringInput != null)
             {
-                return new KeysPathComponent(stringInput);
+                return new Keys(stringInput);
             }
 
             if (input is int)
             {
-                return new IntegersPathComponent((int)input);
+                return new Integers(null, (int)input);
             }
 
-            var rangeInput = input as Range;
+            var rangeInput = input as RangeValue;
             if (rangeInput != null)
             {
                 var from = rangeInput.From ?? 0;
                 var count = (rangeInput.To ?? 0) - from + 1;
-                return new IntegersPathComponent(Enumerable.Range(from, count));
+                return new Integers(Enumerable.Range(from, count));
             }
 
             var list = input as IList<object>;
@@ -49,12 +49,12 @@ namespace Falcor.Server
 
             if (list.All(i => i is string))
             {
-                return new KeysPathComponent(list.Cast<string>());
+                return new Keys(list.Cast<string>());
             }
 
             if (list.All(i => i is int))
             {
-                return new IntegersPathComponent(list.Cast<int>());
+                return new Integers(list.Cast<int>());
             }
 
             throw new ArgumentException($"Unknown path component for list type {input.GetType()}");

@@ -137,7 +137,7 @@ namespace Falcor.Server.Tests
         public void Should_serialize_reference()
         {
             var response = new Response();
-            response.Data.Add("EventRef", new Ref(new KeysPathComponent("EventsById", "9801")));
+            response.Data.Add("EventRef", new Ref(new Keys("EventsById", "9801")));
 
             var target = new ResponseSerializer();
             var result = target.Serialize(response);

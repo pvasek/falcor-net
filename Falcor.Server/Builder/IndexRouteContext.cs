@@ -17,7 +17,7 @@ namespace Falcor.Server.Builder
 
         public IList<int> Indexes
         {
-            get { return ((IntegersPathComponent) Path.Components[_index]).Integers; }
+            get { return ((Integers) Path.Components[_index]).Values; }
         }
 
         public PathValue CreateResult(int index, object value)
@@ -26,7 +26,7 @@ namespace Falcor.Server.Builder
                 .Take(Path.Components.Count - 2)
                 .ToList();
 
-            pathComponents.Add(new IntegersPathComponent(index));
+            pathComponents.Add(new Integers(null, index));
 
             return PathValue.Create(value, pathComponents);
         }

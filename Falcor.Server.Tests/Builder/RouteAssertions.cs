@@ -34,26 +34,26 @@ namespace Falcor.Server.Tests.Builder
                 Assert.AreEqual(pathFragment.Expected.GetType(), pathFragment.Actual.GetType());                
             }
 
-            foreach (var pathFragment in pathFragments.Where(i => i.Expected is KeysPathComponent))
+            foreach (var pathFragment in pathFragments.Where(i => i.Expected is Keys))
             {
-                var expectedFragments = (KeysPathComponent) pathFragment.Expected;
-                var actualFragments = (KeysPathComponent) pathFragment.Actual;
-                Assert.AreEqual(expectedFragments.Keys, actualFragments.Keys);
+                var expectedFragments = (Keys) pathFragment.Expected;
+                var actualFragments = (Keys) pathFragment.Actual;
+                Assert.AreEqual(expectedFragments.Values, actualFragments.Values);
             }
 
-            foreach (var pathFragment in pathFragments.Where(i => i.Expected is RangePathComponent))
+            foreach (var pathFragment in pathFragments.Where(i => i.Expected is Range))
             {
-                var expectedFragments = (RangePathComponent)pathFragment.Expected;
-                var actualFragments = (RangePathComponent)pathFragment.Actual;
+                var expectedFragments = (Range)pathFragment.Expected;
+                var actualFragments = (Range)pathFragment.Actual;
                 Assert.AreEqual(expectedFragments.From, actualFragments.From);
                 Assert.AreEqual(expectedFragments.To, actualFragments.To);
             }
 
-            foreach (var pathFragment in pathFragments.Where(i => i.Expected is IntegersPathComponent))
+            foreach (var pathFragment in pathFragments.Where(i => i.Expected is Integers))
             {
-                var expectedFragments = (IntegersPathComponent)pathFragment.Expected;
-                var actualFragments = (IntegersPathComponent)pathFragment.Actual;
-                Assert.AreEqual(expectedFragments.Integers, actualFragments.Integers);
+                var expectedFragments = (Integers)pathFragment.Expected;
+                var actualFragments = (Integers)pathFragment.Actual;
+                Assert.AreEqual(expectedFragments.Values, actualFragments.Values);
             }
         }
     }

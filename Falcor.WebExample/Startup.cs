@@ -34,35 +34,35 @@ namespace Falcor.WebExample
             var routes = new List<Route>();
 
             var route = new Route();
-            route.Path.Components.Add(new KeysPathComponent("EventsQuery"));
-            route.Path.Components.Add(new KeysPathComponent());
-            route.Path.Components.Add(new KeysPathComponent());
-            route.Path.Components.Add(new IntegersPathComponent());
+            route.Path.Components.Add(new Keys("EventsQuery"));
+            route.Path.Components.Add(Keys.Any("orderby"));
+            route.Path.Components.Add(Keys.Any("where"));
+            route.Path.Components.Add(Integers.Any("indexes"));
             route.Handler = path =>
             {
-                var orderComponent = (KeysPathComponent) path.Components[1];
-                var filterComponent = (KeysPathComponent)path.Components[2];
-                var intPathComponent = (IntegersPathComponent)path.Components[3];
+                var orderComponent = path.As<Keys>("orderby");
+                var filterComponent = path.As<Keys>("where");
+                var intPathComponent = path.As<Integers>("indexes");
 
                 var events = model.Events.AsEnumerable();
-                if (orderComponent.Key.Equals("Name"))
+                if (orderComponent.Value.Equals("Name"))
                 {
                     events = events.OrderBy(i => i.Name);
-                } else if (orderComponent.Key.Equals("Number"))
+                } else if (orderComponent.Value.Equals("Number"))
                 {
                     events = events.OrderBy(i => i.Number);
                 }
                 var eventsList = events.ToList();
 
-                return Task.FromResult(intPathComponent.Integers
+                return Task.FromResult(intPathComponent.Values
                     .Select(i => PathValue.Create(
                         new Ref(
-                            new KeysPathComponent("EventById"),
-                            new KeysPathComponent(eventsList[i].Id)),
+                            new Keys("EventById"),
+                            new Keys(eventsList[i].Id)),
                         path.Components[0],
                         path.Components[1],
                         path.Components[2],
-                        new IntegersPathComponent(i)
+                        new Integers(i)
                     )));
             };
 
@@ -99,22 +99,22 @@ namespace Falcor.WebExample
                 .Properties(i => i.Name, i => i.Number, i => i.Country)
                 .To(p =>
                 {
-                    var key = (string) p.Components[1].Key;
-                    var properties = (KeysPathComponent) p.Components[2];
+                    var key = (string) p.Components[1].Value;
+                    var properties = (Keys) p.Components[2];
                     var result = new List<PathValue>();
                     var item = model.Events.First(i => i.Id.Equals(key));
-                    if (properties.Keys.Contains("Name"))
+                    if (properties.Values.Contains("Name"))
                     {
-                        result.Add(PathValue.Create(item.Name, p.Components[0], p.Components[1], new KeysPathComponent("Name")));
+                        result.Add(PathValue.Create(item.Name, p.Components[0], p.Components[1], new Keys("Name")));
                     }
-                    if (properties.Keys.Contains("Number"))
+                    if (properties.Values.Contains("Number"))
                     {
-                        result.Add(PathValue.Create(item.Number, p.Components[0], p.Components[1], new KeysPathComponent("Number")));
+                        result.Add(PathValue.Create(item.Number, p.Components[0], p.Components[1], new Keys("Number")));
                     }
-                    if (properties.Keys.Contains("Country"))
+                    if (properties.Values.Contains("Country"))
                     {
-                        var reference = new Ref(new KeysPathComponent("CountryById"), new KeysPathComponent(item.Country.Id));
-                        result.Add(PathValue.Create(reference, p.Components[0], p.Components[1], new KeysPathComponent("Country")));
+                        var reference = new Ref(new Keys("CountryById"), new Keys(item.Country.Id));
+                        result.Add(PathValue.Create(reference, p.Components[0], p.Components[1], new Keys("Country")));
                     }
 
                     return Task.FromResult(result.AsEnumerable());
@@ -130,19 +130,19 @@ namespace Falcor.WebExample
                         .AllKeys
                         .Select(key =>
                         {
-                            var properties = (KeysPathComponent) p.Components[2];
+                            var properties = (Keys) p.Components[2];
                             var result = new List<PathValue>();
-                            if (properties.Keys.Contains("Name"))
+                            if (properties.Values.Contains("Name"))
                             {
                                 result.Add(PathValue.Create("club" + key, p.Components[0], 
-                                    new KeysPathComponent((string)key),
-                                    new KeysPathComponent("Name")));
+                                    new Keys((string)key),
+                                    new Keys("Name")));
                             }
-                            if (properties.Keys.Contains("Description"))
+                            if (properties.Values.Contains("Description"))
                             {
                                 result.Add(PathValue.Create(String.Format("club{0} description", key), p.Components[0],
-                                    new KeysPathComponent((string)key),
-                                    new KeysPathComponent("Description")));
+                                    new Keys((string)key),
+                                    new Keys("Description")));
                             }
                             return result;
                         })
@@ -158,22 +158,22 @@ namespace Falcor.WebExample
                 .To(p =>
                 {
                     /*
-                    context.Keys: IList<string>
+                    context.Values: IList<string>
                     context.Properties: IList<string>
                     context.HasProperty(i => i.FirstName)
                     result.AddProperty(i => i.FirstName, "first" + key): PathValue
                     result.Done()
                     */
-                    var key = p.Components[1].Key;
-                    var properties = (KeysPathComponent)p.Components[2];
+                    var key = p.Components[1].Value;
+                    var properties = (Keys)p.Components[2];
                     var result = new List<PathValue>();
-                    if (properties.Keys.Contains("FirstName"))
+                    if (properties.Values.Contains("FirstName"))
                     {
-                        result.Add(PathValue.Create("first" + key, p.Components[0], p.Components[1], new KeysPathComponent("FirstName")));
+                        result.Add(PathValue.Create("first" + key, p.Components[0], p.Components[1], new Keys("FirstName")));
                     }
-                    if (properties.Keys.Contains("LastName"))
+                    if (properties.Values.Contains("LastName"))
                     {
-                        result.Add(PathValue.Create("last" + key, p.Components[0], p.Components[1], new KeysPathComponent("LastName")));
+                        result.Add(PathValue.Create("last" + key, p.Components[0], p.Components[1], new Keys("LastName")));
                     }
 
                     return Task.FromResult(result.AsEnumerable());

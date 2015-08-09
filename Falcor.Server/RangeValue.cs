@@ -1,6 +1,6 @@
 ﻿namespace Falcor.Server
 {
-    public class Range
+    public class RangeValue
     {
         public int? From { get; set; }
         public int? To { get; set; }

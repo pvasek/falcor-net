@@ -31,18 +31,18 @@ namespace Falcor.Server
 
         private static bool MatchComponent(IPathComponent definition, IPathComponent input)
         {
-            var keysInput = input as KeysPathComponent;
-            var indexInput = input as IntegersPathComponent;
+            var keysInput = input as Keys;
+            var indexInput = input as Integers;
 
-            var keysDefinition = definition as KeysPathComponent;
+            var keysDefinition = definition as Keys;
 
             if (keysDefinition != null)
             {
                 if (keysInput == null)
                 {
-                    if (indexInput != null && indexInput.Integers.Count == 1)
+                    if (indexInput != null && indexInput.Values.Count == 1)
                     {
-                        keysInput = new KeysPathComponent(indexInput.Integers[0].ToString());
+                        keysInput = new Keys(indexInput.Values[0].ToString());
                     }
                     else
                     {
@@ -50,18 +50,18 @@ namespace Falcor.Server
                     }
                 }
 
-                return keysDefinition.Keys.Count == 0 
-                    || keysDefinition.Keys.Any(i => keysInput.Keys.Any(j => string.Compare(j, i, true, CultureInfo.InvariantCulture) == 0));
+                return keysDefinition.Values.Count == 0 
+                    || keysDefinition.Values.Any(i => keysInput.Values.Any(j => string.Compare(j, i, true, CultureInfo.InvariantCulture) == 0));
             }            
 
-            var rangeInput = input as RangePathComponent;
-            var rangeDefinition = definition as RangePathComponent;
+            var rangeInput = input as Range;
+            var rangeDefinition = definition as Range;
             if (rangeDefinition != null)
             {
                 return rangeInput != null;
             }
 
-            var indexDefinition = definition as IntegersPathComponent;
+            var indexDefinition = definition as Integers;
             return indexInput != null && indexDefinition != null;
         }
     }
