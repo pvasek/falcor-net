@@ -17,7 +17,7 @@ namespace Falcor.Server.Builder
         {
             var propertyInfo = ExpressionHelper.GetProperty(func);
             var routeJourney = (IRouteJourney)journey;
-            routeJourney.Route.Path.Components.Add(new KeysPathComponent(propertyInfo.Name));
+            routeJourney.Route.Path.Components.Add(new Keys(propertyInfo.Name));
             return new PropertyRouteJourney<TModel, TProperty>(routeJourney.Route, routeJourney.Routes);
         }
 
@@ -28,7 +28,7 @@ namespace Falcor.Server.Builder
                 .ToList();
 
             var routeJourney = (IRouteJourney)journey;
-            routeJourney.Route.Path.Components.Add(new KeysPathComponent(properties.Select(i => i.Name).ToArray()));
+            routeJourney.Route.Path.Components.Add(new Keys(properties.Select(i => i.Name).ToArray()));
             return new FinalRouteJourney(routeJourney.Route, routeJourney.Routes);
         }
 
@@ -39,14 +39,14 @@ namespace Falcor.Server.Builder
                 .ToList();
 
             var routeJourney = (IRouteJourney)journey;
-            routeJourney.Route.Path.Components.Add(new KeysPathComponent(properties.Select(i => i.Name).ToArray()));
+            routeJourney.Route.Path.Components.Add(new Keys(properties.Select(i => i.Name).ToArray()));
             return new KeyPropertyRouteJourney<TModel, T>(routeJourney.Route, routeJourney.Routes);
         }
 
         public static KeyPropertyRouteJourney<TModel, T> Properties<TModel, T>(this ListRouteJourney<TModel, T> journey, params string[] properties)
         {
             var routeJourney = (IRouteJourney)journey;
-            routeJourney.Route.Path.Components.Add(new KeysPathComponent(properties));
+            routeJourney.Route.Path.Components.Add(new Keys(properties));
             return new KeyPropertyRouteJourney<TModel, T>(routeJourney.Route, routeJourney.Routes);
         }
 
@@ -54,7 +54,7 @@ namespace Falcor.Server.Builder
         {            
             var propertyInfo = ExpressionHelper.GetProperty(func);
             var routeJourney = (IRouteJourney)journey;
-            routeJourney.Route.Path.Components.Add(new KeysPathComponent(propertyInfo.Name));
+            routeJourney.Route.Path.Components.Add(new Keys(propertyInfo.Name));
             return new ListRouteJourney<TModel, TProperty>(routeJourney.Route, routeJourney.Routes);
         }
 
@@ -62,14 +62,14 @@ namespace Falcor.Server.Builder
         {
             var propertyInfo = ExpressionHelper.GetProperty(func);
             var routeJourney = (IRouteJourney)journey;
-            routeJourney.Route.Path.Components.Add(new KeysPathComponent(propertyInfo.Name));
+            routeJourney.Route.Path.Components.Add(new Keys(propertyInfo.Name));
             return new DictionarRouteJourney<TModel, TProperty>(routeJourney.Route, routeJourney.Routes);
         }
 
         public static PropertyRouteJourney<TModel, T> AsRange<TModel, T>(this ListRouteJourney<TModel, T> journey, int? from, int? to)
         {
             var routeJourney = (IRouteJourney)journey;
-            routeJourney.Route.Path.Components.Add(new RangePathComponent(from, to));
+            routeJourney.Route.Path.Components.Add(new Range(from, to));
             return new PropertyRouteJourney<TModel, T>(routeJourney.Route, routeJourney.Routes);
         }
 
@@ -77,14 +77,14 @@ namespace Falcor.Server.Builder
         {
             var routeJourney = (IRouteJourney)journey;
             var integers = index != null ? new[] { index.Value } : null;
-            routeJourney.Route.Path.Components.Add(new IntegersPathComponent(integers));
+            routeJourney.Route.Path.Components.Add(new Integers(integers));
             return new IndexRouteJourney<TModel, T>(routeJourney.Route, routeJourney.Routes);
         }
 
         public static KeyRouteJourney<TModel, T> AsKey<TModel, T>(this DictionarRouteJourney<TModel, T> journey, params string[] keys)
         {
             var routeJourney = (IRouteJourney)journey;
-            routeJourney.Route.Path.Components.Add(new KeysPathComponent(keys));
+            routeJourney.Route.Path.Components.Add(new Keys(keys));
             return new KeyRouteJourney<TModel, T>(routeJourney.Route, routeJourney.Routes);
         }
 

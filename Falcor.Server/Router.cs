@@ -29,8 +29,6 @@ namespace Falcor.Server
             
             while (true)
             {
-                //TODO: the route can match only half of the path we need to evalutate the rest
-
                 // select all which evaluted just partially 
                 var nextPaths = nextResults
                     .Where(i => i.ForPath.Components.Count > i.Result.Path.Components.Count)

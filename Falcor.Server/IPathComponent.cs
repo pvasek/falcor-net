@@ -5,7 +5,9 @@ namespace Falcor.Server
 {
     public interface IPathComponent
     {
-        object Key { get; }
+        string Name { get; }
+        object Value { get; }
         IEnumerable<object> AllKeys { get; }
+        IPathComponent CloneAs(string name);
     }
 }

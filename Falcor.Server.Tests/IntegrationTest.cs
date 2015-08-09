@@ -21,13 +21,13 @@ namespace Falcor.Server.Tests
                 .AsIndex()
                 .To(p =>
                 {
-                    var index = ((IntegersPathComponent) p.Components[1]).Integers.First() + 1;
+                    var index = ((Integers) p.Components[1]).Values.First() + 1;
                     var reference = new Ref(
-                        new KeysPathComponent("EventById"), 
-                        new KeysPathComponent("980" + index));
+                        new Keys("EventById"), 
+                        new Keys("980" + index));
 
                     return Task.FromResult(PathValue
-                                .Create(reference, new KeysPathComponent("Events"), p.Components[1])
+                                .Create(reference, new Keys("Events"), p.Components[1])
                                 .AsEnumerable());
                 });   
 
@@ -53,14 +53,14 @@ namespace Falcor.Server.Tests
             var target = new Router(routeResolver, pathCollapser, responseBuilder);
 
             var path1 = new Path(
-                new KeysPathComponent("Events"),
-                new IntegersPathComponent(0),
-                new KeysPathComponent("Name"));
+                new Keys("Events"),
+                new Integers(0),
+                new Keys("Name"));
 
             var path2 = new Path(
-                new KeysPathComponent("Events"),
-                new IntegersPathComponent(1),
-                new KeysPathComponent("Name"));
+                new Keys("Events"),
+                new Integers(1),
+                new Keys("Name"));
 
             var result = await target.Execute(path1, path2);
             Assert.IsNotNull(result);
@@ -75,10 +75,10 @@ namespace Falcor.Server.Tests
             var event1 = events["1"] as Ref;
             Assert.IsNotNull(event0);
             Assert.IsNotNull(event1);
-            Assert.AreEqual("EventById", event0.Path.Components[0].Key);
-            Assert.AreEqual("9801", event0.Path.Components[1].Key);
-            Assert.AreEqual("EventById", event1.Path.Components[0].Key);
-            Assert.AreEqual("9802", event1.Path.Components[1].Key);
+            Assert.AreEqual("EventById", event0.Path.Components[0].Value);
+            Assert.AreEqual("9801", event0.Path.Components[1].Value);
+            Assert.AreEqual("EventById", event1.Path.Components[0].Value);
+            Assert.AreEqual("9802", event1.Path.Components[1].Value);
 
             var eventById1 = (IDictionary<string,object>)eventById["9801"];
             var eventById2 = (IDictionary<string, object>)eventById["9802"];
@@ -123,12 +123,12 @@ response = {
                 .AsIndex()
                 .To(p =>
                 {
-                    var index = ((IntegersPathComponent)p.Components[1]).Integers.First() + 1;
+                    var index = ((Integers)p.Components[1]).Values.First() + 1;
                     var reference = new Ref(
-                        new KeysPathComponent("EventById"),
-                        new KeysPathComponent("980" + index));
+                        new Keys("EventById"),
+                        new Keys("980" + index));
 
-                    return Task.FromResult(PathValue.Create(reference, new KeysPathComponent("Events"), p.Components[1]).AsEnumerable());
+                    return Task.FromResult(PathValue.Create(reference, new Keys("Events"), p.Components[1]).AsEnumerable());
                 });
 
             routes.MapRoute<TestEventModel>()
@@ -138,7 +138,7 @@ response = {
                 .To(p =>
                 {
                     var pathValues = new List<PathValue>();
-                    var properties = ((KeysPathComponent) p.Components[2]).Keys;
+                    var properties = ((Keys) p.Components[2]).Values;
                     if (properties.Contains("Name"))
                     {
                         pathValues.Add(new PathValue
@@ -166,14 +166,14 @@ response = {
             var target = new Router(routeResolver, pathCollapser, responseBuilder);
 
             var path1 = new Path(
-                new KeysPathComponent("Events"),
-                new IntegersPathComponent(0),
-                new KeysPathComponent("Name"));
+                new Keys("Events"),
+                new Integers(0),
+                new Keys("Name"));
 
             var path2 = new Path(
-                new KeysPathComponent("Events"),
-                new IntegersPathComponent(0),
-                new KeysPathComponent("Number"));
+                new Keys("Events"),
+                new Integers(0),
+                new Keys("Number"));
 
             var result = await target.Execute(path1, path2);
             Assert.IsNotNull(result);
@@ -186,8 +186,8 @@ response = {
 
             var event0 = events["0"] as Ref;
             Assert.IsNotNull(event0);
-            Assert.AreEqual("EventById", event0.Path.Components[0].Key);
-            Assert.AreEqual("9801", event0.Path.Components[1].Key);
+            Assert.AreEqual("EventById", event0.Path.Components[0].Value);
+            Assert.AreEqual("9801", event0.Path.Components[1].Value);
 
             var eventById1 = (IDictionary<string, object>)eventById["9801"];
             Assert.IsNotNull(eventById1);

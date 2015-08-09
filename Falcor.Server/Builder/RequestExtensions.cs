@@ -11,8 +11,8 @@ namespace Falcor.Server.Builder
         {
             var property = ExpressionHelper.GetProperty(func).Name;
             return new Ref(
-                new KeysPathComponent(property),
-                new KeysPathComponent(key));
+                new Keys(property),
+                new Keys(key));
         }        
     }
 }

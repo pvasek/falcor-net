@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Falcor.Server
@@ -21,7 +22,12 @@ namespace Falcor.Server
 
         public Task<IEnumerable<PathValue>> Execute(IPath path)
         {
-            return Handler(path);
+            var pathComponents = path
+                .Components
+                .Zip(Path.Components, (i, j) => new {inputComponent = i, defineComponent = j})
+                .Select(i => i.inputComponent.CloneAs(i.defineComponent.Name));
+
+            return Handler(new Path(pathComponents));
         }
     }
 }

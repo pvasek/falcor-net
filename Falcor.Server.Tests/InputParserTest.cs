@@ -4,6 +4,7 @@ using NUnit.Framework;
 
 namespace Falcor.Server.Tests
 {
+    [TestFixture]
     public class InputParserTest
     {
         [Test]
@@ -78,7 +79,7 @@ namespace Falcor.Server.Tests
 
         private static void AssertRange(int from, int to, object actual)
         {
-            var range = actual as Range;
+            var range = actual as RangeValue;
             Assert.IsNotNull(range);
             Assert.AreEqual(from, range.From);
             Assert.AreEqual(to, range.To);

@@ -20,17 +20,17 @@ namespace Falcor.Server.Tests
             pathCollapser.Setup(i => i.Collapse(It.IsAny<IEnumerable<IPath>>()))
                 .Returns((IEnumerable<IPath> paths) => paths);
 
-            var path1 = new Path(new KeysPathComponent("events"), new IntegersPathComponent(0), new KeysPathComponent("name"));
+            var path1 = new Path(new Keys("events"), new Integers(0), new Keys("name"));
             
             // the first route should match only the first part
             var route1 = CreateRoute(
-                new Ref(new KeysPathComponent("eventById"), new KeysPathComponent("99801")),
-                new KeysPathComponent("events"), new IntegersPathComponent(0));
+                new Ref(new Keys("eventById"), new Keys("99801")),
+                new Keys("events"), new Integers(0));
             
             // the second route should match the rest of the route and replace beginning with reference
             var route2 = CreateRoute(
                 "name1",
-                new KeysPathComponent("eventById"), new KeysPathComponent("99801"), new KeysPathComponent("name"));
+                new Keys("eventById"), new Keys("99801"), new Keys("name"));
 
             var findRouteCount = 0;
             routeResolver

@@ -59,7 +59,7 @@ namespace Falcor.Server.Parser
             var from = (int) result.Last();
             result.RemoveAt(result.Count - 1);
             ParseNumber(input, result);
-            var range = new Range
+            var range = new RangeValue
             {
                 From = from,
                 To = (int)result.Last()

@@ -18,7 +18,7 @@ namespace Falcor.Server
                 .Select(i => (IList<object>)i
                     .Path
                     .Components
-                    .Select(j => j.Key)
+                    .Select(j => j.Value)
                     .ToList())
                 .ToList();
 
@@ -27,7 +27,7 @@ namespace Falcor.Server
 
         private void AddPath(IDictionary<string,object> data, IList<IPathComponent> path, object value)
         {
-            var key = path.First().Key.ToString();
+            var key = path.First().Value.ToString();
 
             if (path.Count() == 1)
             {
