@@ -7,15 +7,15 @@ namespace Falcor.Server
     {
         public static PathValue Create(object value, IPath path)
         {
-            return Create(value, path.Components);
+            return Create(value, path.Items);
         }
 
-        public static PathValue Create(object value, IEnumerable<IPathComponent> path)
+        public static PathValue Create(object value, IEnumerable<IPathItem> path)
         {
             return Create(value, path.ToArray());
         }
 
-        public static PathValue Create(object value, params IPathComponent[] path)
+        public static PathValue Create(object value, params IPathItem[] path)
         {
             return new PathValue
             {
@@ -26,13 +26,5 @@ namespace Falcor.Server
 
         public IPath Path { get; set; }
         public object Value { get; set; }
-    }
-
-    public static class PathValueExtensions
-    {
-        public static IEnumerable<PathValue> AsEnumerable(this PathValue value)
-        {
-            yield return value;
-        }
     }
 }

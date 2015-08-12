@@ -6,19 +6,19 @@ namespace Falcor.Server.Tests.Builder
 {
     public class RouteAssertions
     {
-        public static void AssertSingleRoutePath(List<Route> routes, params IPathComponent[] expected)
+        public static void AssertSingleRoutePath(List<Route> routes, params IPathItem[] expected)
         {
             Assert.AreEqual(1, routes.Count, "Expected only one route in routes collection");
             var route = routes.First();
-            AssertPath(route.Path.Components, expected);
+            AssertPath(route.Items.Select(i => i.Item).ToList(), expected);
         }
 
-        public static void AssertPath(IPath actual, params IPathComponent[] expected)
+        public static void AssertPath(IPath actual, params IPathItem[] expected)
         {
-            AssertPath(actual.Components, expected);
+            AssertPath(actual.Items, expected);
         }
 
-        public static void AssertPath(IList<IPathComponent> actual, params IPathComponent[] expected)
+        public static void AssertPath(IList<IPathItem> actual, params IPathItem[] expected)
         { 
             Assert.AreEqual(expected.Length, actual.Count);
             var pathFragments = expected

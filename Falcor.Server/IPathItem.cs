@@ -3,11 +3,9 @@ using System.Collections.Generic;
 
 namespace Falcor.Server
 {
-    public interface IPathComponent
+    public interface IPathItem
     {
-        string Name { get; }
         object Value { get; }
         IEnumerable<object> AllKeys { get; }
-        IPathComponent CloneAs(string name);
     }
 }

@@ -65,13 +65,13 @@ namespace Falcor.Server.Tests
             Assert.AreEqual(2, findRouteCount);
         }
 
-        private Route CreateRoute(object value, params IPathComponent[] components)
+        private Route CreateRoute(object value, params IPathItem[] items)
         {
-            var pathValue = new PathValue { Value = value, Path = new Path(components)};
+            var pathValue = new PathValue { Value = value, Path = new Path(items)};
 
             return new Route
             {
-                Handler = path => Task.FromResult(pathValue.AsEnumerable())                
+                RouteHandler = path => Task.FromResult(pathValue.AsEnumerable())                
             };
         }
     }

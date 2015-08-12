@@ -4,6 +4,6 @@ namespace Falcor.Server
 {
     public interface IUrlComponentParser
     {
-        IList<IPathComponent> ParseQueryString(string queryString);
+        IList<IPathItem> ParseQueryString(string queryString);
     }
 }

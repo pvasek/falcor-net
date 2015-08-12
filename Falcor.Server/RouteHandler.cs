@@ -4,5 +4,5 @@ using System.Threading.Tasks;
 
 namespace Falcor.Server
 {
-    public delegate Task<IEnumerable<PathValue>> Handler(IPath path);
+    public delegate Task<IEnumerable<PathValue>> RouteHandler(RouteHandlerContext ctx);
 }

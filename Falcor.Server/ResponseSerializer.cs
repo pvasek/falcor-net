@@ -69,7 +69,7 @@ namespace Falcor.Server
         {
             var result = new JObject();
             result["$type"] = "ref";
-            result["value"] = new JArray(reference.Path.Components.SelectMany(i => i.AllKeys));
+            result["value"] = new JArray(reference.Path.Items.SelectMany(i => i.AllKeys));
             return result;
         }
     }

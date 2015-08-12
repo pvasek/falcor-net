@@ -11,13 +11,13 @@ namespace Falcor.Server
 
             foreach (var pathValue in values)
             {
-                AddPath(result.Data, pathValue.Path.Components, pathValue.Value);
+                AddPath(result.Data, pathValue.Path.Items, pathValue.Value);
             }
 
             result.Paths = values
                 .Select(i => (IList<object>)i
                     .Path
-                    .Components
+                    .Items
                     .Select(j => j.Value)
                     .ToList())
                 .ToList();
@@ -25,7 +25,7 @@ namespace Falcor.Server
             return result;
         }
 
-        private void AddPath(IDictionary<string,object> data, IList<IPathComponent> path, object value)
+        private void AddPath(IDictionary<string,object> data, IList<IPathItem> path, object value)
         {
             var key = path.First().Value.ToString();
 

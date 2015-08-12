@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,26 +7,29 @@ namespace Falcor.Server
     public class Route
     {
         public Route()
-        {
-            Path = new Path();
+        {            
+            Items = new List<IRoutePathItem>();
         }
 
-        public Route(params IPathComponent[] pathComponents)
+        public Route(params IRoutePathItem[] items)
         {
-            Path = new Path(pathComponents);
+            Items = items.ToList();         
         }
 
-        public IPath Path { get; private set; }
-        public Handler Handler { get; set; }
+        public Route(params IPathItem[] items)
+        {
+            Items = items
+                .Select(i => (IRoutePathItem)new RoutePathItem(i))
+                .ToList();
+        }
+
+        public IList<IRoutePathItem> Items { get; }
+
+        public RouteHandler RouteHandler { get; set; }
 
         public Task<IEnumerable<PathValue>> Execute(IPath path)
         {
-            var pathComponents = path
-                .Components
-                .Zip(Path.Components, (i, j) => new {inputComponent = i, defineComponent = j})
-                .Select(i => i.inputComponent.CloneAs(i.defineComponent.Name));
-
-            return Handler(new Path(pathComponents));
+            return RouteHandler(new RouteHandlerContext(path, Items));
         }
     }
 }

@@ -4,6 +4,6 @@ namespace Falcor.Server
 {
     public interface IPath
     {
-        IList<IPathComponent> Components { get; } 
+        IList<IPathItem> Items { get; } 
     }
 }

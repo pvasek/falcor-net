@@ -20,7 +20,7 @@ namespace Falcor.Server
                 .ToList();
         }
 
-        private IPathComponent InputToPathComponent(object input)
+        private IPathItem InputToPathComponent(object input)
         {
             var stringInput = input as string;
             if (stringInput != null)
@@ -30,7 +30,7 @@ namespace Falcor.Server
 
             if (input is int)
             {
-                return new Integers(null, (int)input);
+                return new Integers((int)input);
             }
 
             var rangeInput = input as RangeValue;

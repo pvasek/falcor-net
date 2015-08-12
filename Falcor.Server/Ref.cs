@@ -2,7 +2,7 @@
 {
     public class Ref
     {
-        public Ref(params IPathComponent[] path)
+        public Ref(params IPathItem[] path)
         {
             Path = new Path(path);
         }

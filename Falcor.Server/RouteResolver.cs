@@ -15,21 +15,21 @@ namespace Falcor.Server
 
         public IEnumerable<Route> FindRoutes(IPath path)
         {
-            return _routes.Where(i => Match(path.Components, i.Path.Components));
+            return _routes.Where(i => Match(path.Items, i.Items));
         }
 
-        private static bool Match(IList<IPathComponent> input, IList<IPathComponent> definition)
+        private static bool Match(IList<IPathItem> input, IList<IRoutePathItem> definition)
         {
             if (input.Count < definition.Count)
             {
                 return false;
             }
 
-            var result = definition.Zip(input, MatchComponent).All(i => i);
+            var result = definition.Zip(input, (def, inp) => MatchComponent(def.Item, inp)).All(i => i);
             return result;
         }
 
-        private static bool MatchComponent(IPathComponent definition, IPathComponent input)
+        private static bool MatchComponent(IPathItem definition, IPathItem input)
         {
             var keysInput = input as Keys;
             var indexInput = input as Integers;

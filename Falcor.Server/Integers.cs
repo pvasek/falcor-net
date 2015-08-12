@@ -3,39 +3,31 @@ using System.Linq;
 
 namespace Falcor.Server
 {
-    public class Integers : IPathComponent
+    public class Integers : IPathItem
     {
         public Integers(IEnumerable<int> integers)
         {
             Values = integers.ToList();
         }
 
-        public Integers(params int[] integers): this(null, integers)
+        public Integers(params int[] integers): this(integers.AsEnumerable())
         {            
         }
-
-        public Integers(string name, params int[] integers)
-        {
-            Name = name;
-            Values = integers ?? (IList<int>) new List<int>();
-        }
-
-        public static Integers Any(string name = null)
-        {
-            return new Integers(name);
-        }
+     
 
         public IList<int> Values { get; }
-
-        public string Name { get; private set; }
-
+        
         public object Value { get { return Values.FirstOrDefault(); } }
 
         public IEnumerable<object> AllKeys { get { return Values.Cast<object>(); } }
 
-        public IPathComponent CloneAs(string name)
+        public static Integers Any()
         {
-            return new Integers(Values) { Name = name };
+            return new Integers();
+        }
+        public static Integers For(params int[] integers)
+        {
+            return new Integers(integers);
         }
     }
 }

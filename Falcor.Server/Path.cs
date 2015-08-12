@@ -4,15 +4,15 @@ namespace Falcor.Server
 {
     public class Path: IPath
     {
-        public Path(IEnumerable<IPathComponent> components)
+        public Path(IEnumerable<IPathItem> items)
         {
-            Components = new List<IPathComponent>(components);
+            Items = new List<IPathItem>(items);
         }
 
-        public Path(params IPathComponent[] components): this((IEnumerable<IPathComponent>)components)
+        public Path(params IPathItem[] items): this((IEnumerable<IPathItem>)items)
         {            
         }
 
-        public IList<IPathComponent> Components { get; }
+        public IList<IPathItem> Items { get; }
     }
 }

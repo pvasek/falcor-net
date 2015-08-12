@@ -8,26 +8,21 @@ This is falcor server implementation for .NET framework.
 
 The route builder use extensions methods on a list of routes. Enables defining routes and appropriate handlers. 
 
-The route builder initialize Route.Path property with appropriate path compenents.
+The route builder initialize Route.Path property with appropriate path components.
 
 ``` CSharp
 var routes = new List<Route>();
 
 routes.MapRoute<Model>()
     .List(i => i.Events)
-    .AsRange(0, 10)
-    .List(i => i.Competitions)
-    .AsIndex()
-    .Properties(i => i.Name, i => i.Competitors)
-    .To(() =>
+    .Properties()
+    .To(path =>
     {
         // TODO: implement the handler
         return Task.FromResult(0);
     });
 ```
 
-### Route resolver
+### Missing pieces
 
-The route resolver takes input path (this should be parse from query string by another component) and tries to find the appropriate routes.
-
-
+* router doesn't collapse paths - PathCollapser needs to be implemented

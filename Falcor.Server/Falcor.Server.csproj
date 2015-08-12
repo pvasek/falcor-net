@@ -36,39 +36,21 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Reactive.Core">
-      <HintPath>..\packages\Rx-Core.2.2.5\lib\net45\System.Reactive.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Reactive.Interfaces">
-      <HintPath>..\packages\Rx-Interfaces.2.2.5\lib\net45\System.Reactive.Interfaces.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Reactive.Linq">
-      <HintPath>..\packages\Rx-Linq.2.2.5\lib\net45\System.Reactive.Linq.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Reactive.PlatformServices">
-      <HintPath>..\packages\Rx-PlatformServices.2.2.5\lib\net45\System.Reactive.PlatformServices.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Builder\FalcorRequest.cs" />
-    <Compile Include="Builder\IndexRouteContext.cs" />
-    <Compile Include="Builder\KeyPropertyFalcorRequest.cs" />
-    <Compile Include="Builder\RequestExtensions.cs" />
+    <Compile Include="Extensions\RouteExtensions.cs" />
+    <Compile Include="Extensions\RouteListExtensions.cs" />
     <Compile Include="FalcorKeyAttribute.cs" />
-    <Compile Include="Handler.cs" />
+    <Compile Include="RouteHandler.cs" />
+    <Compile Include="IRoutePathItem.cs" />
     <Compile Include="Parser\InputBuffer.cs" />
     <Compile Include="IResponseSerializer.cs" />
     <Compile Include="JsongItem.cs" />
     <Compile Include="JsongItemType.cs" />
     <Compile Include="Parser\InputPathParser.cs" />
     <Compile Include="Parser\ParsingException.cs" />
-    <Compile Include="PathExtensions.cs" />
     <Compile Include="PathValue.cs" />
+    <Compile Include="PathValueExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RangeValue.cs" />
     <Compile Include="Ref.cs" />
@@ -86,11 +68,12 @@
     <Compile Include="PathCollapser.cs" />
     <Compile Include="PathParser.cs" />
     <Compile Include="RangePathComponent.cs" />
-    <Compile Include="IPathComponent.cs" />
+    <Compile Include="IPathItem.cs" />
     <Compile Include="ResponseBuilder.cs" />
     <Compile Include="ResponseSerializer.cs" />
     <Compile Include="Route.cs" />
-    <Compile Include="Builder\RouteBuilder.cs" />
+    <Compile Include="RouteHandlerContext.cs" />
+    <Compile Include="RoutePathItem.cs" />
     <Compile Include="Router.cs" />
     <Compile Include="RouteResolver.cs" />
   </ItemGroup>

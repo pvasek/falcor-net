@@ -31,11 +31,11 @@ namespace Falcor.Server
             {
                 // select all which evaluted just partially 
                 var nextPaths = nextResults
-                    .Where(i => i.ForPath.Components.Count > i.Result.Path.Components.Count)
+                    .Where(i => i.ForPath.Items.Count > i.Result.Path.Items.Count)
                     .Select(i => 
                         new Path(((Ref)i.Result.Value).Path
-                            .Components
-                            .Concat(i.ForPath.Components.Skip(i.Result.Path.Components.Count))
+                            .Items
+                            .Concat(i.ForPath.Items.Skip(i.Result.Path.Items.Count))
                             .ToArray()))
                     .ToList();
 
