@@ -25,8 +25,8 @@ namespace Falcor.Server.Tests
                         new Keys("EventById"), 
                         new Keys("980" + index));
 
-                    return Task.FromResult(PathValue
-                                .Create(reference, new Keys("Events"), Integers.For(index))
+                    return Task.FromResult(
+                        new PathValue(reference, new Keys("Events"), Integers.For(index))
                                 .AsEnumerable());
                 });   
 
@@ -36,12 +36,7 @@ namespace Falcor.Server.Tests
                 .PathItem(Keys.For("Name"))
                 .To(ctx =>
                 {
-                    var pathValue = new PathValue
-                        {
-                            Value = "name1",
-                            Path = ctx.Path
-                        };
-
+                    var pathValue = new PathValue("name1", ctx.Path.Items.ToArray());
                     return Task.FromResult(pathValue.AsEnumerable());
                 });
 
@@ -128,35 +123,29 @@ response = {
                         new Keys("EventById"),
                         new Keys("980" + index));
 
-                    return Task.FromResult(PathValue.Create(reference, new Keys("Events"), ctx.Path.Items[1]).AsEnumerable());
+                    return Task.FromResult(new PathValue(reference, new Keys("Events"), ctx.Path.Items[1]).AsEnumerable());
                 });
 
-            routes.MapRoute()
-                .PathItem(Keys.For("EventById"))
-                .PathItem("key", Keys.Any())
-                .PathItem("properties", Keys.For("Name", "Number"))
-                .To(ctx =>
+            routes.MapRoute(
+                Keys.For("EventById"),
+                Keys.Any(),
+                Keys.For("Name", "Number"),
+                (ctx, eventById, keys, properties) =>
                 {
-                    var pathValues = new List<PathValue>();
-                    var properties = ctx.Item<Keys>("properties").Values;
-                    if (properties.Contains("Name"))
+                    var list = new List<PathValue>();
+                    foreach (var key in keys.Values)
                     {
-                        pathValues.Add(new PathValue
+                        if (properties.HasKey("Name"))
                         {
-                            Value = "name1",
-                            Path = ctx.Path
-                        });
-                    }
-                    if (properties.Contains("Number"))
-                    {
-                        pathValues.Add(new PathValue
+                            list.Add(new PathValue("name1", eventById, Keys.For(key), Keys.For("Name")));
+                        }
+                        if (properties.HasKey("Number"))
                         {
-                            Value = 1,
-                            Path = ctx.Path
-                        });
+                            list.Add(new PathValue(1, eventById, Keys.For(key), Keys.For("Number")));                            
+                        }
                     }
-                    
-                    return Task.FromResult(pathValues.AsEnumerable());
+
+                    return Task.FromResult(list.AsEnumerable());
                 });
 
             var routeResolver = new RouteResolver(routes);
@@ -181,15 +170,15 @@ response = {
 
             var events = result.Data["Events"] as IDictionary<string, object>;
             Assert.IsNotNull(events);
-            var eventById = result.Data["EventById"] as IDictionary<string, object>;
-            Assert.IsNotNull(eventById);
+            var eventByIdResult = result.Data["EventById"] as IDictionary<string, object>;
+            Assert.IsNotNull(eventByIdResult);
 
             var event0 = events["0"] as Ref;
             Assert.IsNotNull(event0);
             Assert.AreEqual("EventById", event0.Path.Items[0].Value);
             Assert.AreEqual("9801", event0.Path.Items[1].Value);
 
-            var eventById1 = (IDictionary<string, object>)eventById["9801"];
+            var eventById1 = (IDictionary<string, object>)eventByIdResult["9801"];
             Assert.IsNotNull(eventById1);
             Assert.AreEqual("name1", eventById1["Name"]);
             Assert.AreEqual(1, eventById1["Number"]);            

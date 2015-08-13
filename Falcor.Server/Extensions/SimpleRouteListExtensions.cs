@@ -2,7 +2,7 @@
 
 namespace Falcor.Server.Extensions
 {
-    public static class RouteListExtensions
+    public static class SimpleRouteListExtensions
     {
         public static Route MapRoute(this IList<Route> list)
         {

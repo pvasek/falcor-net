@@ -16,8 +16,13 @@ namespace Falcor.Server
             Items = items.ToList();         
         }
 
-        public Route(params IPathItem[] items)
+        public Route(params IPathItem[] items): this(null, items)
+        {           
+        }
+
+        public Route(RouteHandler handler, params IPathItem[] items)
         {
+            RouteHandler = handler;
             Items = items
                 .Select(i => (IRoutePathItem)new RoutePathItem(i))
                 .ToList();

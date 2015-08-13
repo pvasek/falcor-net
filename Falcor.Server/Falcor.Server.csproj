@@ -39,7 +39,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions\RouteExtensions.cs" />
-    <Compile Include="Extensions\RouteListExtensions.cs" />
+    <Compile Include="Extensions\SimpleRouteListExtensions.cs" />
+    <Compile Include="Extensions\TypedRouteListExtensions.cs" />
     <Compile Include="FalcorKeyAttribute.cs" />
     <Compile Include="RouteHandler.cs" />
     <Compile Include="IRoutePathItem.cs" />

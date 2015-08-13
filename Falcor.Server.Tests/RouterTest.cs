@@ -67,7 +67,7 @@ namespace Falcor.Server.Tests
 
         private Route CreateRoute(object value, params IPathItem[] items)
         {
-            var pathValue = new PathValue { Value = value, Path = new Path(items)};
+            var pathValue = new PathValue(value, items);
 
             return new Route
             {

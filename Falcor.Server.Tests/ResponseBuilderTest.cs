@@ -12,7 +12,7 @@ namespace Falcor.Server.Tests
             var target = new ResponseBuilder();
             var result = target.CreateResponse(new[]
             {
-                PathValue.Create("name1", 
+                new PathValue("name1", 
                     new Keys("settings"), 
                     new Keys("Name"))
             });
@@ -30,7 +30,7 @@ namespace Falcor.Server.Tests
             var target = new ResponseBuilder();
             var result = target.CreateResponse(new[]
             {
-                PathValue.Create("name1", 
+                new PathValue("name1", 
                     new Keys("settings"), 
                     new Integers(0),
                     new Keys("Name"))
@@ -50,11 +50,11 @@ namespace Falcor.Server.Tests
             var target = new ResponseBuilder();
             var result = target.CreateResponse(new[]
             {
-                PathValue.Create("name1", 
+                new PathValue("name1", 
                     new Keys("settingById"), 
                     new Keys("1"),
                     new Keys("Name")),
-                PathValue.Create(10,
+                new PathValue(10,
                     new Keys("settingById"), 
                     new Keys("1"),
                     new Keys("Number"))
@@ -76,7 +76,7 @@ namespace Falcor.Server.Tests
             var target = new ResponseBuilder();
             var result = target.CreateResponse(new[]
             {
-                PathValue.Create(new Ref(new Keys("settings"), new Integers(0)), 
+                new PathValue(new Ref(new Keys("settings"), new Integers(0)), 
                     new Keys("settings"), 
                     new Integers(0))
             });
