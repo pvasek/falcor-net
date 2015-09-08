@@ -65,8 +65,7 @@ namespace Falcor.WebExample
                 Integers.Any(),
                 (ctx, events, keys) => 
                     {
-                        var indexes = ctx.Item<Integers>("indexes").Values;
-                        var result = indexes
+                        var result = keys.Values
                             .Where(i => i < model.Events.Count)
                             .Select(i => new PathValue(
                                 new Ref(Keys.For("EventById"), Keys.For(model.Events[i].Id)),
@@ -85,7 +84,7 @@ namespace Falcor.WebExample
                     return Task.FromResult(indexes
                         .Values
                         .Select(i => new PathValue(
-                            new Ref(Keys.For("CountryById"), Integers.For(i)),
+                            new Ref(Keys.For("CountryById"), Keys.For(model.Countries[i].Id)),
                             countries, Integers.For(i))));
                 }
             );
