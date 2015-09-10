@@ -153,15 +153,15 @@ namespace Falcor.WebExample
                     var result = new List<PathValue>();
                     foreach (var key in keys.Values)
                     {
-                        if (properties.HasKey("FirstName"))
+                        var item = model.Participants.First(i => i.Id.Equals(key));
+
+                        if (properties.Values.Contains("FirstName"))
                         {
-                            result.Add(new PathValue("first" + key,
-                                participantById, Keys.For(key), Keys.For("FirstName")));
+                            result.Add(new PathValue(item.FirstName, participantById, Keys.For(key), Keys.For("FirstName")));
                         }
-                        if (properties.HasKey("LastName"))
+                        if (properties.Values.Contains("LastName"))
                         {
-                            result.Add(new PathValue("last" + key,
-                                participantById, Keys.For(key), Keys.For("LastName")));
+                            result.Add(new PathValue(item.LastName, participantById, Keys.For(key), Keys.For("LastName")));
                         }
                     }
 
