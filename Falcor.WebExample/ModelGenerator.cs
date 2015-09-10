@@ -15,7 +15,7 @@ namespace Falcor.WebExample
                 {
                     Id = Guid.NewGuid().ToString(),
                     Name = i,
-
+                    Description = $"Name of the country is {i}"
                 })
                 .ToList();
             result.Events = _eventNames
