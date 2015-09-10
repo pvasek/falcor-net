@@ -91,6 +91,20 @@ namespace Falcor.WebExample
             );
 
             routes.MapRoute(
+                Keys.For("Participants"),
+                Integers.Any(),
+                (ctx, participants, indexes) =>
+                {
+                    return Task.FromResult(indexes
+                        .Values
+                        .Where(i => i < model.Participants.Count)
+                        .Select(i => new PathValue(
+                            new Ref(Keys.For("ParticipantById"), Keys.For(model.Participants[i].Id)),
+                            participants, Integers.For(i))));
+                }
+            );
+
+            routes.MapRoute(
                 Keys.For("EventById"),
                 Keys.Any(),
                 Keys.For("Name", "Number", "Country"),
