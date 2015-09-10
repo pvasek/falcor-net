@@ -83,6 +83,7 @@ namespace Falcor.WebExample
                 {
                     return Task.FromResult(indexes
                         .Values
+                        .Where(i => i < model.Countries.Count)
                         .Select(i => new PathValue(
                             new Ref(Keys.For("CountryById"), Keys.For(model.Countries[i].Id)),
                             countries, Integers.For(i))));
