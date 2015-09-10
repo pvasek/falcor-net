@@ -161,7 +161,7 @@ namespace Falcor.WebExample
             routes.MapRoute(
                 Keys.For("ParticipantById"),
                 Keys.Any(),
-                Keys.For("FirstName", "LastName"),
+                Keys.For("FirstName", "LastName", "Country"),
                 (ctx, participantById, keys, properties) =>
                 {
                     var result = new List<PathValue>();
@@ -176,6 +176,11 @@ namespace Falcor.WebExample
                         if (properties.Values.Contains("LastName"))
                         {
                             result.Add(new PathValue(item.LastName, participantById, Keys.For(key), Keys.For("LastName")));
+                        }
+                        if (properties.Values.Contains("Country"))
+                        {
+                            var reference = new Ref(new Keys("CountryById"), new Keys(item.Country.Id));
+                            result.Add(new PathValue(reference, participantById, Keys.For(key), new Keys("Country")));
                         }
                     }
 

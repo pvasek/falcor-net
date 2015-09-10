@@ -34,7 +34,8 @@ namespace Falcor.WebExample
                 {
                     Id = Guid.NewGuid().ToString(),
                     FirstName = _firstNames.Skip(random.Next(_firstNames.Count)).FirstOrDefault(),
-                    LastName = _lastNames.Skip(random.Next(_lastNames.Count)).FirstOrDefault()
+                    LastName = _lastNames.Skip(random.Next(_lastNames.Count)).FirstOrDefault(),
+                    Country = result.Countries.Skip(random.Next(_countries.Count)).FirstOrDefault()
                 })
                 .ToList();
 
