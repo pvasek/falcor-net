@@ -6,6 +6,7 @@ namespace Falcor.WebExample
     {
         public IList<Event> Events { get; set; }
         public IList<Country> Countries { get; set; }
+        public IList<Participant> Participants { get; set; }
         public IDictionary<string, Event> EventById { get; set; }
         public IDictionary<string, Country> CountryById { get; set; }
         public IDictionary<string, Participant> ParticipantById { get; set; } 
@@ -28,6 +29,7 @@ namespace Falcor.WebExample
 
         public class Participant
         {
+            public string Id { get; set; }
             public string FirstName { get; set; }
             public string LastName { get; set; }
         }

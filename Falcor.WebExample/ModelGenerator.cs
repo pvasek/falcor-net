@@ -29,6 +29,14 @@ namespace Falcor.WebExample
                     Country = result.Countries[random.Next(result.Countries.Count - 1)]
                 })
                 .ToList();
+            result.Participants = Enumerable.Range(0, 100)
+                .Select(c => new Model.Participant
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    FirstName = _firstNames.Skip(random.Next(_firstNames.Count)).FirstOrDefault(),
+                    LastName = _lastNames.Skip(random.Next(_lastNames.Count)).FirstOrDefault()
+                })
+                .ToList();
 
             return result;
         }
@@ -197,5 +205,28 @@ namespace Falcor.WebExample
 			"Bulgaria",
 			"Czech Republic"
 	    };
+
+        private static readonly List<string> _firstNames = new List<string>
+        {
+            "James",
+            "Mary",
+            "John",
+            "Patricia",
+            "Robert",
+            "Linda",
+            "Michael",
+            "Barbara",
+            "William",
+            "Elizabeth"
+        };
+
+        private static readonly List<string> _lastNames = new List<string>
+        {
+            "Smith",
+            "Johnson",
+            "Williams",
+            "Jones",
+            "Brown"
+        }; 
     }
 }
