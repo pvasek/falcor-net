@@ -139,13 +139,13 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Falcor.Server.Owin\Falcor.Server.Owin.csproj">
+    <ProjectReference Include="..\Falcor.Router.Owin\Falcor.Router.Owin.csproj">
       <Project>{5F6A2CDC-7BA6-43DE-A2CD-F2AB984F6707}</Project>
-      <Name>Falcor.Server.Owin</Name>
+      <Name>Falcor.Router.Owin</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Falcor.Server\Falcor.Server.csproj">
+    <ProjectReference Include="..\Falcor.Router\Falcor.Router.csproj">
       <Project>{8E88A35C-2CB9-4305-8BB9-B3C1E056C11C}</Project>
-      <Name>Falcor.Server</Name>
+      <Name>Falcor.Router</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

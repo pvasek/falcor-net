@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Falcor.Server", "Falcor.Server\Falcor.Server.csproj", "{8E88A35C-2CB9-4305-8BB9-B3C1E056C11C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Falcor.Router", "Falcor.Router\Falcor.Router.csproj", "{8E88A35C-2CB9-4305-8BB9-B3C1E056C11C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Falcor.Server.Tests", "Falcor.Server.Tests\Falcor.Server.Tests.csproj", "{B697E769-4844-4E0D-9308-5914AC3990E4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Falcor.Router.Tests", "Falcor.Router.Tests\Falcor.Router.Tests.csproj", "{B697E769-4844-4E0D-9308-5914AC3990E4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Falcor.WebExample", "Falcor.WebExample\Falcor.WebExample.csproj", "{2B4F428D-836A-4030-A07A-6182CA2188FC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Falcor.Server.Owin", "Falcor.Server.Owin\Falcor.Server.Owin.csproj", "{5F6A2CDC-7BA6-43DE-A2CD-F2AB984F6707}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Falcor.Router.Owin", "Falcor.Router.Owin\Falcor.Router.Owin.csproj", "{5F6A2CDC-7BA6-43DE-A2CD-F2AB984F6707}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
