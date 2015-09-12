@@ -83,9 +83,24 @@ namespace Falcor.WebExample
                 {
                     return Task.FromResult(indexes
                         .Values
+                        .Where(i => i < model.Countries.Count)
                         .Select(i => new PathValue(
                             new Ref(Keys.For("CountryById"), Keys.For(model.Countries[i].Id)),
                             countries, Integers.For(i))));
+                }
+            );
+
+            routes.MapRoute(
+                Keys.For("Participants"),
+                Integers.Any(),
+                (ctx, participants, indexes) =>
+                {
+                    return Task.FromResult(indexes
+                        .Values
+                        .Where(i => i < model.Participants.Count)
+                        .Select(i => new PathValue(
+                            new Ref(Keys.For("ParticipantById"), Keys.For(model.Participants[i].Id)),
+                            participants, Integers.For(i))));
                 }
             );
 
@@ -127,20 +142,16 @@ namespace Falcor.WebExample
                     var result = new List<PathValue>();
                     foreach (var key in keys.Values)
                     {
-                            
-                        if (properties.HasKey("Name"))
+                        var item = model.Countries.First(i => i.Id.Equals(key));
+
+                        if (properties.Values.Contains("Name"))
                         {
-                            result.Add(new PathValue("club" + key, 
-                                countryById, 
-                                Keys.For(key),
-                                Keys.For("Name")));
+                            result.Add(new PathValue(item.Name, countryById, Keys.For(key), new Keys("Name")));
                         }
-                        if (properties.HasKey("Description"))
+
+                        if (properties.Values.Contains("Description"))
                         {
-                            result.Add(new PathValue($"club{key} description", 
-                                countryById,
-                                Keys.For(key),
-                                Keys.For("Description")));
+                            result.Add(new PathValue(item.Description, countryById, Keys.For(key), new Keys("Description")));
                         }
                     }
 
@@ -150,21 +161,26 @@ namespace Falcor.WebExample
             routes.MapRoute(
                 Keys.For("ParticipantById"),
                 Keys.Any(),
-                Keys.For("FirstName", "LastName"),
+                Keys.For("FirstName", "LastName", "Country"),
                 (ctx, participantById, keys, properties) =>
                 {
                     var result = new List<PathValue>();
                     foreach (var key in keys.Values)
                     {
-                        if (properties.HasKey("FirstName"))
+                        var item = model.Participants.First(i => i.Id.Equals(key));
+
+                        if (properties.Values.Contains("FirstName"))
                         {
-                            result.Add(new PathValue("first" + key,
-                                participantById, Keys.For(key), Keys.For("FirstName")));
+                            result.Add(new PathValue(item.FirstName, participantById, Keys.For(key), Keys.For("FirstName")));
                         }
-                        if (properties.HasKey("LastName"))
+                        if (properties.Values.Contains("LastName"))
                         {
-                            result.Add(new PathValue("last" + key,
-                                participantById, Keys.For(key), Keys.For("LastName")));
+                            result.Add(new PathValue(item.LastName, participantById, Keys.For(key), Keys.For("LastName")));
+                        }
+                        if (properties.Values.Contains("Country"))
+                        {
+                            var reference = new Ref(new Keys("CountryById"), new Keys(item.Country.Id));
+                            result.Add(new PathValue(reference, participantById, Keys.For(key), new Keys("Country")));
                         }
                     }
 
