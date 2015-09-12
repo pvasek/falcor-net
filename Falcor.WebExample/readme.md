@@ -60,17 +60,17 @@ But from Falcor point of view it can be easily implemented by route which has 3 
 
 Falcor path:
 
-`[["EventsQuery","Name","Name=1",0..9,["Name","Number"]]]`
+`[["EventsQuery","Name","Number>10",0..9,["Name","Number"]]]`
 
 [Try it](http://falcor-net.azurewebsites.net/model.json?paths=[["EventsQuery","Number","Number>10",0..9,["Name","Number"]]])
 
 or
 
-`[["EventsQuery","Number","Name=1",0..9,["Name","Number"]]]`
+`[["EventsQuery","Number","Number>10",0..9,["Name","Number"]]]`
 
 [Try it](http://falcor-net.azurewebsites.net/model.json?paths=[["EventsQuery","Name","Name>10",0..9,["Name","Number"]]])
 
-_NOTE: The where expression is not implemented. Probably better approach would be to have only 2 keys where the second key with SQL like syntax._
+_NOTE: The where expression is not implemented. Probably better approach would be to have only 2 keys where the second key has SQL like syntax._
 
 
 # Model definition
@@ -79,28 +79,33 @@ public class Model
 {
     public IList<Event> Events { get; set; }
     public IList<Country> Countries { get; set; }
+    public IList<Participant> Participants { get; set; }
     public IDictionary<string, Event> EventById { get; set; }
     public IDictionary<string, Country> CountryById { get; set; }
     public IDictionary<string, Participant> ParticipantById { get; set; } 
 
     public class Event
     {
+        public string Id { get; set; }
         public string Name { get; set; }
         public int Number { get; set; }
-        public Club Club { get; set; }
+        public Country Country { get; set; }
         public IList<Participant> Participants { get; set; } 
     }
 
     public class Country
     {
+        public string Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
     }
 
     public class Participant
     {
+        public string Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public Country Country { get; set; }
     }
 }
 ```
