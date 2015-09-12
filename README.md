@@ -21,10 +21,9 @@ routes.MapRoute(
         	// transform it into falcor PathValue result
             var result = eventList
                 .Select((i, index) => new PathValue(
-                    new Ref(Keys.For("EventById"), 
-                    	Keys.For(i)),
-                    	Keys.For("Events"), 
-                    	Integers.For(index))
+                    new Ref(Keys.For("EventById"), Keys.For(i)),
+                	Keys.For("Events"), 
+                	Integers.For(index))
                 );
 
             return result;
