@@ -65,6 +65,7 @@ You can see more in our Falcor.WebExample project
 
 ### Missing pieces
 
+* __set/call are not implemented at all__
 * router doesn't collapse paths - PathCollapser needs to be implemented
 * during route processing the same reference can be resolved multiple times
 * parser/router dosen't support mixing ranges with properties `[0..10,'length']`
