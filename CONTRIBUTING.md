@@ -14,7 +14,7 @@ We are really happy you're reading this document, because we are open for contri
 ## Pull Requests
 
 * We welcome pull requests.
-* Each pull requests mush contain tests.
+* Each pull requests must contain tests.
 * [How to write the perfect pull request](https://github.com/blog/1943-how-to-write-the-perfect-pull-request)
 
 ## Git Commit Messages

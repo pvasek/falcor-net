@@ -21,10 +21,9 @@ routes.MapRoute(
         	// transform it into falcor PathValue result
             var result = eventList
                 .Select((i, index) => new PathValue(
-                    new Ref(Keys.For("EventById"), 
-                    	Keys.For(i)),
-                    	Keys.For("Events"), 
-                    	Integers.For(index))
+                    new Ref(Keys.For("EventById"), Keys.For(i)),
+                	Keys.For("Events"), 
+                	Integers.For(index))
                 );
 
             return result;
@@ -65,6 +64,7 @@ You can see more in our Falcor.WebExample project
 
 ### Missing pieces
 
+* __set/call are not implemented at all__
 * router doesn't collapse paths - PathCollapser needs to be implemented
 * during route processing the same reference can be resolved multiple times
 * parser/router dosen't support mixing ranges with properties `[0..10,'length']`
