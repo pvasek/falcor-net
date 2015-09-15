@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+ 
+	<PropertyGroup>    
+		<OutputDir Condition="'$(OutputDir)' == ''">..\bin\</OutputDir>		
+		<DistDir Condition="'$(DistDir)' == ''">..\dist\</DistDir>
+		<NuGetApp Condition="'$(NuGetApp)' == ''">nuget.exe</NuGetApp>
+	</PropertyGroup>
+
+	<Target Name="Compile">
+		<MSBuild Projects="Falcor.sln" Properties="Configuration=Release;Platform=Any CPU"/>
+	</Target>
+  
+	<Target Name="BuildNugets">
+
+		<RemoveDir Directories="$(DistDir)" ContinueOnError="true"/>
+		<MakeDir Directories="$(DistDir)" ContinueOnError="true"/>
+
+		<!-- Falcor.Router -->
+		<Copy SourceFiles="$(OutputDir)\Falcor.Router\Falcor.Router.dll;$(OutputDir)\Falcor.Router\Falcor.Router.pdb" 
+			DestinationFolder="$(DistDir)Falcor.Router\lib\net45"/>
+		<Copy SourceFiles="$(OutputDir)\Falcor.Router\Falcor.Router.nuspec" 
+			DestinationFolder="$(DistDir)Falcor.Router"/>		
+
+		<Exec WorkingDirectory="$(DistDir)Falcor.Router"
+			Command="$(NuGetApp) pack Falcor.Router.nuspec -Prop Configuration=Release" />
+
+		<CreateItem Include="$(DistDir)\Falcor.Router\Falcor.Router*.nupkg">
+			<Output TaskParameter="Include" ItemName="FalcorRouterNuget"/>
+		</CreateItem>
+
+		<Copy SourceFiles="@(FalcorRouterNuget)" DestinationFolder="$(DistDir)"/>
+
+		<RemoveDir Directories="$(DistDir)\Falcor.Router" ContinueOnError="true"/>	
+
+		<!-- Falcor.Router.Owin -->
+		<Copy SourceFiles="$(OutputDir)\Falcor.Router.Owin\Falcor.Router.Owin.dll;$(OutputDir)\Falcor.Router.Owin\Falcor.Router.Owin.pdb" 
+			DestinationFolder="$(DistDir)Falcor.Router.Owin\lib\net45"/>
+		<Copy SourceFiles="$(OutputDir)\Falcor.Router.Owin\Falcor.Router.Owin.nuspec" 
+			DestinationFolder="$(DistDir)Falcor.Router.Owin"/>
+
+		<Exec WorkingDirectory="$(DistDir)Falcor.Router.Owin"
+			Command="$(NuGetApp) pack Falcor.Router.Owin.nuspec -Prop Configuration=Release" />
+
+		<CreateItem Include="$(DistDir)\Falcor.Router.Owin\Falcor.Router.Owin*.nupkg">
+			<Output TaskParameter="Include" ItemName="FalcorRouterOwinNuget"/>
+		</CreateItem>
+
+		<Copy SourceFiles="@(FalcorRouterOwinNuget)" DestinationFolder="$(DistDir)"/>
+
+		<RemoveDir Directories="$(DistDir)\Falcor.Router.Owin" ContinueOnError="true"/>	
+
+	</Target>
+
+	<Target Name="Build" DependsOnTargets="Compile;BuildNugets">
+	</Target>
+
+</Project>
