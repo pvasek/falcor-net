@@ -1,11 +1,14 @@
 # falcor-net
 
-This is [Falcor](http://netflix.github.io/falcor/) router implementation for .NET framework.
+This is <a href="http://netflix.github.io/falcor/" target="_blank">Falcor</a> router implementation for .NET framework.
 
 ## Installation
 ```
 Install-Package Falcor.Router.Owin
 ```
+
+## Demo
+You can see our Falcor.WebExample in action <a href="http://falcor-net.azurewebsites.net/" target="_blank">here</a>.
 
 ## Example
 
