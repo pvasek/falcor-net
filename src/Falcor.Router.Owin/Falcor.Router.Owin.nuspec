@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Falcor.Router.Owin</id>
+    <version>1.0.0</version>
+    <title>Owin extensions for falcor router implementation for .NET Framework</title>
+    <authors>falcor-net</authors>
+    <owners>falcor-net</owners>
+    <licenseUrl>https://github.com/pvasek/falcor-net/blob/master/LICENSE.md</licenseUrl>
+    <projectUrl>https://github.com/pvasek/falcor-net/</projectUrl> 
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Owin extensions for falcor router implementation for .NET Framework</description>
+    <releaseNotes>Initial release.</releaseNotes>
+    <copyright>Copyright 2015</copyright>
+    <tags>falcor dotnet</tags>
+    <dependencies>
+      <dependency id="Microsoft.Owin" version="3.0.1" />
+      <dependency id="Owin" version="1.0" />
+    </dependencies>
+  </metadata>
+</package>
