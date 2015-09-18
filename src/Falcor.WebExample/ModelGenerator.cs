@@ -18,17 +18,6 @@ namespace Falcor.WebExample
                     Description = $"Name of the country is {i}"
                 })
                 .ToList();
-            result.Events = _eventNames
-                .Select(i => new { random = random.Next(1000), item = i})
-                .OrderBy(i => i.random)
-                .Select((i, idx) => new Model.Event
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    Name = i.item,
-                    Number = idx,
-                    Country = result.Countries[random.Next(result.Countries.Count - 1)]
-                })
-                .ToList();
             result.Participants = Enumerable.Range(0, 100)
                 .Select(c => new Model.Participant
                 {
@@ -36,6 +25,23 @@ namespace Falcor.WebExample
                     FirstName = _firstNames.Skip(random.Next(_firstNames.Count)).FirstOrDefault(),
                     LastName = _lastNames.Skip(random.Next(_lastNames.Count)).FirstOrDefault(),
                     Country = result.Countries.Skip(random.Next(_countries.Count)).FirstOrDefault()
+                })
+                .ToList();
+
+            result.Events = _eventNames
+                .Select(i => new { random = random.Next(1000), item = i })
+                .OrderBy(i => i.random)
+                .Select((i, idx) => new Model.Event
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Name = i.item,
+                    Number = idx,
+                    Country = result.Countries[random.Next(result.Countries.Count - 1)],
+                    Participants = Enumerable
+                        .Range(0, 15)
+                        .Select(index => result.Participants[random.Next(result.Participants.Count)])
+                        .Distinct()
+                        .ToList()
                 })
                 .ToList();
 

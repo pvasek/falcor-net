@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Falcor.Router</id>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <title>Falcor router implementation for .NET Framework</title>
     <authors>falcor-net</authors>
     <owners>falcor-net</owners>

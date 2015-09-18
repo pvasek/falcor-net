@@ -134,6 +134,28 @@ namespace Falcor.WebExample
                 );
 
             routes.MapRoute(
+                Keys.For("EventById"),
+                Keys.Any(),
+                Keys.For("Participants"),
+                Integers.Any(),
+                (ctx, eventById, keys, properties, indexes) =>
+                {
+                    var result = new List<PathValue>();
+                    foreach (var key in keys.Values)
+                    {
+                        var item = model.Events.First(i => i.Id.Equals(key));
+                        foreach (var index in indexes.Values)
+                        {
+                            var reference = new Ref(new Keys("ParticipantById"), new Keys(item.Participants[index].Id));
+                            result.Add(new PathValue(reference, eventById, Keys.For(key), Keys.For("Participants"), Integers.For(index)));
+                        }
+                    }
+
+                    return Task.FromResult(result.AsEnumerable());
+                }
+                );
+
+            routes.MapRoute(
                 Keys.For("CountryById"),
                 Keys.Any(),
                 Keys.For("Name", "Description"),

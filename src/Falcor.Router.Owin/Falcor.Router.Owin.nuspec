@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Falcor.Router.Owin</id>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <title>Owin extensions for falcor router implementation for .NET Framework</title>
     <authors>falcor-net</authors>
     <owners>falcor-net</owners>
@@ -16,6 +16,7 @@
     <dependencies>
       <dependency id="Microsoft.Owin" version="3.0.1" />
       <dependency id="Owin" version="1.0" />
+      <dependency id="Falcor.Router" version="1.0.1" />
     </dependencies>
   </metadata>
 </package>

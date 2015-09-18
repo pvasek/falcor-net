@@ -32,7 +32,8 @@ namespace Falcor.Router.Extensions
                 ctx => handler(ctx, 
                     (TItem1)ctx.Path.Items[0], 
                     (TItem2)ctx.Path.Items[1]), 
-                item1
+                item1,
+                item2
             );
 
             list.Add(route);
@@ -53,7 +54,9 @@ namespace Falcor.Router.Extensions
                     (TItem1)ctx.Path.Items[0],
                     (TItem2)ctx.Path.Items[1],
                     (TItem3)ctx.Path.Items[2]),
-                item1
+                item1,
+                item2,
+                item3
             );
 
             list.Add(route);
@@ -77,7 +80,10 @@ namespace Falcor.Router.Extensions
                     (TItem2)ctx.Path.Items[1],
                     (TItem3)ctx.Path.Items[2],
                     (TItem4)ctx.Path.Items[3]),
-                item1
+                item1,
+                item2,
+                item3,
+                item4
             );
 
             list.Add(route);

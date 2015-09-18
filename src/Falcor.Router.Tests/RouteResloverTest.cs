@@ -180,5 +180,20 @@ namespace Falcor.Router.Tests
             Assert.AreEqual(1, result.Count);
             Assert.AreEqual(route3, result[0]);
         }
+
+        [Test]
+        public void Should_not_match_routes_by_start_only()
+        {
+            var route1 = new Route(Keys.For("EventById"), Keys.Any(), Keys.For("Participants"), Integers.Any());            
+
+            var target = new RouteResolver(new[] { route1 });
+            var result = target.FindRoutes(new Path(
+                    Keys.For("EventById"),
+                    Keys.For("id"),
+                    Keys.For("Name")))
+                .ToList();
+
+            Assert.AreEqual(0, result.Count);            
+        }
     }
 }

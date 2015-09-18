@@ -49,6 +49,19 @@ Falcor path:
 
 [Try it](http://falcor-net.azurewebsites.net/model.json?paths=[["Events",0..1,["Name","Number"]],["Events",0..1,"Country",["Name","Description"]]])
 
+**Deep query**
+
+Model path:
+
+`model.Events[0].Participants[0].FirstName`
+`model.Events[0].Participants[1].FirstName`
+`model.Events[0].Participants[2].FirstName`
+
+Falcor path:
+
+`[["Events",0,"Participants",0..2,"FirstName"]]`
+
+[Try it](http://falcor-net.azurewebsites.net/model.json?paths=[["Events",0,"Participants",0..2,"FirstName"]])
 
 ## How to order, filter data - 'workaround'
 Falcor doesn't have any standard/build in support for sorting and filtering. 

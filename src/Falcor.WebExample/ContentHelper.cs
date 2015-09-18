@@ -19,7 +19,9 @@ namespace Falcor.WebExample
         {
             var service = new MarkdownService(new FileContentProvider(HostingEnvironment.MapPath("~/App_Data")));
             var readme = File.ReadAllText(HostingEnvironment.MapPath("~/readme.md"));
-            return service.ToHtml(readme);
+            var html = service.ToHtml(readme);
+            html = html.Replace("http://falcor-net.azurewebsites.net/model.json?paths", "/model.json?paths");
+            return html;
         }
     }
 }
