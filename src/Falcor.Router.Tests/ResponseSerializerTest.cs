@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using Falcor.Router.Tests.Builder;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NUnit.Framework;
@@ -20,10 +19,10 @@ namespace Falcor.Router.Tests
             var result = target.Serialize(response);
 
             var json = ParseJson(result);            
-            var jsong = json.Value<JObject>("jsong");
-            Assert.IsNotNull(jsong);
+            var jsonGraph = json.Value<JObject>("jsonGraph");
+            Assert.IsNotNull(jsonGraph);
 
-            var eventCount = jsong.Value<JValue>("EventCount");
+            var eventCount = jsonGraph.Value<JValue>("EventCount");
             Assert.IsNotNull(eventCount);
             Assert.AreEqual(2, eventCount.Value<int>());            
         }
@@ -38,10 +37,10 @@ namespace Falcor.Router.Tests
             var result = target.Serialize(response);
 
             var json = ParseJson(result);
-            var jsong = json.Value<JObject>("jsong");
-            Assert.IsNotNull(jsong);
+            var jsonGraph = json.Value<JObject>("jsonGraph");
+            Assert.IsNotNull(jsonGraph);
 
-            var eventName = jsong.Value<JValue>("EventName");
+            var eventName = jsonGraph.Value<JValue>("EventName");
             Assert.IsNotNull(eventName);
             Assert.AreEqual("event1", eventName.Value<string>());
         }
@@ -59,10 +58,10 @@ namespace Falcor.Router.Tests
             var result = target.Serialize(response);
 
             var json = ParseJson(result);
-            var jsong = json.Value<JObject>("jsong");
-            Assert.IsNotNull(jsong);
+            var jsonGraph = json.Value<JObject>("jsonGraph");
+            Assert.IsNotNull(jsonGraph);
 
-            var eventResult = jsong.Value<JObject>("Event");
+            var eventResult = jsonGraph.Value<JObject>("Event");
             Assert.IsNotNull(eventResult);
             Assert.AreEqual("event1", eventResult["Name"].Value<string>());
             Assert.AreEqual(20, eventResult["NumberOfParticipants"].Value<int>());
@@ -84,10 +83,10 @@ namespace Falcor.Router.Tests
             var result = target.Serialize(response);
 
             var json = ParseJson(result);
-            var jsong = json.Value<JObject>("jsong");
-            Assert.IsNotNull(jsong);
+            var jsonGraph = json.Value<JObject>("jsonGraph");
+            Assert.IsNotNull(jsonGraph);
 
-            var eventsResult = jsong.Value<JArray>("Events");
+            var eventsResult = jsonGraph.Value<JArray>("Events");
             Assert.IsNotNull(eventsResult);
             Assert.AreEqual(3, eventsResult.Count);
             Assert.AreEqual("event1", eventsResult[0].Value<string>());
@@ -119,10 +118,10 @@ namespace Falcor.Router.Tests
             var result = target.Serialize(response);
 
             var json = ParseJson(result);
-            var jsong = json.Value<JObject>("jsong");
-            Assert.IsNotNull(jsong);
+            var jsonGraph = json.Value<JObject>("jsonGraph");
+            Assert.IsNotNull(jsonGraph);
 
-            var eventsResult = jsong.Value<JArray>("Events");
+            var eventsResult = jsonGraph.Value<JArray>("Events");
             Assert.IsNotNull(eventsResult);
             Assert.AreEqual(2, eventsResult.Count);
             var event1 = eventsResult[0].Value<JObject>();
@@ -143,10 +142,10 @@ namespace Falcor.Router.Tests
             var result = target.Serialize(response);
 
             var json = ParseJson(result);
-            var jsong = json.Value<JObject>("jsong");
-            Assert.IsNotNull(jsong);
+            var jsonGraph = json.Value<JObject>("jsonGraph");
+            Assert.IsNotNull(jsonGraph);
 
-            var eventRef = jsong.Value<JObject>("EventRef");
+            var eventRef = jsonGraph.Value<JObject>("EventRef");
             Assert.IsNotNull(eventRef);
             Assert.AreEqual("ref", eventRef["$type"].Value<string>());
             var refPath = eventRef["value"].Value<JArray>();
