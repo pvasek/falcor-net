@@ -11,7 +11,7 @@ namespace Falcor.Router
             Paths = new List<IList<object>>();
         }
             
-        [JsonProperty("jsong")]
+        [JsonProperty("jsonGraph")]
         public IDictionary<string, object> Data { get; private set; } 
 
         [JsonProperty("paths")]

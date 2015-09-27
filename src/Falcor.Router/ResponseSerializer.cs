@@ -19,7 +19,7 @@ namespace Falcor.Router
         public string Serialize(Response response)
         {
             var result = new JObject();
-            result["jsong"] = SerializeItem(response.Data);
+            result["jsonGraph"] = SerializeItem(response.Data);
             var stringWriter = new StringWriter();
             _jsonSerializer.Serialize(stringWriter, result);
             return stringWriter.ToString();
