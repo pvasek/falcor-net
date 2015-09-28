@@ -6,6 +6,7 @@ using Falcor.Router.Extensions;
 using Falcor.Router.Owin;
 using Falcor.WebExample;
 using Microsoft.Owin;
+using Microsoft.Owin.Cors;
 using Owin;
 
 [assembly: OwinStartup(typeof(Startup))]
@@ -17,6 +18,8 @@ namespace Falcor.WebExample
         public void Configuration(IAppBuilder app)
         {
             app.UseStaticFiles();
+            app.UseCors(CorsOptions.AllowAll);
+                
             app.UseFalcor(GetFalcorRoutes());
 
             app.Run(async context =>
