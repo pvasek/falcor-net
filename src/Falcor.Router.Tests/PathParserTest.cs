@@ -20,6 +20,32 @@ namespace Falcor.Router.Tests
         }
 
         [Test]
+        public void Should_parse_single_path_with_multiple_keys_components()
+        {
+            var target = new PathParser();
+            var result = target.ParsePaths("['events',0,['name','number']]");
+
+            Assert.AreEqual(1, result.Count);
+            RouteAssertions.AssertPath(result[0],
+                new Keys("events"),
+                new Integers(0),
+                new Keys("name", "number"));
+        }
+
+        [Test]
+        public void Should_parse_single_path_with_multiple_integers_components()
+        {
+            var target = new PathParser();
+            var result = target.ParsePaths("['events',0,[1,2]]");
+
+            Assert.AreEqual(1, result.Count);
+            RouteAssertions.AssertPath(result[0],
+                new Keys("events"),
+                new Integers(0),
+                new Integers(1, 2));
+        }
+
+        [Test]
         public void Should_parse_multiple_paths()
         {
             var target = new PathParser();

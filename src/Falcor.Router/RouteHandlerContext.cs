@@ -28,10 +28,5 @@ namespace Falcor.Router
         {
             return (T) _items[name];
         }
-
-        public T Item<T>(int index) where T : IPathItem
-        {
-            return (T)Path.Items[index];
-        }
     }
 }

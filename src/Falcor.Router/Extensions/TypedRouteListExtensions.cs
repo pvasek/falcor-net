@@ -13,7 +13,7 @@ namespace Falcor.Router.Extensions
                     where TItem1 : IPathItem
         {
             var route = new Route(
-                ctx => handler(ctx, ctx.Item<TItem1>(0)), 
+                ctx => handler(ctx, (TItem1)ctx.Path.Items[0]), 
                 item1
             );
 
